@@ -1,4 +1,5 @@
-﻿using HotFix.FuncLogic;
+﻿using System.Collections.Generic;
+using HotFix.FuncLogic;
 using HotFix.Managers;
 using HotFix.SystemTools.EventSys;
 using Main.Game.Base;
@@ -12,8 +13,13 @@ namespace HotFix.Functions.Fighting
     public class UiFightingDialog : UiDialogBase
     {
         [SerializeField] private TextMeshProUGUI quickFightTxt;
-        
+        [SerializeField] private RectTransform cardMoveTrs;
+        [SerializeField] private Transform contentTrs;
+        [SerializeField] private FightCardItem fightCardItemPre;
+
         private UiFightingLogic _logic;
+
+        #region Override
 
         public override void Init()
         {
@@ -25,11 +31,39 @@ namespace HotFix.Functions.Fighting
             InitUI();
         }
 
+        public override void Release()
+        {
+            for (int i = _cardItems.Count - 1; i >= 0; i--)
+            {
+                Destroy(_cardItems[i].gameObject);
+            }
+
+            _cardItems = null;
+            
+            base.Release();
+        }
+
+        #endregion
+
+        private List<FightCardItem> _cardItems;
+
         private void InitUI()
         {
             quickFightTxt.text = "x1";
+
+            FightCardExcelData allFightCard = ExcelManager.Instance.GetExcelData<FightCardExcelData>();
+
+            _cardItems = new List<FightCardItem>(allFightCard.items.Length);
+
+            foreach (var fightCardExcelItem in allFightCard.items)
+            {
+                FightCardItem fightCardItem = Instantiate(fightCardItemPre, contentTrs);
+                fightCardItem.Init(cardMoveTrs);
+                fightCardItem.SetData(fightCardExcelItem);
+                _cardItems.Add(fightCardItem);
+            }
         }
-        
+
         public void QuickFight()
         {
             FightManager.Instance.OpenQuickFight = !FightManager.Instance.OpenQuickFight;
