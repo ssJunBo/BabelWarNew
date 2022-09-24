@@ -74,7 +74,7 @@ namespace HotFix.FightBattle.Skill
                 // 在攻击范围内 全部造成伤害一次
                 if (GeometryHelper.InRoundArea(center, new Vector2(battleUnit.transform.position.x, battleUnit.transform.position.z), damageRadius))
                 {
-                    battleUnitBase.CauseSkillDamage(battleUnit, skillId);
+                    DamageHelper.CauseSkillDamage(battleUnit, skillId);
                 }
             }
 

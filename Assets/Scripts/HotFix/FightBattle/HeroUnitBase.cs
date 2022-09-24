@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using HotFix.Common;
-using HotFix.Data;
-using HotFix.Data.Account;
 using HotFix.FightBattle.Skill;
 using HotFix.Helpers;
 using HotFix.Managers;
@@ -16,16 +14,16 @@ namespace HotFix.FightBattle
 {
     public class HeroUnitBase : BattleUnitBase
     {
-        protected SkillRunner skillRunner;
+        protected SkillRunner SkillRunner;
 
         // 普攻完成回调
-        protected Action normalAttackComplete;
+        protected Action NormalAttackComplete;
 
         public override void SetData(int soliderCombineId)
         {
             base.SetData(soliderCombineId);
           
-            AttributeInfo = AttributeInfo.CreateAttributeInfo(IDParseHelp.GetBattleUnitId(base.soliderCombineId));
+            AttributeInfo = AttributeInfo.CreateAttributeInfo(IDParseHelp.GetBattleUnitId(base.SoliderCombineId));
 
             SetSkillData();
 
@@ -50,7 +48,7 @@ namespace HotFix.FightBattle
             base.FixedUpdate();
 
             // 更新技能容器
-            skillRunner?.Update();
+            SkillRunner?.Update();
 
             // 处理被动技能
             if (PassiveSkillInfo != null)
@@ -66,7 +64,7 @@ namespace HotFix.FightBattle
                         // 在攻击范围内 全部造成伤害一次
                         if (transform.GetDistanceToOnePoint(enemyBattleUnit.transform) <= PassiveSkillInfo.Radius)
                         {
-                            this.CauseDamage(enemyBattleUnit, 100);
+                            // DamageHelper.CauseDamage(enemyBattleUnit, 3);
                         }
 
                     }
@@ -80,40 +78,40 @@ namespace HotFix.FightBattle
         {
             base.Update();
 
-            fsm.Update();
+            Fsm.Update();
         }
 
         protected override void InitFsm()
         {
             base.InitFsm();
 
-            fsm = new FsmSystem();
+            Fsm = new FsmSystem();
 
-            FsmState victoryState = new VictoryState(this, fsm);
+            FsmState victoryState = new VictoryState(this, Fsm);
 
-            FsmState chaseState = new ChaseState(this, fsm);
+            FsmState chaseState = new ChaseState(this, Fsm);
             chaseState.AddTransition(Transition.InAttackRange, StateID.Attack);
             chaseState.AddTransition(Transition.AllTargetDie, StateID.Victory);
             chaseState.AddTransition(Transition.NoCanSelected, StateID.NoSelectedTarget);
 
-            FsmState attackState = new AttackState(this, fsm);
+            FsmState attackState = new AttackState(this, Fsm);
             attackState.AddTransition(Transition.OutOfRange, StateID.Chase);
             attackState.AddTransition(Transition.AllTargetDie, StateID.Victory);
             attackState.AddTransition(Transition.NoCanSelected, StateID.NoSelectedTarget);
 
-            FsmState noSelectedTargetState = new NoSelectedTargetState(this, fsm);
+            FsmState noSelectedTargetState = new NoSelectedTargetState(this, Fsm);
             noSelectedTargetState.AddTransition(Transition.InAttackRange, StateID.Attack);
             noSelectedTargetState.AddTransition(Transition.OutOfRange, StateID.Chase);
             noSelectedTargetState.AddTransition(Transition.AllTargetDie, StateID.Victory);
 
 
-            fsm.AddState(victoryState);
-            fsm.AddState(chaseState);
-            fsm.AddState(attackState);
-            fsm.AddState(noSelectedTargetState);
+            Fsm.AddState(victoryState);
+            Fsm.AddState(chaseState);
+            Fsm.AddState(attackState);
+            Fsm.AddState(noSelectedTargetState);
 
             // 向目标移动 在攻击范围内开始 切换攻击状态
-            fsm.SetStartState(StateID.Chase, GetNearestTarget());
+            Fsm.SetStartState(StateID.Chase, GetNearestTarget());
         }
 
         public override BattleUnitBase GetNearestTarget()
@@ -124,10 +122,10 @@ namespace HotFix.FightBattle
         protected virtual void OnDestroy()
         {
             EventManager.UnSubscribe<int>(EventMessageType.FightResult, FightResultRefresh);
-            if (fsm != null)
+            if (Fsm != null)
             {
-                fsm.SetNullState();
-                fsm = null;
+                Fsm.SetNullState();
+                Fsm = null;
             }
         }
 
@@ -164,7 +162,7 @@ namespace HotFix.FightBattle
         private void FightResultRefresh(int result)
         {
             if(result==1) 
-                fsm.PerformTransition(Transition.AllTargetDie);
+                Fsm.PerformTransition(Transition.AllTargetDie);
         }
 
         public override void Attack(BattleUnitBase target)
@@ -222,7 +220,7 @@ namespace HotFix.FightBattle
             }
             else
             {
-                normalAttackComplete?.Invoke();
+                NormalAttackComplete?.Invoke();
 
                 DamageEnemy(_curTarget);
 
@@ -232,9 +230,9 @@ namespace HotFix.FightBattle
                     {
                         SkillBase skill = null;
 
-                        if (skillRunner != null)
+                        if (SkillRunner != null)
                         {
-                            skill = skillRunner.GetCurrentCanCastSkill();
+                            skill = SkillRunner.GetCurrentCanCastSkill();
                         }
 
                         if (skill == null)
@@ -249,13 +247,13 @@ namespace HotFix.FightBattle
                     }
                     else
                     {
-                        if (fsm.CurrentState is ChaseState state)
+                        if (Fsm.CurrentState is ChaseState state)
                         {
                             state.target = _curTarget;
                         }
                         else
                         {
-                            fsm.PerformTransition(Transition.OutOfRange, _curTarget);
+                            Fsm.PerformTransition(Transition.OutOfRange, _curTarget);
                         }
                     }
                 }
@@ -281,7 +279,7 @@ namespace HotFix.FightBattle
 
             if (_curTarget.AttributeInfo.NotSelected)
             {
-                fsm.PerformTransition(Transition.NoCanSelected);
+                Fsm.PerformTransition(Transition.NoCanSelected);
                 return;
             }
 
@@ -291,14 +289,14 @@ namespace HotFix.FightBattle
             // 在攻击范围内
             if (AttributeInfo.AtkDistance > dis)
             {
-                if (fsm.CurrentState is AttackState atkState)
+                if (Fsm.CurrentState is AttackState atkState)
                 {
                     atkState.ChangeTarget(_curTarget);
                 }
             }
             else
             {
-                fsm.PerformTransition(Transition.OutOfRange, _curTarget);
+                Fsm.PerformTransition(Transition.OutOfRange, _curTarget);
             }
         }
 

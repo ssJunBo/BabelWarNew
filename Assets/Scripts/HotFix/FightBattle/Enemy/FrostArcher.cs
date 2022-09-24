@@ -13,12 +13,12 @@ namespace HotFix.FightBattle.Enemy
                 return;
 
             // 加冰冻值
-            this.CauseFreeze(targetUnit, int.Parse(AttributeInfo.AttributeConfig.extraPara));
+            DamageHelper.CauseFreeze(targetUnit, int.Parse(AttributeInfo.AttributeConfig.extraPara));
             
             if (targetUnit.AttributeInfo.FreezeVal >= 100)
             {
                 // 添加冰冻buff
-                var actualTime = IDParseHelp.GetBattleLev(soliderCombineId) * 1;
+                var actualTime = IDParseHelp.GetBattleLev(SoliderCombineId) * 1;
                 targetUnit.AddBuff(new FreezeBuff(targetUnit, actualTime));
             }
         }

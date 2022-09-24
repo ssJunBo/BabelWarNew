@@ -19,7 +19,7 @@ namespace HotFix.Helpers
         }
         
         // 造成技能伤害
-        public static void CauseSkillDamage(this BattleUnitBase unitBase, BattleUnitBase target, int skillId)
+        public static void CauseSkillDamage(BattleUnitBase target, int skillId)
         {
             if (target.AttributeInfo.Hp <= 0)
                 return;
@@ -29,7 +29,7 @@ namespace HotFix.Helpers
             target.HpChange(-damageVal);
         }
 
-        public static void CauseDamage(this BattleUnitBase unitBase, BattleUnitBase target,int damageVal)
+        public static void CauseDamage(BattleUnitBase target,int damageVal)
         {
             if (target.AttributeInfo.Hp<= 0) 
                 return;
@@ -37,7 +37,7 @@ namespace HotFix.Helpers
             target.HpChange(-damageVal);
         }
         
-        public static void CauseFreeze(this BattleUnitBase unitBase, BattleUnitBase target,int freezeVal)
+        public static void CauseFreeze(BattleUnitBase target,int freezeVal)
         {
             if (target.AttributeInfo.Hp<= 0) 
                 return;

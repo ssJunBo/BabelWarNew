@@ -16,12 +16,12 @@ namespace HotFix.FightBattle.Hero
 
         private void InitSkill()
         {
-            skillRunner = new SkillRunner();
+            SkillRunner = new SkillRunner();
 
             ShadowlessSword shadowlessSword = new ShadowlessSword(this, 10101, true);
-            normalAttackComplete += shadowlessSword.AddCharge;
+            NormalAttackComplete += shadowlessSword.AddCharge;
 
-            skillRunner.AddSkill(shadowlessSword);
+            SkillRunner.AddSkill(shadowlessSword);
         }
 
         protected override void GenerateNormalEffect()
@@ -47,8 +47,8 @@ namespace HotFix.FightBattle.Hero
             {
                 var battleUnit = FightManager.Instance.enemyUnitLis[i];
                 // 在攻击范围内 全部造成伤害一次
-                if (this.IsInSectorArea(targetUnit.AttributeInfo.AttributeConfig.atkAngle,
-                        targetUnit.AttributeInfo.AttributeConfig.atkRadius, battleUnit.transform))
+                if (this.IsInSectorArea(AttributeInfo.AttributeConfig.atkAngle,
+                        AttributeInfo.AttributeConfig.atkRadius, battleUnit.transform))
                 {
                     this.CauseNormalDamage(battleUnit);
                 }

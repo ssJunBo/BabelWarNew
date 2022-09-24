@@ -13,7 +13,8 @@ namespace HotFix.FightBattle.Hero
             {
                 var battleUnit = FightManager.Instance.enemyUnitLis[i];
                 // 在攻击范围内 全部造成伤害一次
-                if (this.IsInSectorArea(120, 80, battleUnit.transform))
+                if (this.IsInSectorArea(AttributeInfo.AttributeConfig.atkAngle,
+                        AttributeInfo.AttributeConfig.atkRadius, battleUnit.transform))
                 {
                     this.CauseNormalDamage(battleUnit);
                 }

@@ -27,12 +27,12 @@ namespace HotFix.FightBattle
         public AttributeInfo AttributeInfo { get; protected set; }
 
         // 当前士兵组合id xxx xx 前三位 battleUnitId 后两位等级
-        protected int soliderCombineId;
+        protected int SoliderCombineId;
       
         // buff列表
         private readonly List<BuffBase> _buffList = new List<BuffBase>();
 
-        protected FsmSystem fsm;
+        protected FsmSystem Fsm;
 
         public AnimationEventHelp AnimationEventHelp => animationEventHelp;
         protected virtual void Awake()
@@ -61,7 +61,7 @@ namespace HotFix.FightBattle
 
         public virtual void SetData(int soliderCombineId)
         {
-            this.soliderCombineId = soliderCombineId;
+            this.SoliderCombineId = soliderCombineId;
         }
 
         private void InitNavInfo()
@@ -132,8 +132,7 @@ namespace HotFix.FightBattle
 
         public virtual void HpChange(float damageVal)
         {
-            var pos = hitPoint.position;
-            FightManager.Instance.BloodPool.Spawn().Init(new Vector3(pos.x, pos.y, pos.z), (int)damageVal);
+            FightManager.Instance.BloodPool.Spawn().Init(hitPoint.position, (int)damageVal);
         }
 
         // 停止所有行为

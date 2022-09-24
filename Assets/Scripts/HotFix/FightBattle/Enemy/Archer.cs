@@ -67,13 +67,13 @@ namespace HotFix.FightBattle.Enemy
                     }
                     else
                     {
-                        if (fsm.CurrentState is ChaseState chaseState)
+                        if (Fsm.CurrentState is ChaseState chaseState)
                         {
                             chaseState.target = curTarget;
                         }
                         else
                         {
-                            fsm.PerformTransition(Transition.OutOfRange, curTarget);
+                            Fsm.PerformTransition(Transition.OutOfRange, curTarget);
                         }
                     }
                 }
