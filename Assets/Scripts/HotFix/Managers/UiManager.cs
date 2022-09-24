@@ -11,26 +11,26 @@ namespace HotFix.Managers
         /// <summary>
         /// 打开的UI列表
         /// </summary>
-        private readonly Stack<UiLogicBase> uiLogicBaseStack = new Stack<UiLogicBase>();
+        private readonly Stack<UiLogicBase> _uiLogicBaseStack = new();
 
         /// <summary>
         /// 打开过的dialog预制体缓存池 缓存所有dialog预制体
         /// </summary>
-        private readonly Dictionary<EUiID, UiDialogBase> dialogDict = new Dictionary<EUiID, UiDialogBase>();
+        private readonly Dictionary<EUiID, UiDialogBase> _dialogDict = new();
 
         public void PushUi(UiLogicBase ui)
         {
-            uiLogicBaseStack.Push(ui);
+            _uiLogicBaseStack.Push(ui);
         }
 
         public void Back()
         {
-            if (uiLogicBaseStack.Count > 1)
+            if (_uiLogicBaseStack.Count > 1)
             {
-                UiLogicBase closeUiLogicBase = uiLogicBaseStack.Pop();
+                UiLogicBase closeUiLogicBase = _uiLogicBaseStack.Pop();
                 closeUiLogicBase.Close();
 
-                UiLogicBase openUiLogicBase = uiLogicBaseStack.Peek();
+                UiLogicBase openUiLogicBase = _uiLogicBaseStack.Peek();
                 openUiLogicBase.Open();
             }
             else
@@ -39,18 +39,18 @@ namespace HotFix.Managers
             }
         }
 
-        public void ChangeScene()
+        public void CloseCurrentUIDialog()
         {
-            while (uiLogicBaseStack.Count > 0)
+            while (_uiLogicBaseStack.Count > 0)
             {
-                UiLogicBase uiLogicBase = uiLogicBaseStack.Pop();
+                UiLogicBase uiLogicBase = _uiLogicBaseStack.Pop();
                 uiLogicBase.Close();
             }
         }
 
         public UiDialogBase GetUiDialog(EUiID uiID)
         {
-            return dialogDict.ContainsKey(uiID) ? dialogDict[uiID] : null;
+            return _dialogDict.ContainsKey(uiID) ? _dialogDict[uiID] : null;
         }
 
         /// <summary>
@@ -60,9 +60,9 @@ namespace HotFix.Managers
         /// <param name="uiDialogBase"></param>
         public void AddUiDialog(EUiID uiID, UiDialogBase uiDialogBase)
         {
-            if (!dialogDict.ContainsKey(uiID))
+            if (!_dialogDict.ContainsKey(uiID))
             {
-                dialogDict[uiID] = uiDialogBase;
+                _dialogDict[uiID] = uiDialogBase;
             }
         }
 
@@ -71,9 +71,9 @@ namespace HotFix.Managers
         /// </summary>
         public void RemoveUiDialog(EUiID uiID)
         {
-            if (dialogDict.ContainsKey(uiID))
+            if (_dialogDict.ContainsKey(uiID))
             {
-                dialogDict.Remove(uiID);
+                _dialogDict.Remove(uiID);
             }
         }
     }

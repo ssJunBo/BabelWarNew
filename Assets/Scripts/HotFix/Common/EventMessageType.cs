@@ -5,8 +5,7 @@
     /// </summary>
     public enum EventMessageType
     {
-        Victory,
-        Defeat,
+        FightResult,
         ChangeTimeScale,
     }
 }

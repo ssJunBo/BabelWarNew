@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using HotFix.Managers;
-using Main.Game.ResourceFrame;
+﻿using HotFix.Managers;
 using UnityEngine;
-using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 namespace HotFix.UIBase
 {

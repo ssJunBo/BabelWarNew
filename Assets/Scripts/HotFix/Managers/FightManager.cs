@@ -130,7 +130,7 @@ namespace HotFix.Managers
 
             if (enemyUnitLis.Count <= 0)
             {
-                EventManager.DispatchEvent(EventMessageType.Victory);
+                EventManager.DispatchEvent(EventMessageType.FightResult, 1);
             }
         }
 
@@ -148,7 +148,7 @@ namespace HotFix.Managers
 
             if (ownUnitLis.Count <= 0)
             {
-                EventManager.DispatchEvent(EventMessageType.Defeat);
+                EventManager.DispatchEvent(EventMessageType.FightResult, 0);
             }
         }
 

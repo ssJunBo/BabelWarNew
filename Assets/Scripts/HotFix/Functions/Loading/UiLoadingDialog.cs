@@ -13,22 +13,22 @@ namespace HotFix.Functions.Loading
         [SerializeField] private TextMeshProUGUI progressTxt;
         [SerializeField] private TextMeshProUGUI loadingTxt;
 
-        private UiLoadingLogic logic;
-        private SceneManager sceneManager;
+        private UiLoadingLogic _uiLogic;
+        private SceneManager _sceneManager;
 
         public override void Init()
         {
-            logic = (UiLoadingLogic)UiLogic;
-            sceneManager = GameManager.Instance.SceneManager;
+            _uiLogic = (UiLoadingLogic)UiLogic;
+            _sceneManager = GameManager.Instance.SceneManager;
 
-            sceneManager.LoadSceneFinishAct = LoadSceneFinishAct;
-            sceneManager.RefreshProgressAct = RefreshProgress;
+            _sceneManager.LoadSceneFinishAct = LoadSceneFinishAct;
+            _sceneManager.RefreshProgressAct = RefreshProgress;
         }
 
         public override void ShowFinished()
         {
             SetUiDefaultInfo();
-            sceneManager.AsyncLoadScene(logic.sceneName);
+            _sceneManager.AsyncLoadScene(_uiLogic.sceneName);
         }
 
         private void SetUiDefaultInfo()
@@ -46,11 +46,11 @@ namespace HotFix.Functions.Loading
 
         private void LoadSceneFinishAct()
         {
-            logic.Close();
             // 等一帧 在调用 要展示界面
-            TimerEventManager.Instance.DelayFrames(1, () =>
+            TimerEventManager.Instance.DelayFrames(2, () =>
             {
-                logic.SceneOpenFinishAct?.Invoke();
+                _uiLogic.Close();
+                _uiLogic.SceneOpenFinishAct?.Invoke();
             });
         }
     }

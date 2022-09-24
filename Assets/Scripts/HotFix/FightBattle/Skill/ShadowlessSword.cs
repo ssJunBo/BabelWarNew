@@ -78,7 +78,6 @@ namespace HotFix.FightBattle.Skill
                 }
             }
 
-            battleUnitBase.HpChange(1000);
             battleUnitBase.AttributeInfo.NotSelected = false;
             
             if (unitList.Count>0)

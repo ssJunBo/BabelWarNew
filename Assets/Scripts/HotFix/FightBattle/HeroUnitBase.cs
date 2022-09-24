@@ -40,7 +40,7 @@ namespace HotFix.FightBattle
             animationEventHelp.actDict["Attack"] = AttackCb;
             animationEventHelp.actDict["AttackComplete"] = AttackCompleteCb;
 
-            EventManager.Subscribe(EventMessageType.Victory, VictoryRefresh);
+            EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
         }
 
         private float _curTime;
@@ -123,7 +123,7 @@ namespace HotFix.FightBattle
 
         protected virtual void OnDestroy()
         {
-            EventManager.UnSubscribe(EventMessageType.Victory, VictoryRefresh);
+            EventManager.UnSubscribe<int>(EventMessageType.FightResult, FightResultRefresh);
             if (fsm != null)
             {
                 fsm.SetNullState();
@@ -161,9 +161,10 @@ namespace HotFix.FightBattle
 
         // ------------技能相关
 
-        private void VictoryRefresh()
+        private void FightResultRefresh(int result)
         {
-            fsm.PerformTransition(Transition.AllTargetDie);
+            if(result==1) 
+                fsm.PerformTransition(Transition.AllTargetDie);
         }
 
         public override void Attack(BattleUnitBase target)

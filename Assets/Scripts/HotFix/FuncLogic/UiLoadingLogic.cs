@@ -26,7 +26,7 @@ namespace HotFix.FuncLogic
         public void Open(string sceneName,Action sceneOpenFinishAct)
         {
             this.sceneName = sceneName;
-            UiManager.Instance.ChangeScene();
+            UiManager.Instance.CloseCurrentUIDialog();
             SceneOpenFinishAct = sceneOpenFinishAct;
             Open();
         }

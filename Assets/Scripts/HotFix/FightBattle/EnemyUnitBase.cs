@@ -24,7 +24,7 @@ namespace HotFix.FightBattle
             animationEventHelp.actDict["Attack"] = AttackCb;
             animationEventHelp.actDict["AttackComplete"] = AttackCompleteCb;
 
-            EventManager.Subscribe(EventMessageType.Defeat, DefeatedRefresh);
+            EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
         }
 
         protected override void Update()
@@ -142,15 +142,18 @@ namespace HotFix.FightBattle
             }
         }
 
-        private void DefeatedRefresh()
+        private void FightResultRefresh(int result)
         {
-            fsm.PerformTransition(Transition.AllTargetDie);
+            if (result==0)
+            {
+                fsm.PerformTransition(Transition.AllTargetDie);
+            }
         }
 
 
         protected virtual void OnDestroy()
         {
-            EventManager.UnSubscribe(EventMessageType.Defeat, DefeatedRefresh);
+            EventManager.UnSubscribe<int>(EventMessageType.FightResult, FightResultRefresh);
             fsm?.SetNullState();
         }
     }

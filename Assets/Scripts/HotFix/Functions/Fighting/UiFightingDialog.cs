@@ -7,7 +7,6 @@ using TMPro;
 using UnityEngine;
 using HotFix.Common;
 using HotFix.UIBase;
-using HotFix.UIExtension;
 
 namespace HotFix.Functions.Fighting
 {
@@ -21,8 +20,10 @@ namespace HotFix.Functions.Fighting
         [SerializeField] private RectTransform cardCenterPos;
         [SerializeField] private RectTransform fightTrs;
         [SerializeField] private GameObject fightTipsObj;
-        [SerializeField] private ExpandButton fightBtn;
-        
+        [SerializeField] private GameObject fightMaskObj;
+        [SerializeField] private GameObject finishObjPanel;
+        [SerializeField] private TextMeshProUGUI finishDesc;
+
         private UiFightingLogic _uiLogic;
 
         #region Override
@@ -31,7 +32,11 @@ namespace HotFix.Functions.Fighting
         {
             _uiLogic = (UiFightingLogic)UiLogic;
 
-            fightBtn.onClick.AddListener(StartFight);
+            #region 添加事件
+
+            EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
+
+            #endregion
         }
 
         public override void ShowFinished()
@@ -41,6 +46,8 @@ namespace HotFix.Functions.Fighting
 
         public override void Release()
         {
+            EventManager.UnSubscribe<int>(EventMessageType.FightResult, FightResultRefresh);
+            
             for (int i = _cardItems.Count - 1; i >= 0; i--)
             {
                 Destroy(_cardItems[i].gameObject);
@@ -50,7 +57,7 @@ namespace HotFix.Functions.Fighting
             
             base.Release();
         }
-
+        
         #endregion
 
         private List<FightCardItem> _cardItems;
@@ -58,6 +65,9 @@ namespace HotFix.Functions.Fighting
 
         private void InitUI()
         {
+            fightMaskObj.SetActive(true);
+            finishObjPanel.SetActive(false);
+            
             _cardItems = new List<FightCardItem>(_uiLogic.CardExcelItems.Count);
 
             for (var index = 0; index < _uiLogic.CardExcelItems.Count; index++)
@@ -68,8 +78,8 @@ namespace HotFix.Functions.Fighting
                 fightCardItem.RemoveCardAct = RemoveCard;
                 fightCardItem.InAreaAct = InArea;
 
-                fightCardItem.Init(cardMoveTrs);
-                fightCardItem.SetData(fightCardExcelItem, index, fightTrs);
+                fightCardItem.Init(cardMoveTrs,fightTrs);
+                fightCardItem.SetData(fightCardExcelItem);
                 _cardItems.Add(fightCardItem);
             }
 
@@ -111,13 +121,18 @@ namespace HotFix.Functions.Fighting
 
             for (int i = 0; i < _cardItems.Count; i++)
             {
-                _cardItems[i].transform.localPosition = new Vector3(_xPos[i], 0, 0);
+                var cardItem = _cardItems[i];
+                var transform1 = cardItem.transform;
+                
+                cardItem.Index = i;
+                
+                transform1.localPosition = new Vector3(_xPos[i], 0, 0);
 
-                var to = _cardItems[i].transform.position - directPos.position;
+                var to = transform1.position - directPos.position;
                 var angle = Vector3.Angle(Vector3.up, to);
-                angle = _cardItems[i].transform.localPosition.x > 0 ? -angle : angle;
+                angle = cardItem.transform.localPosition.x > 0 ? -angle : angle;
 
-                _cardItems[i].transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                cardItem.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             }
             
             var radiusVal = Vector2.Distance(directPos.position, cardCenterPos.position);
@@ -154,7 +169,17 @@ namespace HotFix.Functions.Fighting
             fightTipsObj.SetActive(isInArea);
         }
 
-        #region Button Event
+        #region message
+
+        private void FightResultRefresh(int result)
+        {
+            finishDesc.text = result == 1 ? "战斗胜利" : "战斗失败";
+            finishObjPanel.SetActive(true);
+        }
+
+        #endregion
+        
+        #region BtnEvent
         public void QuickFight()
         {
             FightManager.Instance.OpenQuickFight = !FightManager.Instance.OpenQuickFight;
@@ -170,12 +195,11 @@ namespace HotFix.Functions.Fighting
                 EventManager.DispatchEvent(EventMessageType.ChangeTimeScale, 1);
                 GameManager.Instance.ModelPlay.UiMainLogic.Open();
             });
-            _uiLogic.Close();
         }
 
         public void StartFight()
         {
-            fightBtn.gameObject.SetActive(false);
+            fightMaskObj.SetActive(false);
             FightManager.Instance.StartFighting();
         }
         #endregion
