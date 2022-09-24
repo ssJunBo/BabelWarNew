@@ -78,6 +78,28 @@ namespace HotFix.Helpers
                 new Vector2(position1.x, position1.z));
         }
 
+        /// <summary>
+        /// 用某个轴去朝向物体
+        /// </summary>
+        /// <param name="trSelf">朝向的本体</param>
+        /// <param name="lookPos">朝向的目标</param>
+        /// <param name="directionAxis">方向轴，取决于你用那个方向去朝向</param>
+        public static void AxisLookAt(Transform trSelf, Vector3 lookPos, Vector3 directionAxis)
+        {
+            var rotation = trSelf.rotation;
+            var targetDir = lookPos - trSelf.position;
+            //指定哪根轴朝向目标,自行修改Vector3的方向
+            var fromDir = trSelf.rotation * directionAxis;
+            //计算垂直于当前方向和目标方向的轴
+            var axis = Vector3.Cross(fromDir, targetDir).normalized;
+            //计算当前方向和目标方向的夹角
+            var angle = Vector3.Angle(fromDir, targetDir);
+            //将当前朝向向目标方向旋转一定角度，这个角度值可以做插值
+            trSelf.rotation = Quaternion.AngleAxis(angle, axis) * rotation;
+            trSelf.localEulerAngles = new Vector3(0, trSelf.localEulerAngles.y, 0); //后来调试增加的，因为我想让x，z轴向不会有任何变化
+        }
+
+
         #region 几何辅助线支持
 
         // 扇形画线

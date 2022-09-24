@@ -9,5 +9,12 @@ namespace HotFix.Data.Account
     {
         public int levelId; // 当前关卡id
         public List<int> heroInfos;// 英雄id
+        public List<CardInfo> cardsList;
+    }
+
+    public struct CardInfo
+    {
+        public int id;
+        public int starLev;
     }
 }

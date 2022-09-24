@@ -33,15 +33,9 @@ namespace HotFix.Managers
         
         #endregion
 
-        /// <summary>
-        /// 个人缓存本地数据
-        /// </summary>
-        public PersonInfo PersonInfo { get; set; }
         private void Start()
         {
             AudioManager.Instance.PlayBg("bg01");
-            // TODO 测试用例 
-            PersonInfo = ArchiveManager.Instance.LoadData();
             
             DontDestroyOnLoad(gameObject);
 
@@ -55,20 +49,38 @@ namespace HotFix.Managers
             LoadConfig();
 
             ModelPlay.OpenUiByType(EUiType.Main);
-
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.S))
             {
-                ArchiveManager.Instance.SaveData(new PersonInfo()
+                UserDataManager.Instance.SaveData(new PersonInfo()
                 {
                     levelId = 1,
                     heroInfos = new List<int>
                     {
                         10101,
                         10201,
+                    },
+                    cardsList = new List<CardInfo>
+                    {
+                       new() {
+                           id =  101,
+                           starLev = 1
+                       },
+                       new() {
+                           id =  102,
+                           starLev = 1
+                       },
+                       new() {
+                           id =  103,
+                           starLev = 1
+                       },
+                       new() {
+                           id =  104,
+                           starLev = 1
+                       },
                     }
                 });
             }

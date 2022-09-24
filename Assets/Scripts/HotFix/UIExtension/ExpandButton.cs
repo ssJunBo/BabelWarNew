@@ -26,7 +26,6 @@ namespace HotFix.UIExtension
       _mSequence.AppendCallback(() =>
       {
         m_OnClick?.Invoke();
-
         _mSequence.SetAutoKill(true);
         // _mSequence.Pause();
       });
@@ -50,7 +49,10 @@ namespace HotFix.UIExtension
       if (!this.IsActive() || !this.IsInteractable())
         return;
       UISystemProfilerApi.AddMarker("Button.onClick", (UnityEngine.Object)this);
-      if (!hasAnim) this.m_OnClick?.Invoke();
+      if (!hasAnim)
+      {
+        m_OnClick?.Invoke();
+      }
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)

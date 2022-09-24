@@ -27,9 +27,13 @@ namespace HotFix.FightBattle.Hero
             GameObject effect = EffectManager.Instance.GetEffectPool(EffectType.Hero03NormalAttack).Spawn();
             effect.transform.position = effectTrs.position;
             effect.transform.rotation = effectTrs.rotation;
-            
+
             TimerEventManager.Instance.DelaySeconds(1.5f,
-                () => { EffectManager.Instance.GetEffectPool(EffectType.Hero03NormalAttack).Cycle(effect); });
+                () =>
+                {
+                    if (effect != null)
+                        EffectManager.Instance.GetEffectPool(EffectType.Hero03NormalAttack).Cycle(effect);
+                });
         }
     }
 }

@@ -10,11 +10,17 @@ namespace HotFix.Managers
     /// <summary>
     /// 存档管理类
     /// </summary>
-    public class ArchiveManager : Singleton<ArchiveManager>
+    public class UserDataManager : Singleton<UserDataManager>
     {
         private const string PersonDataPath = "/Resources/ArchiveInfo.json";
 
-        public PersonInfo LoadData()
+        private PersonInfo _personInfo;
+        /// <summary>
+        /// 个人缓存本地数据
+        /// </summary>
+        public PersonInfo PersonInfo => _personInfo ??= LoadData();
+
+        private PersonInfo LoadData()
         {
             TextAsset textAsset = Resources.Load<TextAsset>("ArchiveInfo");
             if (textAsset != null)

@@ -12,7 +12,7 @@ namespace HotFix.Managers
         private const string Hero01SkillPath = "Prefabs/Effect/Hero01/TemplarSwordsManSkill";
         private const string Hero02NormalAttackPath = "Prefabs/Effect/Hero02/Hero02NormalAttack";
         private const string Hero03NormalAttackPath = "Prefabs/Effect/Hero03/WindSwordsman_Attack";
-        
+
         private readonly Dictionary<EffectType, ObjectPool> _effectPools = new Dictionary<EffectType, ObjectPool>();
 
         public ObjectPool GetEffectPool(EffectType effectType)

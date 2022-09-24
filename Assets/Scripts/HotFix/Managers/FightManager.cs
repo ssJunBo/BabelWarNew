@@ -35,8 +35,6 @@ namespace HotFix.Managers
 
         private ExcelManager _excelMana;
 
-        private readonly PersonInfo _personInfo = GameManager.Instance.PersonInfo;
-
         public bool OpenQuickFight { get; set; }
 
         public ObjectPool<Blood> BloodPool { get; private set; }
@@ -51,16 +49,14 @@ namespace HotFix.Managers
             
             _excelMana = ExcelManager.Instance;
 
-            LoadLevelEnemy(_personInfo.levelId);
+            LoadEnemyUnit(UserDataManager.Instance.PersonInfo.levelId);
 
-            for (int i = 0; i < _personInfo.heroInfos.Count; i++)
-            {
-                var bornTrs = heroBornPos[i % heroBornPos.Length];
-                LoadSelfUnit(_personInfo.heroInfos[i], bornTrs);
-            }
+            LoadOwnUnit();
+            
+            PauseFighting();
         }
 
-        private void LoadLevelEnemy(int levelId)
+        private void LoadEnemyUnit(int levelId)
         {
             LevelExcelItem itemInfo = _excelMana.GetExcelItem<LevelExcelData, LevelExcelItem>(levelId);
 
@@ -89,6 +85,15 @@ namespace HotFix.Managers
             }
         }
 
+        private void LoadOwnUnit()
+        {
+            for (int i = 0; i < UserDataManager.Instance.PersonInfo.heroInfos.Count; i++)
+            {
+                var bornTrs = heroBornPos[i % heroBornPos.Length];
+                LoadSelfUnit(UserDataManager.Instance.PersonInfo.heroInfos[i], bornTrs);
+            }
+        }
+        
         private void LoadSelfUnit(int combineId, Transform bornTrs)
         {
             int unitId= IDParseHelp.GetBattleUnitId(combineId);
@@ -147,6 +152,32 @@ namespace HotFix.Managers
             }
         }
 
+        public void StartFighting()
+        {
+            foreach (var unitBase in enemyUnitLis)
+            {
+                unitBase.enabled = true;
+            }
+
+            foreach (var unitBase in ownUnitLis)
+            {
+                unitBase.enabled = true;
+            }
+        }
+        
+        public void PauseFighting()
+        {
+            foreach (var unitBase in enemyUnitLis)
+            {
+                unitBase.enabled = false;
+            }
+
+            foreach (var unitBase in ownUnitLis)
+            {
+                unitBase.enabled = false;
+            }
+        }
+        
         private void ChangeTimeScale(int multiple)
         {
             Time.timeScale = multiple;

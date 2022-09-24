@@ -16,11 +16,11 @@ namespace HotFix.FightBattle
 
         // 当前 目标
         protected BattleUnitBase curTarget;
-        
+
         protected override void Awake()
         {
             base.Awake();
-            
+
             animationEventHelp.actDict["Attack"] = AttackCb;
             animationEventHelp.actDict["AttackComplete"] = AttackCompleteCb;
 
@@ -58,7 +58,7 @@ namespace HotFix.FightBattle
             noSelectedTargetState.AddTransition(Transition.OutOfRange, StateID.Chase);
             noSelectedTargetState.AddTransition(Transition.AllTargetDie, StateID.Victory);
 
-            
+
             fsm.AddState(victoryState);
             fsm.AddState(chaseState);
             fsm.AddState(attackState);
@@ -67,7 +67,7 @@ namespace HotFix.FightBattle
             // 向目标移动 在攻击范围内开始 切换攻击状态
             fsm.SetStartState(StateID.Chase, GetNearestTarget());
         }
-        
+
         public override void Attack(BattleUnitBase target)
         {
             // 初始化目标
@@ -79,7 +79,7 @@ namespace HotFix.FightBattle
         public override void HpChange(float damageVal)
         {
             base.HpChange(damageVal);
-            
+
             AttributeInfo.Hp += damageVal;
             if (AttributeInfo.Hp <= 0)
             {
@@ -106,7 +106,7 @@ namespace HotFix.FightBattle
 
         protected virtual void AttackCb()
         {
-          
+
         }
 
         protected virtual void AttackCompleteCb()
@@ -133,7 +133,7 @@ namespace HotFix.FightBattle
 
             if (AttributeInfo.AtkDistance > dis)
             {
-                if (fsm.CurrentState is AttackState atkState) 
+                if (fsm.CurrentState is AttackState atkState)
                     atkState.ChangeTarget(curTarget);
             }
             else
@@ -151,7 +151,7 @@ namespace HotFix.FightBattle
         protected virtual void OnDestroy()
         {
             EventManager.UnSubscribe(EventMessageType.Defeat, DefeatedRefresh);
-            fsm.SetNullState();
+            fsm?.SetNullState();
         }
     }
 }
