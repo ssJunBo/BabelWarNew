@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Main.Game.Base;
+using Main.Game.Excel2Class;
 using Main.Game.ResourceFrame;
 using UnityEngine;
 using Directory = UnityEngine.Windows.Directory;
@@ -29,7 +30,7 @@ namespace HotFix.Managers
 
                     if (type != null)
                     {
-                        excelDataDic[type] = tmpInfo;
+                        _excelDataDic[type] = tmpInfo;
                     }
                     else
                     {
@@ -39,14 +40,14 @@ namespace HotFix.Managers
             }
         }
 
-        readonly Dictionary<Type, object> excelDataDic = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> _excelDataDic = new();
 
         // 获取当前表
         public T GetExcelData<T>() where T : ExcelDataBase
         {
             Type type = typeof(T);
-            if (excelDataDic.ContainsKey(type) && excelDataDic[type] is T)
-                return excelDataDic[type] as T;
+            if (_excelDataDic.ContainsKey(type) && _excelDataDic[type] is T)
+                return _excelDataDic[type] as T;
 
             return null;
         }

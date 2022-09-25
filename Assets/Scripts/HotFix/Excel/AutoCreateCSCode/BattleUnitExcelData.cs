@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using HotFix.Common;
+using Main.Game.Excel2Class;
 [Serializable]
 public class BattleUnitExcelItem : ExcelItemBase
 {

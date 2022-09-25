@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HotFix.UIBase
+namespace HotFix.Functions.Currency
 {
     public class CurrencyItem : MonoBehaviour
     {

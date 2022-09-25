@@ -1,7 +1,6 @@
 ﻿using HotFix.Common;
-using HotFix.FightBattle;
 
-namespace HotFix.SystemTools.Buff
+namespace HotFix.FightBattle.Buff
 {
     public class BuffBase
     {

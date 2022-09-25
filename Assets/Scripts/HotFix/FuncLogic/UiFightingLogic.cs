@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using HotFix.Common;
+using HotFix.Data.Account;
 using HotFix.Managers;
 using HotFix.Managers.Model;
 using HotFix.UIBase;
@@ -13,31 +14,26 @@ namespace HotFix.FuncLogic
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
-        public readonly List<CardExcelItem> CardExcelItems = new();
+        private readonly List<CardExcelItem> _cardExcelItems = new();
         
-        public CModelPlay modelPlay;
+        public readonly CModelPlay modelPlay;
         public UiFightingLogic(CModelPlay modelPlay)
         {
             this.modelPlay = modelPlay;
         }
-        
-        public override void Open()
+
+        public  List<CardExcelItem> GetCardExcelItems(List<CardInfo> cardInfos)
         {
-            base.Open();
+            _cardExcelItems.Clear();
 
-            InitData();
-        }
-
-        private void InitData()
-        {
-            CardExcelItems.Clear();
-
-            var cardIdLis = UserDataManager.Instance.PersonInfo.cardsList;
+            var cardIdLis = cardInfos;
             foreach (var cardInfo in cardIdLis)
             {
-                var cardItem = ExcelManager.Instance.GetExcelItem<CardExcelData, CardExcelItem>(cardInfo.id);
-                CardExcelItems.Add(cardItem);
+                var cardItem = ExcelManager.Instance.GetExcelItem<CardExcelData, CardExcelItem>(cardInfo.ID);
+                _cardExcelItems.Add(cardItem);
             }
+
+            return _cardExcelItems;
         }
         
     }

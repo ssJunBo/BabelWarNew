@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using HotFix.Common;
+using Main.Game.Excel2Class;
 [Serializable]
 public class LevelExcelItem : ExcelItemBase
 {
@@ -16,6 +17,10 @@ public class LevelExcelItem : ExcelItemBase
 	/// 怪物数据Id
 	/// </summary>>
 	public int[] enemyCombineId;
+	/// <summary>
+	/// 卡池信息
+	/// </summary>>
+	public int[] enemyCardInfo;
 }
 
 
@@ -65,6 +70,24 @@ public class LevelExcelData : ExcelDataBase
 		return item1[index];
 	}
 
+	public int[] GetEnemyCardInfo(int id)
+	{
+		var item = GetExcelItem(id) as LevelExcelItem;
+		if(item == null)
+			return default;
+		return item.enemyCardInfo;
+	}
+	public int GetEnemyCardInfo(int id, int index)
+	{
+		var item0 = GetExcelItem(id) as LevelExcelItem;
+		if(item0 == null)
+			return default;
+		var item1 = item0.enemyCardInfo;
+		if(item1 == null || index < 0 || index >= item1.Length)
+			return default;
+		return item1[index];
+	}
+
 	#endregion
 }
 
@@ -88,6 +111,7 @@ public class LevelAssetAssignment
 			excelDataAsset.items[i] = new LevelExcelItem();
 			excelDataAsset.items[i].id = StringUtility.StringToInt(itemRowDic["id"]);
 			excelDataAsset.items[i].enemyCombineId = StringUtility.StringToIntArray(itemRowDic["enemyCombineId"]);
+			excelDataAsset.items[i].enemyCardInfo = StringUtility.StringToIntArray(itemRowDic["enemyCardInfo"]);
 		}
 		if(!Directory.Exists(excelAssetPath))
 			Directory.CreateDirectory(excelAssetPath);

@@ -1,8 +1,7 @@
 ﻿using HotFix.Common;
-using HotFix.FightBattle;
 using UnityEngine;
 
-namespace HotFix.SystemTools.Buff
+namespace HotFix.FightBattle.Buff
 {
     public class AtkSpeedBuff: BuffBase
     {

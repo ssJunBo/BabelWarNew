@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace HotFix.SystemTools.FSM
+namespace HotFix.FSM
 {
     public class FsmSystem
     {

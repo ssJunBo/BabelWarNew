@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace HotFix.UIBase
+namespace HotFix.Functions.Currency
 {
     public class CurrencyPanel : MonoBehaviour
     {

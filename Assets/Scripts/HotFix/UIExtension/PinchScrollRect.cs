@@ -2,7 +2,7 @@ using HotFix.Common;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Test03
+namespace HotFix.UIExtension
 {
 	public class PinchScrollRect : ScrollRect
 	{

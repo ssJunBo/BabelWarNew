@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace HotFix.SystemTools.Pool
+namespace HotFix.Pool
 {
     /// <summary>
     /// 对象池item基类
@@ -18,7 +18,7 @@ namespace HotFix.SystemTools.Pool
         private readonly Queue<T> _objectsPool = new Queue<T>();
         private readonly T _mPrefab;
 
-        private Transform parentTrs;
+        private readonly Transform parentTrs;
 
         public ObjectPool(T prefab, Transform parentTrs)
         {
@@ -47,6 +47,7 @@ namespace HotFix.SystemTools.Pool
         public void Cycle(T item)
         {
             item.OnCycle();
+            item.transform.SetParent(parentTrs);
             item.transform.SetAsLastSibling();
             _objectsPool.Enqueue(item);
         }

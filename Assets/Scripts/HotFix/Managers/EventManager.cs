@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using HotFix.Common;
 
-namespace HotFix.SystemTools.EventSys
+namespace HotFix.Managers
 {
     public static class EventManager
     {

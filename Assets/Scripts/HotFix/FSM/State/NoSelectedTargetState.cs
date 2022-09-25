@@ -2,7 +2,7 @@
 using HotFix.FightBattle;
 using HotFix.Helpers;
 
-namespace HotFix.SystemTools.FSM.State
+namespace HotFix.FSM.State
 {
     public class NoSelectedTargetState : FsmState
     {

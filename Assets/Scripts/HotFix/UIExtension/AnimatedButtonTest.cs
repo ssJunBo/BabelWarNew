@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace HotFix.Tools
+namespace HotFix.UIExtension
 {
     public sealed class AnimatedButtonTest : UIBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler,
         IBeginDragHandler, IEndDragHandler, IInitializePotentialDragHandler, IScrollHandler, IPointerExitHandler

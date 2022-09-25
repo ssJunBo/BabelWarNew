@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HotFix.Common;
 using HotFix.Data.Account;
 using HotFix.Managers.Model;
@@ -23,6 +22,8 @@ namespace HotFix.Managers
         
         #endregion
 
+        public static bool IsInitGameManager = false;
+        
         #region moudle play
 
         private CModelPlay _modelPlay;
@@ -55,32 +56,56 @@ namespace HotFix.Managers
         {
             if (Input.GetKeyDown(KeyCode.S))
             {
-                UserDataManager.Instance.SaveData(new PersonInfo()
+                DataManager.Instance.SaveData(new PersonInfo()
                 {
-                    levelId = 1,
-                    heroInfos = new List<int>
+                    LevelId = 1,
+                    HeroInfos = new List<int>
                     {
                         10101,
                         10201,
                     },
-                    cardsList = new List<CardInfo>
+                    OwnCardsList = new List<CardInfo>
                     {
-                       new() {
-                           id =  101,
-                           starLev = 1
-                       },
-                       new() {
-                           id =  102,
-                           starLev = 1
-                       },
-                       new() {
-                           id =  103,
-                           starLev = 1
-                       },
-                       new() {
-                           id =  104,
-                           starLev = 1
-                       },
+                        new()
+                        {
+                            ID = 101,
+                            StarLev = 1
+                        },
+                        new()
+                        {
+                            ID = 102,
+                            StarLev = 1
+                        },
+                        new()
+                        {
+                            ID = 103,
+                            StarLev = 1
+                        },
+                        new()
+                        {
+                            ID = 104,
+                            StarLev = 1
+                        },
+                        new()
+                        {
+                            ID = 101,
+                            StarLev = 2
+                        },
+                        new()
+                        {
+                            ID = 102,
+                            StarLev = 2
+                        },
+                        new()
+                        {
+                            ID = 103,
+                            StarLev = 2
+                        },
+                        new()
+                        {
+                            ID = 104,
+                            StarLev = 2
+                        },
                     }
                 });
             }

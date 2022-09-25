@@ -1,11 +1,10 @@
 ﻿using HotFix.Common;
 using HotFix.Data;
 using HotFix.Data.Account;
+using HotFix.FSM;
+using HotFix.FSM.State;
 using HotFix.Helpers;
 using HotFix.Managers;
-using HotFix.SystemTools.EventSys;
-using HotFix.SystemTools.FSM;
-using HotFix.SystemTools.FSM.State;
 using UnityEngine;
 
 namespace HotFix.FightBattle
@@ -101,7 +100,7 @@ namespace HotFix.FightBattle
 
         public override BattleUnitBase GetNearestTarget()
         {
-            return TargetHelper.GetMinDistanceUnit(this, FightManager.Instance.ownUnitLis);
+            return BattleUnitHelper.GetMinDistanceUnit(this, FightManager.Instance.OwnUnitLis);
         }
 
         protected virtual void AttackCb()

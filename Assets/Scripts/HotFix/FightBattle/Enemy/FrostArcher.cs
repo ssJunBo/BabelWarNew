@@ -1,5 +1,5 @@
-﻿using HotFix.Helpers;
-using HotFix.SystemTools.Buff;
+﻿using HotFix.FightBattle.Buff;
+using HotFix.Helpers;
 
 namespace HotFix.FightBattle.Enemy
 {

@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using HotFix.Common;
-using HotFix.Data.Account;
 using HotFix.FightBattle;
 using HotFix.Helpers;
-using HotFix.SystemTools.EventSys;
-using HotFix.SystemTools.Pool;
+using HotFix.Pool;
 using Main.Game.Base;
 using Main.Game.ResourceFrame;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace HotFix.Managers
 {
@@ -21,17 +18,16 @@ namespace HotFix.Managers
         [SerializeField] private Transform buildPos;
         [SerializeField] private Transform allBattleUnitTrs;
         [SerializeField] public Camera fightCamera;
-        [SerializeField] private Transform bloodTrs;
-        [SerializeField] public Transform effectTrs;
+        [SerializeField] public Transform objPoolTrs;
 
         // 最终击败建筑物
         public Transform BuildPos => buildPos;
 
         // 所有敌人的obj
-        [NonSerialized] public readonly List<BattleUnitBase> enemyUnitLis = new List<BattleUnitBase>();
+        [NonSerialized] public readonly List<BattleUnitBase> EnemyUnitLis = new List<BattleUnitBase>();
 
         // 自身单位
-        [NonSerialized] public readonly List<BattleUnitBase> ownUnitLis = new List<BattleUnitBase>();
+        [NonSerialized] public readonly List<BattleUnitBase> OwnUnitLis = new List<BattleUnitBase>();
 
         private ExcelManager _excelMana;
 
@@ -45,22 +41,24 @@ namespace HotFix.Managers
 
             Blood bloodPre = ResManager.Instance.LoadResource<GameObject>("Prefabs/Effect/Blood/WhiteBlood").GetComponent<Blood>();
             
-            BloodPool = new ObjectPool<Blood>(bloodPre,bloodTrs);
+            BloodPool = new ObjectPool<Blood>(bloodPre,objPoolTrs);
             
             _excelMana = ExcelManager.Instance;
 
-            LoadEnemyUnit(UserDataManager.Instance.PersonInfo.levelId);
+            LoadEnemyUnit(DataManager.Instance.PersonInfo.LevelId);
 
             LoadOwnUnit();
             
             PauseFighting();
+            
+            DataManager.Instance.SetCurrentLevData(DataManager.Instance.PersonInfo.LevelId);
         }
 
         private void LoadEnemyUnit(int levelId)
         {
             LevelExcelItem itemInfo = _excelMana.GetExcelItem<LevelExcelData, LevelExcelItem>(levelId);
 
-            enemyUnitLis.Clear();
+            EnemyUnitLis.Clear();
 
             for (var i = 0; i < itemInfo.enemyCombineId.Length; i++)
             {
@@ -81,16 +79,16 @@ namespace HotFix.Managers
                 battleUnitBase.SetData(soliderCombineId);
                 battleUnitBase.hpObj.gameObject.SetActive(true);
 
-                enemyUnitLis.Add(battleUnitBase);
+                EnemyUnitLis.Add(battleUnitBase);
             }
         }
 
         private void LoadOwnUnit()
         {
-            for (int i = 0; i < UserDataManager.Instance.PersonInfo.heroInfos.Count; i++)
+            for (int i = 0; i < DataManager.Instance.PersonInfo.HeroInfos.Count; i++)
             {
                 var bornTrs = heroBornPos[i % heroBornPos.Length];
-                LoadSelfUnit(UserDataManager.Instance.PersonInfo.heroInfos[i], bornTrs);
+                LoadSelfUnit(DataManager.Instance.PersonInfo.HeroInfos[i], bornTrs);
             }
         }
         
@@ -113,22 +111,22 @@ namespace HotFix.Managers
             battleUnitBase.hpObj.SetActive(true);
             battleUnitBase.SetData(combineId);
 
-            ownUnitLis.Add(battleUnitBase);
+            OwnUnitLis.Add(battleUnitBase);
         }
 
         // 刷新敌人列表
         public void RemoveDieEnemy(BattleUnitBase target)
         {
-            for (int i = 0; i < enemyUnitLis.Count; i++)
+            for (int i = 0; i < EnemyUnitLis.Count; i++)
             {
-                if (target == enemyUnitLis[i])
+                if (target == EnemyUnitLis[i])
                 {
-                    enemyUnitLis.RemoveAt(i);
+                    EnemyUnitLis.RemoveAt(i);
                     break;
                 }
             }
 
-            if (enemyUnitLis.Count <= 0)
+            if (EnemyUnitLis.Count <= 0)
             {
                 EventManager.DispatchEvent(EventMessageType.FightResult, 1);
             }
@@ -137,16 +135,16 @@ namespace HotFix.Managers
         // 刷新英雄列表
         public void RemoveDieHero(BattleUnitBase target)
         {
-            for (int i = 0; i < ownUnitLis.Count; i++)
+            for (int i = 0; i < OwnUnitLis.Count; i++)
             {
-                if (target == ownUnitLis[i])
+                if (target == OwnUnitLis[i])
                 {
-                    ownUnitLis.RemoveAt(i);
+                    OwnUnitLis.RemoveAt(i);
                     break;
                 }
             }
 
-            if (ownUnitLis.Count <= 0)
+            if (OwnUnitLis.Count <= 0)
             {
                 EventManager.DispatchEvent(EventMessageType.FightResult, 0);
             }
@@ -154,12 +152,12 @@ namespace HotFix.Managers
 
         public void StartFighting()
         {
-            foreach (var unitBase in enemyUnitLis)
+            foreach (var unitBase in EnemyUnitLis)
             {
                 unitBase.enabled = true;
             }
 
-            foreach (var unitBase in ownUnitLis)
+            foreach (var unitBase in OwnUnitLis)
             {
                 unitBase.enabled = true;
             }
@@ -167,12 +165,12 @@ namespace HotFix.Managers
         
         public void PauseFighting()
         {
-            foreach (var unitBase in enemyUnitLis)
+            foreach (var unitBase in EnemyUnitLis)
             {
                 unitBase.enabled = false;
             }
 
-            foreach (var unitBase in ownUnitLis)
+            foreach (var unitBase in OwnUnitLis)
             {
                 unitBase.enabled = false;
             }

@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using HotFix.Managers;
+using HotFix.Pool;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 
 namespace HotFix.Functions.Fighting
 {
-    public class FightCardItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
+    public class FightCardItem : PoolItemBase, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private TextMeshProUGUI nameTxt;
         [SerializeField] private TextMeshProUGUI descTxt;
@@ -27,6 +28,20 @@ namespace HotFix.Functions.Fighting
         public Action DragEndAct;
         public Action<bool> InAreaAct;
 
+        #region Override
+
+        public override void OnSpawned()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public override void OnCycle()
+        {
+            gameObject.SetActive(false);
+        }
+
+        #endregion
+        
         public void Init(RectTransform dragParentRectTrs,RectTransform fightTrs)
         {
             _originTrs = transform.parent;
@@ -134,5 +149,7 @@ namespace HotFix.Functions.Fighting
             DragEndAct?.Invoke();
             effectObj.SetActive(false);
         }
+
+      
     }
 }

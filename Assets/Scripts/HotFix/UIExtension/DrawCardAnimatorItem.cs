@@ -1,10 +1,9 @@
 using System;
 using DG.Tweening;
-using HotFix.UIExtension;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HotFix.Tools
+namespace HotFix.UIExtension
 {
     public enum FlipState
     {

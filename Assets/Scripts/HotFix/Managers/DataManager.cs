@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using HotFix.Data.Account;
 using Main.Game.Base;
 using Newtonsoft.Json;
@@ -10,11 +11,12 @@ namespace HotFix.Managers
     /// <summary>
     /// 存档管理类
     /// </summary>
-    public class UserDataManager : Singleton<UserDataManager>
+    public class DataManager : Singleton<DataManager>
     {
         private const string PersonDataPath = "/Resources/ArchiveInfo.json";
 
         private PersonInfo _personInfo;
+
         /// <summary>
         /// 个人缓存本地数据
         /// </summary>
@@ -31,6 +33,31 @@ namespace HotFix.Managers
             return null;
         }
 
+        // 我方卡池信息
+        public List<CardInfo> OwnCardsList => _personInfo.OwnCardsList;
+
+        // 敌军当前卡池信息
+        public readonly List<CardInfo> EnemyCardsList = new();
+
+        // 设置当前关卡数据
+        public void SetCurrentLevData(int levId)
+        {
+            EnemyCardsList.Clear();
+
+            var levelExcelItem = ExcelManager.Instance.GetExcelItem<LevelExcelData, LevelExcelItem>(levId);
+
+            foreach (var cardCombineId in levelExcelItem.enemyCardInfo)
+            {
+                EnemyCardsList.Add(new CardInfo
+                {
+                    ID = cardCombineId / 100,
+                    StarLev = cardCombineId % 100
+                });
+            }
+        }
+
+
+        // 存档数据
         public void SaveData(PersonInfo personInfoList)
         {
             string filePath = Application.dataPath + PersonDataPath;

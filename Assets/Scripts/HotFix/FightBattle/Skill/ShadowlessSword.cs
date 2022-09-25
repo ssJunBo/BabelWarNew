@@ -53,7 +53,7 @@ namespace HotFix.FightBattle.Skill
 
         private void SkillEnd()
         {
-            var unitList = isOwnSide ? FightManager.Instance.enemyUnitLis : FightManager.Instance.ownUnitLis;
+            var unitList = isOwnSide ? FightManager.Instance.EnemyUnitLis : FightManager.Instance.OwnUnitLis;
 
             var damageRadius = ExcelManager.Instance.GetExcelData<SkillExcelData>().GetRadius(skillId);
 

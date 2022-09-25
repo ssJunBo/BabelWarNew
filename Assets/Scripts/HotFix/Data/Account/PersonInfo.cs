@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HotFix.Managers;
 
 namespace HotFix.Data.Account
 {
@@ -7,14 +8,21 @@ namespace HotFix.Data.Account
     /// </summary>
     public class PersonInfo
     {
-        public int levelId; // 当前关卡id
-        public List<int> heroInfos;// 英雄id
-        public List<CardInfo> cardsList;
+        public int LevelId; // 当前关卡id
+        public List<int> HeroInfos; // 英雄id
+        public List<CardInfo> OwnCardsList; // 当前卡池信息
     }
 
     public struct CardInfo
     {
-        public int id;
-        public int starLev;
+        public int ID;
+
+        // 卡片星级 最高九级卡
+        public int StarLev;
+
+        public static int CardDamage(CardInfo info)
+        {
+            return ExcelManager.Instance.GetExcelData<CardExcelData>().GetDamage(info.ID, info.StarLev - 1);
+        }
     }
 }

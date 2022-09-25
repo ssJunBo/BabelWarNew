@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using DG.Tweening;
 using HotFix.FuncLogic;
 using HotFix.Managers;
-using HotFix.SystemTools.EventSys;
 using Main.Game.Base;
 using TMPro;
 using UnityEngine;
 using HotFix.Common;
+using HotFix.Data.Account;
+using HotFix.Pool;
 using HotFix.UIBase;
 
 namespace HotFix.Functions.Fighting
@@ -35,69 +37,136 @@ namespace HotFix.Functions.Fighting
             #region 添加事件
 
             EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
+            EventManager.Subscribe<List<CardInfo>>(EventMessageType.IssueCard,RefreshCard);
 
             #endregion
         }
 
         public override void ShowFinished()
         {
+            _cardPool = new ObjectPool<FightCardItem>(fightCardItemPre, FightManager.Instance.objPoolTrs);
+            
             InitUI();
         }
 
         public override void Release()
         {
             EventManager.UnSubscribe<int>(EventMessageType.FightResult, FightResultRefresh);
-            
-            for (int i = _cardItems.Count - 1; i >= 0; i--)
+            EventManager.UnSubscribe<List<CardInfo>>(EventMessageType.IssueCard,RefreshCard);
+
+            foreach (var item in allGenerateCards)
             {
-                Destroy(_cardItems[i].gameObject);
+                _cardPool.Cycle(item);
             }
 
-            _cardItems = null;
+            allGenerateCards = null;
             
             base.Release();
         }
-        
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                CardManager.Instance.ChangeTurn(Turn.Own);
+            }
+        }
+
         #endregion
 
-        private List<FightCardItem> _cardItems;
+        private List<FightCardItem> allGenerateCards = new();
         private readonly List<float> _xPos = new();
+
+        private ObjectPool<FightCardItem> _cardPool;
 
         private void InitUI()
         {
             fightMaskObj.SetActive(true);
             finishObjPanel.SetActive(false);
-            
-            _cardItems = new List<FightCardItem>(_uiLogic.CardExcelItems.Count);
+            quickFightTxt.text = "x1";
+        }
 
-            for (var index = 0; index < _uiLogic.CardExcelItems.Count; index++)
+        private void GenerateCards(List<CardInfo> cardInfos)
+        {
+            List<CardExcelItem> cardExcelItems = _uiLogic.GetCardExcelItems(cardInfos);
+            foreach (var fightCardExcelItem in cardExcelItems)
             {
-                var fightCardExcelItem = _uiLogic.CardExcelItems[index];
-                FightCardItem fightCardItem = Instantiate(fightCardItemPre, contentTrs);
+                FightCardItem fightCardItem = _cardPool.Spawn();
+                fightCardItem.transform.SetParent(contentTrs);
+                fightCardItem.transform.localScale = Vector3.one * 0.5f;
+                fightCardItem.transform.position = directPos.position;
+                
                 fightCardItem.DragEndAct = RefreshCardPos;
                 fightCardItem.RemoveCardAct = RemoveCard;
                 fightCardItem.InAreaAct = InArea;
 
-                fightCardItem.Init(cardMoveTrs,fightTrs);
+                fightCardItem.Init(cardMoveTrs, fightTrs);
                 fightCardItem.SetData(fightCardExcelItem);
-                _cardItems.Add(fightCardItem);
+                allGenerateCards.Add(fightCardItem);
             }
 
             RefreshCardPos();
+        }
 
-            quickFightTxt.text = "x1";
+        private void RefreshCardPos()
+        {
+            GeneratePos();
+            //
+            // for (int i = 0; i < allGenerateCards.Count; i++)
+            // {
+            //     var cardItem = allGenerateCards[i];
+            //     var transform1 = cardItem.transform;
+            //     
+            //     cardItem.Index = i;
+            //     
+            //     transform1.localPosition = new Vector3(_xPos[i], 0, 0);
+            //     
+            //     var to = transform1.position - directPos.position;
+            //     var angle = Vector3.Angle(Vector3.up, to);
+            //     angle = cardItem.transform.localPosition.x > 0 ? -angle : angle;
+            //
+            //     cardItem.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            //
+            //     // cardItem.transform.DORotateQuaternion(Quaternion.AngleAxis(angle, Vector3.forward), 0.5f);
+            // }
+            
+            var radiusVal = Vector2.Distance(directPos.position, cardCenterPos.position);
+
+            for (var index = 0; index < allGenerateCards.Count; index++)
+            {
+                var cardItem = allGenerateCards[index];
+                var to = cardItem.transform.position - directPos.localPosition;
+                var angle = Vector3.Angle(Vector3.up, to);
+                
+                angle = cardItem.transform.localPosition.x > 0 ? angle : -angle;
+
+                var position = directPos.position;
+
+                var x1 = position.x + radiusVal * Mathf.Sin(angle * Mathf.Deg2Rad);
+                var y1 = position.y + radiusVal * Mathf.Cos(angle * Mathf.Deg2Rad);
+
+                var transform1 = cardItem.transform;
+                Vector3 resPos = new Vector3(x1, y1, transform1.position.z);
+
+                // transform1.position = resPos;
+
+                cardItem.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+                transform1.DOScale(Vector3.one, 0.5f);
+                transform1.DOMove(resPos, 0.5f);
+            }
         }
 
         private void GeneratePos()
         {
-            var cardWidth = Mathf.Clamp((contentTrs.rect.width - 70 * 2) / _cardItems.Count, 50, 200);
+            var cardWidth = Mathf.Clamp((contentTrs.rect.width - 70 * 2) / allGenerateCards.Count, 50, 200);
 
             _xPos.Clear();
-            if (_cardItems.Count % 2 != 0)
+            if (allGenerateCards.Count % 2 != 0)
             {
                 _xPos.Add(0);
 
-                for (int i = 0; i < _cardItems.Count / 2; i++)
+                for (int i = 0; i < allGenerateCards.Count / 2; i++)
                 {
                     _xPos.Add((i + 1) * cardWidth);
                     _xPos.Add(-(i + 1) * cardWidth);
@@ -105,7 +174,7 @@ namespace HotFix.Functions.Fighting
             }
             else
             {
-                for (int i = 0; i < _cardItems.Count / 2; i++)
+                for (int i = 0; i < allGenerateCards.Count / 2; i++)
                 {
                     _xPos.Add((i + 1) * cardWidth - cardWidth/2);
                     _xPos.Add(-(i + 1) * cardWidth + cardWidth/2);
@@ -114,49 +183,10 @@ namespace HotFix.Functions.Fighting
 
             _xPos.Sort();
         }
-
-        private void RefreshCardPos()
-        {
-            GeneratePos();
-
-            for (int i = 0; i < _cardItems.Count; i++)
-            {
-                var cardItem = _cardItems[i];
-                var transform1 = cardItem.transform;
-                
-                cardItem.Index = i;
-                
-                transform1.localPosition = new Vector3(_xPos[i], 0, 0);
-
-                var to = transform1.position - directPos.position;
-                var angle = Vector3.Angle(Vector3.up, to);
-                angle = cardItem.transform.localPosition.x > 0 ? -angle : angle;
-
-                cardItem.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            }
-            
-            var radiusVal = Vector2.Distance(directPos.position, cardCenterPos.position);
-
-            foreach (var cardItem in _cardItems)
-            {
-                var to = cardItem.transform.position - directPos.position;
-                var angle = Vector3.Angle(Vector3.up, to);
-                angle = cardItem.transform.localPosition.x > 0 ? angle : -angle;
-
-                var position = directPos.position;
-                
-                var x1 = position.x + radiusVal * Mathf.Sin(angle * Mathf.Deg2Rad);
-                var y1 = position.y + radiusVal * Mathf.Cos(angle * Mathf.Deg2Rad);
-                
-                var transform1 = cardItem.transform;
-                Vector3 resPos = new Vector3(x1, y1, transform1.position.z);
-                transform1.position = resPos;
-            }
-        }
-
+        
         private void RemoveCard(FightCardItem cardItem)
         {
-            _cardItems.Remove(cardItem);
+            allGenerateCards.Remove(cardItem);
 
             RefreshCardPos();
         }
@@ -180,6 +210,19 @@ namespace HotFix.Functions.Fighting
             });
         }
 
+        // 新增卡
+        private void RefreshCard(List<CardInfo> cardInfos)
+        {
+            switch (CardManager.Instance.Turn)
+            {
+                case Turn.Own:
+                    GenerateCards(cardInfos);
+                    break;
+                case Turn.Enemy:
+                    break;
+            }
+        }
+        
         #endregion
         
         #region BtnEvent
@@ -204,6 +247,9 @@ namespace HotFix.Functions.Fighting
         {
             fightMaskObj.SetActive(false);
             FightManager.Instance.StartFighting();
+            
+            // 开始抽卡
+            CardManager.Instance.ChangeTurn(Turn.Own);
         }
         #endregion
     }

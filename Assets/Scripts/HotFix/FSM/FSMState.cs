@@ -2,7 +2,7 @@
 using HotFix.FightBattle;
 using UnityEngine;
 
-namespace HotFix.SystemTools.FSM
+namespace HotFix.FSM
 {
     /// <summary>
     /// 转换条件

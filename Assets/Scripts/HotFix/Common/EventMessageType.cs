@@ -7,5 +7,6 @@
     {
         FightResult,
         ChangeTimeScale,
+        IssueCard,// 给自己 或 敌人 发卡
     }
 }

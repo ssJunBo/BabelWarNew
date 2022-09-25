@@ -1,7 +1,7 @@
 ﻿using HotFix.FightBattle;
 using UnityEngine;
 
-namespace HotFix.SystemTools.FSM.State
+namespace HotFix.FSM.State
 {
     public class AttackState : FsmState
     {

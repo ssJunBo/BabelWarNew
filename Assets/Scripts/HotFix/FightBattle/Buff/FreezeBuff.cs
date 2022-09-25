@@ -1,9 +1,8 @@
 ﻿using HotFix.Common;
-using HotFix.FightBattle;
 using HotFix.Managers;
 using UnityEngine;
 
-namespace HotFix.SystemTools.Buff
+namespace HotFix.FightBattle.Buff
 {
     public class FreezeBuff : BuffBase
     {

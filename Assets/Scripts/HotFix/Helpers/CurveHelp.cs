@@ -3,7 +3,7 @@
 namespace HotFix.Helpers
 {
     /// <summary>
-    /// 曲线运动
+    /// 曲线运动 抛物线
     /// </summary>
     public class ParaCurve
     {

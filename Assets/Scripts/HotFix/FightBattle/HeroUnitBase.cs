@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using HotFix.Common;
 using HotFix.FightBattle.Skill;
+using HotFix.FSM;
+using HotFix.FSM.State;
 using HotFix.Helpers;
 using HotFix.Managers;
-using HotFix.SystemTools.EventSys;
-using HotFix.SystemTools.FSM;
-using HotFix.SystemTools.FSM.State;
 using UnityEngine;
 
 namespace HotFix.FightBattle
@@ -58,9 +57,9 @@ namespace HotFix.FightBattle
                 if (_curTime >= 1f)
                 {
                     // 触发掉血逻辑
-                    for (var i = FightManager.Instance.enemyUnitLis.Count - 1; i >= 0; i--)
+                    for (var i = FightManager.Instance.EnemyUnitLis.Count - 1; i >= 0; i--)
                     {
-                        var enemyBattleUnit = FightManager.Instance.enemyUnitLis[i];
+                        var enemyBattleUnit = FightManager.Instance.EnemyUnitLis[i];
                         // 在攻击范围内 全部造成伤害一次
                         if (transform.GetDistanceToOnePoint(enemyBattleUnit.transform) <= PassiveSkillInfo.Radius)
                         {
@@ -116,7 +115,7 @@ namespace HotFix.FightBattle
 
         public override BattleUnitBase GetNearestTarget()
         {
-            return TargetHelper.GetMinDistanceUnit(this, FightManager.Instance.enemyUnitLis);
+            return BattleUnitHelper.GetMinDistanceUnit(this, FightManager.Instance.EnemyUnitLis);
         }
 
         protected virtual void OnDestroy()

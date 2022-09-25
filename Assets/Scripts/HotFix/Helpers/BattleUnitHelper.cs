@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HotFix.Helpers
 {
-    public static class TargetHelper
+    public static class BattleUnitHelper
     {
         /// <summary>
         /// 获取最近敌人单位 无飞行单位

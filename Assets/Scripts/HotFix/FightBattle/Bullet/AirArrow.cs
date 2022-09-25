@@ -1,7 +1,7 @@
 ﻿using System;
 using HotFix.Helpers;
 using HotFix.Managers;
-using HotFix.SystemTools.Pool;
+using HotFix.Pool;
 using UnityEngine;
 
 namespace HotFix.FightBattle.Bullet
