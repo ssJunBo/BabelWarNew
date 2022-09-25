@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace HotFix.Functions.Fighting
 {
-    public class FightCardItem : PoolItemBase, IDragHandler, IPointerDownHandler, IPointerUpHandler
+    public class OwnCardItem : PoolItemBase, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private TextMeshProUGUI nameTxt;
         [SerializeField] private TextMeshProUGUI descTxt;
@@ -24,7 +24,7 @@ namespace HotFix.Functions.Fighting
         private bool _inFightArea;
 
         [NonSerialized]public int Index;
-        public Action<FightCardItem> RemoveCardAct;
+        public Action<OwnCardItem> RemoveCardAct;
         public Action DragEndAct;
         public Action<bool> InAreaAct;
 
@@ -42,8 +42,9 @@ namespace HotFix.Functions.Fighting
 
         #endregion
         
-        public void Init(RectTransform dragParentRectTrs,RectTransform fightTrs)
+        public void Init(RectTransform dragParentRectTrs,RectTransform fightTrs,int index)
         {
+            Index = index;
             _originTrs = transform.parent;
             _fightTrs = fightTrs;
             _dragParentRectTrs = dragParentRectTrs;
@@ -138,7 +139,6 @@ namespace HotFix.Functions.Fighting
             if (_inFightArea)
             {
                 RemoveCardAct?.Invoke(this);
-                Destroy(gameObject);
                 return;
             }
 

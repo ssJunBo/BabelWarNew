@@ -18,10 +18,10 @@ namespace HotFix.Managers
         }
 
         // 当前自己拥有的卡片
-        public List<CardInfo> curOwnHaveCards = new();
+        public readonly List<CardInfo> CurOwnHaveCards = new();
 
         // 当前敌人拥有的卡片
-        public List<CardInfo> curEnemyHaveCards = new();
+        public readonly List<CardInfo> CurEnemyHaveCards = new();
 
         
         private void IssueCard()
@@ -32,7 +32,7 @@ namespace HotFix.Managers
                     var newCards= GetOwnCard();
                     foreach (var card in newCards)
                     {
-                        curOwnHaveCards.Add(card);
+                        CurOwnHaveCards.Add(card);
                     }
 
                     EventManager.DispatchEvent(EventMessageType.IssueCard,newCards);
@@ -41,7 +41,7 @@ namespace HotFix.Managers
                     var newEnemyCards= GetEnemyCard();
                     foreach (var card in newEnemyCards)
                     {
-                        curEnemyHaveCards.Add(card);
+                        CurEnemyHaveCards.Add(card);
                     }
                     
                     EventManager.DispatchEvent(EventMessageType.IssueCard, newEnemyCards);
@@ -93,8 +93,8 @@ namespace HotFix.Managers
             }
 
             // 默认抽卡两张
-            _enemyResultCards.Add(_enemyCards[_ownIndex]);
-            _enemyResultCards.Add(_enemyCards[_ownIndex + 1]);
+            _enemyResultCards.Add(_enemyCards[_enemyIndex]);
+            _enemyResultCards.Add(_enemyCards[_enemyIndex + 1]);
 
             _enemyIndex += 2;
 
