@@ -173,8 +173,11 @@ namespace HotFix.Functions.Fighting
 
         private void FightResultRefresh(int result)
         {
-            finishDesc.text = result == 1 ? "战斗胜利" : "战斗失败";
-            finishObjPanel.SetActive(true);
+            TimerEventManager.Instance.DelaySeconds(1f, () =>
+            {
+                finishDesc.text = result == 1 ? "战斗胜利" : "战斗失败";
+                finishObjPanel.SetActive(true);
+            });
         }
 
         #endregion

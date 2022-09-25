@@ -18,7 +18,7 @@ namespace HotFix.Functions.Main
         public override void ShowFinished()
         {
             // TODO 个人信息
-            uiInfoPanel.SetData(logic.model);
+            uiInfoPanel.SetData(logic.Model);
         }
 
         public override void Release()

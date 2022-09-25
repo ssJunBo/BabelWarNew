@@ -8,11 +8,11 @@ namespace HotFix.FuncLogic
     {
         protected override string Path => "Prefabs/Functions/UiMainDialog";
         public override EUiID UiId => EUiID.Main;
-        public CModelPlay model { get; }
+        public CModelPlay Model { get; }
 
         public UiMainLogic(CModelPlay model)
         {
-            this.model = model;
+            Model = model;
         }
 
         public override void Open()
