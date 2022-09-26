@@ -37,6 +37,7 @@ namespace HotFix.Functions.Fighting
 
         public override void OnCycle()
         {
+            effectObj.gameObject.SetActive(false);
             gameObject.SetActive(false);
         }
 

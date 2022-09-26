@@ -10,7 +10,7 @@ namespace HotFix.Managers
     {
         private Round _round;
         public Round Round => _round;
-        public void ChangeTurn(Round round)
+        public void ChangeRound(Round round)
         {
             _round = round;
 

@@ -9,12 +9,13 @@ using HotFix.Common;
 using HotFix.Data.Account;
 using HotFix.Pool;
 using HotFix.UIBase;
-using HotFix.UIExtension;
 
 namespace HotFix.Functions.Fighting
 {
     public class UiFightingDialog : UiDialogBase
     {
+        #region 挂点
+
         [SerializeField] private TextMeshProUGUI quickFightTxt;
         [SerializeField] private RectTransform cardMoveTrs;
         [SerializeField] private GameObject fightTipsObj;
@@ -28,20 +29,28 @@ namespace HotFix.Functions.Fighting
         [SerializeField] private RectTransform ownCardBornPos;
         [SerializeField] private RectTransform ownCardCenterPos;
         [SerializeField] private GameObject roundInfoObj;
+        [SerializeField] private TextMeshProUGUI roundTimeDownTxt;
 
         [Header("敌人Card UI")]
         [SerializeField] private GameObject enemyCardParentObj;
         [SerializeField] private RectTransform enemyCardContentTrs;
-        [SerializeField] private GameObject enemyCardItemPre;
+        [SerializeField] private EnemyCardItem enemyCardItemPre;
         [SerializeField] private RectTransform enemyCardItemRect;
         [SerializeField] private RectTransform enemyCardBornPos;
+        [SerializeField] private Transform enemyCardPos;// 移动到场景上的位置
 
         // ---- finish ui -------
         [Header("完成界面UI")]
         [SerializeField] private GameObject finishObjPanel;
         [SerializeField] private TextMeshProUGUI finishDesc;
 
+        #endregion
+
+        #region logic
+
         private UiFightingLogic _uiLogic;
+
+        #endregion
 
         #region Override
 
@@ -60,7 +69,7 @@ namespace HotFix.Functions.Fighting
         public override void ShowFinished()
         {
             _ownCardPool = new ObjectPool<OwnCardItem>(ownCardItemPre, FightManager.Instance.objPoolTrs);
-            _enemyCardPool = new ObjectPool(enemyCardItemPre, FightManager.Instance.objPoolTrs);
+            _enemyCardPool = new ObjectPool<EnemyCardItem>(enemyCardItemPre, FightManager.Instance.objPoolTrs);
             
             SetUI();
         }
@@ -89,19 +98,18 @@ namespace HotFix.Functions.Fighting
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                CardManager.Instance.ChangeTurn(Round.Own);
-            }
-            
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                CardManager.Instance.ChangeTurn(Round.Enemy);
-            }
+            if (Input.GetKeyDown(KeyCode.A)) CardManager.Instance.ChangeRound(Round.Own);
+
+            if (Input.GetKeyDown(KeyCode.B)) CardManager.Instance.ChangeRound(Round.Enemy);
+
+            if (CardManager.Instance.Round == Round.Own && !_fightOver) CardTimeDown();
         }
 
         #endregion
 
+        #region 初始化UI
+
+        private Color _normalColor,_redColor;
         private void SetUI()
         {
             ownCardParentObj.SetActive(false);
@@ -111,9 +119,16 @@ namespace HotFix.Functions.Fighting
             fightMaskObj.SetActive(true);
             finishObjPanel.SetActive(false);
             quickFightTxt.text = "x1";
+            
+            ColorUtility.TryParseHtmlString("#FF5B5B", out _redColor);
+            ColorUtility.TryParseHtmlString("#FFFFFF", out _normalColor);
         }
-        
-        // --------------------- 自己卡牌逻辑 ----------------------------
+
+
+        #endregion
+       
+        #region --------------------- 自己卡牌逻辑 ----------------------------
+
         private readonly List<OwnCardItem> _ownAllGenerateCards = new();
         private readonly List<float> _xPos = new();
         private ObjectPool<OwnCardItem> _ownCardPool;
@@ -142,6 +157,14 @@ namespace HotFix.Functions.Fighting
             RefreshCardPos();
         }
 
+        private void InArea(bool isInArea)
+        {
+            if (fightTipsObj.activeSelf==isInArea)
+                return;
+
+            fightTipsObj.SetActive(isInArea);
+        }
+        
         private void RefreshCardPos()
         {
             GeneratePos();
@@ -214,16 +237,36 @@ namespace HotFix.Functions.Fighting
             
             RefreshCardPos();
         }
-        // --------------------- 自己卡牌逻辑 ----------------------------
 
-        
-        // ----------------------- 敌人卡牌逻辑 --------------------------
-        private readonly List<GameObject> _enemyAllGenerateCards = new();
+        private const float TimeLimit = 30;
+        private float _timer;
+        private void CardTimeDown()
+        {
+            _timer += Time.deltaTime;
+            if (_timer >= TimeLimit)
+            {
+                CardManager.Instance.ChangeRound(Round.Enemy);
+                _timer = 0;
+            }
+
+            int remainTime = (int)(TimeLimit - _timer);
+            roundTimeDownTxt.text = $"剩余时间：{remainTime}";
+
+            roundTimeDownTxt.color = remainTime <= 10 ? _redColor : _normalColor;
+        }
+
+        #endregion
+
+        #region  ---------------------------- 敌人卡牌逻辑 ----------------------------
+      
+        private readonly List<EnemyCardItem> _enemyAllGenerateCards = new();
         private readonly List<float> _enemyXPos = new();
-        private ObjectPool _enemyCardPool;
+        private ObjectPool<EnemyCardItem> _enemyCardPool;
 
         private void UpdateEnemyCard(List<CardInfo> cardInfos)
         {
+            if (_moving) return;
+            
             GeneratedCard(cardInfos);
 
             GeneratedPos();
@@ -270,10 +313,18 @@ namespace HotFix.Functions.Fighting
             }
         }
 
+        private Sequence _enemyCardSeq;
+        private bool _moving;
         private void SetCardAnim(int newCardCount)
         {
-            Sequence _cardSeq = DOTween.Sequence();
+            if (_enemyCardSeq != null)
+            {
+                _enemyCardSeq.Kill();
+            }
 
+            _enemyCardSeq = DOTween.Sequence();
+
+            
             for (int i = 0; i < _enemyAllGenerateCards.Count; i++)
             {
                 var enemyItem = _enemyAllGenerateCards[i];
@@ -282,40 +333,64 @@ namespace HotFix.Functions.Fighting
 
                 if (i > _enemyAllGenerateCards.Count - newCardCount)
                 {
-                    _cardSeq.AppendInterval(10 / 60f);
-                    _cardSeq.Append( enemyItem.transform.DOLocalMoveX(endPos, 0.5f));
+                    _enemyCardSeq.AppendInterval(10 / 60f);
+                    _enemyCardSeq.Append( enemyItem.transform.DOLocalMoveX(endPos, 0.5f));
                 }
                 else
                 {
                     enemyItem.transform.DOLocalMoveX(endPos, 0.5f);
                 }
             }
+            
+            // 延迟 1s 开始发卡
+            _enemyCardSeq.AppendInterval(1f);
+            
+            for (int i = _enemyAllGenerateCards.Count-1; i >=0; i--)
+            {
+                var enemyCardItem = _enemyAllGenerateCards[i];
+                _enemyCardSeq.AppendCallback(() =>
+                {
+                    _enemyAllGenerateCards.Remove(enemyCardItem);
+                    _moving = true;
+                });
+                _enemyCardSeq.Append(enemyCardItem.transform.DOMove(enemyCardPos.position, 0.5f).OnComplete(() =>
+                {
+                    _moving = false;
+                }));
+                _enemyCardSeq.Join(enemyCardItem.transform.DOScale(Vector3.one * 3, 0.5f));
+                _enemyCardSeq.AppendCallback(() =>
+                {
+                    var cardInfo = CardManager.Instance.GetOneCardPlay();
+                    enemyCardItem.SetData(_uiLogic.GetCardExcelItem(cardInfo));
+                    enemyCardItem.StartBack(() =>
+                    {
+                        _enemyCardPool.Cycle(enemyCardItem);
+                    });
+                });
+                _enemyCardSeq.AppendInterval(2.5f);
+            }
+
+            _enemyCardSeq.AppendCallback(() =>
+            {
+                CardManager.Instance.ChangeRound(Round.Own);
+            });
         }
 
-        private void AutoPlayCard()
-        {
-            var cardInfo = CardManager.Instance.GetOneCardPlay();
-            // _enemyAllGenerateCards[0].transform.DOMove();
-        }
+        #endregion
+        
+        #region ---------------------------- message ----------------------------
 
-        // ----------------------- 敌人卡牌逻辑 --------------------------
-        private void InArea(bool isInArea)
-        {
-            if (fightTipsObj.activeSelf==isInArea)
-                return;
-
-            fightTipsObj.SetActive(isInArea);
-        }
-
-        #region message
-
+        private bool _fightOver;
         private void FightResultRefresh(int result)
         {
+            _fightOver = true;
             TimerEventManager.Instance.DelaySeconds(1f, () =>
             {
                 finishDesc.text = result == 1 ? "战斗胜利" : "战斗失败";
                 finishObjPanel.SetActive(true);
             });
+            
+            _enemyCardSeq.Kill();
         }
 
         // 新增卡
@@ -340,7 +415,7 @@ namespace HotFix.Functions.Fighting
         
         #endregion
         
-        #region BtnEvent
+        #region ---------------------------- BtnEvent ----------------------------
         public void OnClickQuickFight()
         {
             FightManager.Instance.OpenQuickFight = !FightManager.Instance.OpenQuickFight;
@@ -366,12 +441,12 @@ namespace HotFix.Functions.Fighting
             fightMaskObj.SetActive(false);
             ownCardParentObj.SetActive(true);
             // 开始抽卡
-            CardManager.Instance.ChangeTurn(Round.Own);
+            CardManager.Instance.ChangeRound(Round.Own);
         }
 
         public void OnClickRoundOver()
         {
-            CardManager.Instance.ChangeTurn(Round.Enemy);
+            CardManager.Instance.ChangeRound(Round.Enemy);
         }
         #endregion
     }

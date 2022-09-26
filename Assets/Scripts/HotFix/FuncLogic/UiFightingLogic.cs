@@ -15,26 +15,29 @@ namespace HotFix.FuncLogic
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
         private readonly List<CardExcelItem> _cardExcelItems = new();
-        
+
         public readonly CModelPlay modelPlay;
+
         public UiFightingLogic(CModelPlay modelPlay)
         {
             this.modelPlay = modelPlay;
         }
 
-        public  List<CardExcelItem> GetCardExcelItems(List<CardInfo> cardInfos)
+        public List<CardExcelItem> GetCardExcelItems(List<CardInfo> cardInfos)
         {
             _cardExcelItems.Clear();
 
-            var cardIdLis = cardInfos;
-            foreach (var cardInfo in cardIdLis)
+            foreach (var cardInfo in cardInfos)
             {
-                var cardItem = ExcelManager.Instance.GetExcelItem<CardExcelData, CardExcelItem>(cardInfo.ID);
-                _cardExcelItems.Add(cardItem);
+                _cardExcelItems.Add(GetCardExcelItem(cardInfo));
             }
 
             return _cardExcelItems;
         }
-        
+
+        public CardExcelItem GetCardExcelItem(CardInfo cardInfo)
+        {
+            return ExcelManager.Instance.GetExcelItem<CardExcelData, CardExcelItem>(cardInfo.ID);
+        }
     }
 }
