@@ -65,7 +65,7 @@ namespace HotFix.Tools
                 newList.Insert(rand.Next(newList.Count), item);
             }
 
-            return (newList);
+            return newList;
         }
 
         #endregion

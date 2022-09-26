@@ -8,27 +8,29 @@ namespace HotFix.Managers
 {
     public class CardManager : Singleton<CardManager>
     {
-        private Turn _turn;
-        public Turn Turn => _turn;
-        public void ChangeTurn(Turn turn)
+        private Round _round;
+        public Round Round => _round;
+        public void ChangeTurn(Round round)
         {
-            _turn = turn;
+            _round = round;
 
             IssueCard();
         }
 
         // 当前自己拥有的卡片
-        public readonly List<CardInfo> CurOwnHaveCards = new();
+        public  List<CardInfo> CurOwnHaveCards = new();
 
-        // 当前敌人拥有的卡片
-        public readonly List<CardInfo> CurEnemyHaveCards = new();
-
+        // 当前敌人手里拥有的卡片
+        public  List<CardInfo> CurEnemyHaveCards = new();
         
+        /// <summary>
+        /// 发牌
+        /// </summary>
         private void IssueCard()
         {
-            switch (_turn)
+            switch (_round)
             {
-                case Turn.Own:
+                case Round.Own:
                     var newCards= GetOwnCard();
                     foreach (var card in newCards)
                     {
@@ -37,7 +39,7 @@ namespace HotFix.Managers
 
                     EventManager.DispatchEvent(EventMessageType.IssueCard,newCards);
                     break;
-                case Turn.Enemy:
+                case Round.Enemy:
                     var newEnemyCards= GetEnemyCard();
                     foreach (var card in newEnemyCards)
                     {
@@ -76,6 +78,7 @@ namespace HotFix.Managers
             return _ownResultCards;
         }
         
+        // ----------------------- 敌人卡牌逻辑 ---------------------------
         // 敌人发卡 从敌人卡池里取出卡牌
         private List<CardInfo> _enemyCards;
         private int _enemyIndex;
@@ -100,9 +103,26 @@ namespace HotFix.Managers
 
             return _enemyResultCards;
         }
+
+        public CardInfo GetOneCardPlay()
+        {
+            CardInfo resultCard = default;
+            if (CurEnemyHaveCards.Count > 0)
+            {
+                resultCard = CurEnemyHaveCards[0];
+                CurEnemyHaveCards.RemoveAt(0);
+            }
+
+            return resultCard;
+        }
+        
+        // ----------------------- 敌人卡牌逻辑 ---------------------------
     }
 
-    public enum Turn
+    /// <summary>
+    /// 回合
+    /// </summary>
+    public enum Round
     {
         Own,
         Enemy

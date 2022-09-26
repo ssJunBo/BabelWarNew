@@ -9,6 +9,7 @@ using HotFix.Common;
 using HotFix.Data.Account;
 using HotFix.Pool;
 using HotFix.UIBase;
+using HotFix.UIExtension;
 
 namespace HotFix.Functions.Fighting
 {
@@ -21,12 +22,15 @@ namespace HotFix.Functions.Fighting
         [SerializeField] private RectTransform fightRect;
         
         [Header("自己Card UI")]
+        [SerializeField] private GameObject ownCardParentObj;
         [SerializeField] private RectTransform ownCardContentTrs;
         [SerializeField] private OwnCardItem ownCardItemPre;
         [SerializeField] private RectTransform ownCardBornPos;
         [SerializeField] private RectTransform ownCardCenterPos;
-     
+        [SerializeField] private GameObject roundInfoObj;
+
         [Header("敌人Card UI")]
+        [SerializeField] private GameObject enemyCardParentObj;
         [SerializeField] private RectTransform enemyCardContentTrs;
         [SerializeField] private GameObject enemyCardItemPre;
         [SerializeField] private RectTransform enemyCardItemRect;
@@ -45,7 +49,7 @@ namespace HotFix.Functions.Fighting
         {
             _uiLogic = (UiFightingLogic)UiLogic;
 
-            #region 添加事件
+            #region 订阅事件
 
             EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
             EventManager.Subscribe<List<CardInfo>>(EventMessageType.IssueCard,RefreshCard);
@@ -57,7 +61,8 @@ namespace HotFix.Functions.Fighting
         {
             _ownCardPool = new ObjectPool<OwnCardItem>(ownCardItemPre, FightManager.Instance.objPoolTrs);
             _enemyCardPool = new ObjectPool(enemyCardItemPre, FightManager.Instance.objPoolTrs);
-            InitUI();
+            
+            SetUI();
         }
 
         public override void Release()
@@ -86,19 +91,23 @@ namespace HotFix.Functions.Fighting
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                CardManager.Instance.ChangeTurn(Turn.Own);
+                CardManager.Instance.ChangeTurn(Round.Own);
             }
             
             if (Input.GetKeyDown(KeyCode.B))
             {
-                CardManager.Instance.ChangeTurn(Turn.Enemy);
+                CardManager.Instance.ChangeTurn(Round.Enemy);
             }
         }
 
         #endregion
 
-        private void InitUI()
+        private void SetUI()
         {
+            ownCardParentObj.SetActive(false);
+            roundInfoObj.SetActive(false);
+            enemyCardParentObj.SetActive(false);
+            
             fightMaskObj.SetActive(true);
             finishObjPanel.SetActive(false);
             quickFightTxt.text = "x1";
@@ -213,7 +222,16 @@ namespace HotFix.Functions.Fighting
         private readonly List<float> _enemyXPos = new();
         private ObjectPool _enemyCardPool;
 
-        private void GenerateEnemyCard(List<CardInfo> cardInfos)
+        private void UpdateEnemyCard(List<CardInfo> cardInfos)
+        {
+            GeneratedCard(cardInfos);
+
+            GeneratedPos();
+
+            SetCardAnim(cardInfos.Count);
+        }
+
+        private void GeneratedCard(List<CardInfo> cardInfos)
         {
             foreach (var cardInfo in cardInfos)
             {
@@ -224,7 +242,10 @@ namespace HotFix.Functions.Fighting
 
                 _enemyAllGenerateCards.Add(obj);
             }
+        }
 
+        private void GeneratedPos()
+        {
             _enemyXPos.Clear();
 
             var rect = enemyCardContentTrs.rect;
@@ -247,10 +268,10 @@ namespace HotFix.Functions.Fighting
 
                 _enemyXPos.Add(xVal);
             }
+        }
 
-
-            int newCardCount = cardInfos.Count;
-            
+        private void SetCardAnim(int newCardCount)
+        {
             Sequence _cardSeq = DOTween.Sequence();
 
             for (int i = 0; i < _enemyAllGenerateCards.Count; i++)
@@ -271,6 +292,11 @@ namespace HotFix.Functions.Fighting
             }
         }
 
+        private void AutoPlayCard()
+        {
+            var cardInfo = CardManager.Instance.GetOneCardPlay();
+            // _enemyAllGenerateCards[0].transform.DOMove();
+        }
 
         // ----------------------- 敌人卡牌逻辑 --------------------------
         private void InArea(bool isInArea)
@@ -295,13 +321,19 @@ namespace HotFix.Functions.Fighting
         // 新增卡
         private void RefreshCard(List<CardInfo> cardInfos)
         {
-            switch (CardManager.Instance.Turn)
+            var curRound = CardManager.Instance.Round;
+
+            roundInfoObj.SetActive(curRound == Round.Enemy);
+            ownCardParentObj.SetActive(curRound == Round.Own);
+            enemyCardParentObj.SetActive(curRound == Round.Enemy);
+            
+            switch (curRound)
             {
-                case Turn.Own:
+                case Round.Own:
                     GenerateCards(cardInfos);
                     break;
-                case Turn.Enemy:
-                    GenerateEnemyCard(cardInfos);
+                case Round.Enemy:
+                    UpdateEnemyCard(cardInfos);
                     break;
             }
         }
@@ -309,7 +341,7 @@ namespace HotFix.Functions.Fighting
         #endregion
         
         #region BtnEvent
-        public void QuickFight()
+        public void OnClickQuickFight()
         {
             FightManager.Instance.OpenQuickFight = !FightManager.Instance.OpenQuickFight;
 
@@ -317,8 +349,10 @@ namespace HotFix.Functions.Fighting
             quickFightTxt.text = FightManager.Instance.OpenQuickFight ? "x2" : "x1";
         }
 
-        public void QuitFightScene()
+        public void OnClickQuitFightScene()
         {
+            FightManager.Instance.PauseFighting();
+
             _uiLogic.modelPlay.UiLoadingLogic.Open(ConStr.Main, () =>
             {
                 EventManager.DispatchEvent(EventMessageType.ChangeTimeScale, 1);
@@ -326,13 +360,18 @@ namespace HotFix.Functions.Fighting
             });
         }
 
-        public void StartFight()
+        public void OnClickStartFight()
         {
-            fightMaskObj.SetActive(false);
             FightManager.Instance.StartFighting();
-            
+            fightMaskObj.SetActive(false);
+            ownCardParentObj.SetActive(true);
             // 开始抽卡
-            CardManager.Instance.ChangeTurn(Turn.Own);
+            CardManager.Instance.ChangeTurn(Round.Own);
+        }
+
+        public void OnClickRoundOver()
+        {
+            CardManager.Instance.ChangeTurn(Round.Enemy);
         }
         #endregion
     }
