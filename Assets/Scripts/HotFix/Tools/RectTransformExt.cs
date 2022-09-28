@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HotFix.Common
+namespace HotFix.Tools
 {
     public static class RectTransformExt
     {
@@ -11,8 +11,9 @@ namespace HotFix.Common
             rectTransform.pivot = pivot;
             rectTransform.anchoredPosition -= vector2;
         }
-        
-        public static Vector2 SafeAnchorPos(RectTransform rectTransform, float scale, Vector2 targetPos,Vector2 canvasSize)
+
+        public static Vector2 SafeAnchorPos(RectTransform rectTransform, float scale, Vector2 targetPos,
+            Vector2 canvasSize)
         {
             Rect rect = rectTransform.rect;
             float scaleWidth = rect.width * scale;
@@ -46,18 +47,20 @@ namespace HotFix.Common
             return targetPos;
         }
     }
-    
-    public static class  GameExpand
+
+    public static class GameExpand
     {
         private static RectTransform _canvasRect;
+
         public static Vector2 CanvasSize
         {
             get
             {
-                if (_canvasRect==null)
+                if (_canvasRect == null)
                 {
                     _canvasRect = GameObject.Find("Canvas").GetComponent<RectTransform>();
                 }
+
                 return _canvasRect.sizeDelta;
             }
         }

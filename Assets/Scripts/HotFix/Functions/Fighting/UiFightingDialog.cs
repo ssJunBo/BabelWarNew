@@ -1,17 +1,46 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
-using HotFix.FuncLogic;
 using HotFix.Managers;
 using Main.Game.Base;
 using TMPro;
 using UnityEngine;
 using HotFix.Common;
 using HotFix.Data.Account;
+using HotFix.Managers.Model;
 using HotFix.Pool;
 using HotFix.UIBase;
 
 namespace HotFix.Functions.Fighting
 {
+    public class UiFightingLogic : UiLogicBase
+    {
+        protected override string Path => "Prefabs/Functions/UIFight/UiFightingDialog";
+        public override EUiID UiId => EUiID.Fighting;
+
+        protected override EUiLayer UiLayer => EUiLayer.High_2D;
+
+        private readonly List<CardExcelItem> _cardExcelItems = new();
+
+        public readonly CModelPlay modelPlay;
+
+        public UiFightingLogic(CModelPlay modelPlay)
+        {
+            this.modelPlay = modelPlay;
+        }
+
+        public List<CardExcelItem> GetCardExcelItems(List<CardInfo> cardInfos)
+        {
+            _cardExcelItems.Clear();
+
+            foreach (var cardInfo in cardInfos)
+            {
+                _cardExcelItems.Add(CardManager.Instance.GetCardExcelItem(cardInfo));
+            }
+
+            return _cardExcelItems;
+        }
+    }
+    
     public class UiFightingDialog : UiDialogBase
     {
         #region 挂点
@@ -92,6 +121,8 @@ namespace HotFix.Functions.Fighting
             }
             
             _enemyAllGenerateCards.Clear();
+
+            _timer = 0;
 
             base.Release();
         }
@@ -361,7 +392,7 @@ namespace HotFix.Functions.Fighting
                 _enemyCardSeq.AppendCallback(() =>
                 {
                     var cardInfo = CardManager.Instance.GetOneCardPlay();
-                    enemyCardItem.SetData(_uiLogic.GetCardExcelItem(cardInfo));
+                    enemyCardItem.SetData(CardManager.Instance.GetCardExcelItem(cardInfo));
                     enemyCardItem.StartBack(() =>
                     {
                         _enemyCardPool.Cycle(enemyCardItem);
@@ -448,6 +479,12 @@ namespace HotFix.Functions.Fighting
         {
             CardManager.Instance.ChangeRound(Round.Enemy);
         }
+        
+        public void OnClickCardPackage()
+        {
+            GameManager.Instance.ModelPlay.UICardPackageLogic.Open();
+        }
+        
         #endregion
     }
 }

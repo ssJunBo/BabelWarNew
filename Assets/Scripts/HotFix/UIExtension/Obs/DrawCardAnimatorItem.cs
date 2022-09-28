@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HotFix.UIExtension
+namespace HotFix.UIExtension.Obs
 {
     public enum FlipState
     {

@@ -1,5 +1,6 @@
 ﻿using HotFix.Common;
 using HotFix.Managers;
+using HotFix.Tools;
 using Main.Game.ResourceFrame;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -36,7 +37,7 @@ namespace HotFix.UIBase
 
             if (mObj != null)
             {
-                mObj.SetRealActive(false);
+                UIUtils.SetActive(mObj, false);
                 mObj.transform.SetParent(gameManager.recyclePoolTrs);
                 mObj.transform.localPosition=Vector3.zero;
             }
@@ -62,7 +63,7 @@ namespace HotFix.UIBase
                 if (mDialog != null)
                 {
                     mObj = mDialog.gameObject;
-                    mObj.SetRealActive(true);
+                    UIUtils.SetActive(mObj, true);
                     mObj.transform.SetParent(parentTrs);
                     mObj.transform.localPosition = Vector3.zero;
                     mObj.transform.SetAsLastSibling();

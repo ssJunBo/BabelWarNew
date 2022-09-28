@@ -9,19 +9,6 @@ namespace HotFix.FightBattle
     {
         [SerializeField] private TextMeshPro _textMeshPro;
 
-        public override void OnSpawned()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public override void OnCycle()
-        {
-            if (gameObject != null)
-            {
-                gameObject.SetActive(false);
-            }
-        }
-
         public void Init(Vector3 targetPos, int val)
         {
             transform.position = targetPos;

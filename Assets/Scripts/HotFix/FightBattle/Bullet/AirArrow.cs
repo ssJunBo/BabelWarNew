@@ -12,7 +12,8 @@ namespace HotFix.FightBattle.Bullet
         
         public override void OnSpawned()
         {
-            gameObject.SetActive(true);
+            base.OnSpawned();
+            
             transform.localPosition = Vector3.zero;
             transform.localScale = Vector3.one;
             transform.localRotation = Quaternion.identity;
@@ -23,7 +24,7 @@ namespace HotFix.FightBattle.Bullet
 
         public override void OnCycle()
         {
-            gameObject.SetActive(false);
+            base.OnCycle();
             
             if (airArrowBombPrefab!=null) 
                 airArrowBombPrefab.SetActive(false);

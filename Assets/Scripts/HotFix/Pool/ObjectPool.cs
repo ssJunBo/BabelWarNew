@@ -8,8 +8,17 @@ namespace HotFix.Pool
     /// </summary>
     public abstract class PoolItemBase : MonoBehaviour
     {
-        public abstract void OnSpawned();
-        public abstract void OnCycle();
+        public virtual void OnSpawned()
+        {
+            if (gameObject!=null) 
+                gameObject.SetActive(true);
+        }
+
+        public virtual void OnCycle()
+        {
+            if (gameObject!=null) 
+                gameObject.SetActive(false);
+        }
     }
 
     // 通用型对象池 unity object 使用

@@ -117,6 +117,11 @@ namespace HotFix.Managers
         }
         
         // ----------------------- 敌人卡牌逻辑 ---------------------------
+        
+        public CardExcelItem GetCardExcelItem(CardInfo cardInfo)
+        {
+            return ExcelManager.Instance.GetExcelItem<CardExcelData, CardExcelItem>(cardInfo.ID);
+        }
     }
 
     /// <summary>

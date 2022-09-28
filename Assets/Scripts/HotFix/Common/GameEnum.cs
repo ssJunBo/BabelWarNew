@@ -7,6 +7,7 @@
         Loading,
         Fighting,
         Babel, //通天塔
+        CardPackage,
     }
 
     public enum EUiType

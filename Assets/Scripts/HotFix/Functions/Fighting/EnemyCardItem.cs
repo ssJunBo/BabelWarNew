@@ -22,14 +22,13 @@ namespace HotFix.Functions.Fighting
 
         public override void OnSpawned()
         {
+            base.OnSpawned();
             Init();
-            gameObject.SetActive(true);
         }
 
         public override void OnCycle()
         {
-            gameObject.SetActive(false);
-
+            base.OnCycle();
             transform.localScale = Vector3.one;
         }
 

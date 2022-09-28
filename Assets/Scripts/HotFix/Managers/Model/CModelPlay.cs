@@ -1,6 +1,11 @@
 ﻿using System;
 using HotFix.Common;
-using HotFix.FuncLogic;
+using HotFix.Functions.Babel;
+using HotFix.Functions.Fighting;
+using HotFix.Functions.Loading;
+using HotFix.Functions.Main;
+using HotFix.Functions.PersonDetailInfo;
+using HotFix.Functions.UICardPackage;
 
 namespace HotFix.Managers.Model
 {
@@ -22,6 +27,9 @@ namespace HotFix.Managers.Model
         
         private UiFightingLogic _uiFightingLogic;
         public UiFightingLogic UiFightingLogic => _uiFightingLogic ??= new UiFightingLogic(this);
+        
+        private UICardPackageLogic _uiCardPackageLogic;
+        public UICardPackageLogic UICardPackageLogic => _uiCardPackageLogic ??= new UICardPackageLogic(this);
         #endregion
 
         public void Create()
