@@ -31,7 +31,7 @@ namespace HotFix.Functions.UICardPackage
             
             transform.localScale=Vector3.one;
             transform.localRotation=Quaternion.identity;
-            
+            transform.localPosition=Vector3.zero;
         }
     }
 }

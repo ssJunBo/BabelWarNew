@@ -34,7 +34,7 @@ namespace HotFix.Managers
         }
 
         // 我方卡池信息
-        public List<CardInfo> OwnCardsList => _personInfo.OwnCardsList;
+        public List<CardInfo> OwnCardsList => PersonInfo.OwnCardsList;
 
         // 敌军当前卡池信息
         public readonly List<CardInfo> EnemyCardsList = new();

@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using HotFix.Managers;
+using UnityEngine;
 
 namespace HotFix.Data.Account
 {
@@ -8,6 +11,8 @@ namespace HotFix.Data.Account
     /// </summary>
     public class PersonInfo
     {
+        public int iconExcelId;
+        public string name;
         public int LevelId; // 当前关卡id
         public List<int> HeroInfos; // 英雄id
         public List<CardInfo> OwnCardsList; // 当前卡池信息

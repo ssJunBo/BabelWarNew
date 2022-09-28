@@ -2,10 +2,10 @@
 
 namespace HotFix.UIExtension.ScrollRectExt.Editor
 {
-    [CustomEditor(typeof(UiCircularSv))]
+    [CustomEditor(typeof(UiCircularScrollView))]
     public class UiCircularScrollViewEditor : UnityEditor.Editor
     {
-        UiCircularSv list;
+        UiCircularScrollView list;
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();

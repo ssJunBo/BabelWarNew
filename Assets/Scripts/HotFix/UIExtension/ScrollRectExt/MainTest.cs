@@ -6,7 +6,7 @@ namespace HotFix.UIExtension.ScrollRectExt
 {
     public class MainTest : MonoBehaviour
     {
-        [FormerlySerializedAs("uiCircularScrollView")] public UiCircularSv uiCircularSv;
+        [FormerlySerializedAs("uiCircularSv")] public UiCircularScrollView uiCircularScrollView;
 
         void Start()
         {
@@ -19,8 +19,8 @@ namespace HotFix.UIExtension.ScrollRectExt
                 tmpLis.Add(info);
             }
 
-            uiCircularSv.Init();
-            uiCircularSv.SetData(tmpLis);
+            uiCircularScrollView.Init();
+            uiCircularScrollView.SetData(tmpLis);
         }
     }
 }

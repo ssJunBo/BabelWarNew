@@ -5,6 +5,7 @@ using HotFix.Functions.Fighting;
 using HotFix.Functions.Loading;
 using HotFix.Functions.Main;
 using HotFix.Functions.PersonDetailInfo;
+using HotFix.Functions.Setting;
 using HotFix.Functions.UICardPackage;
 
 namespace HotFix.Managers.Model
@@ -30,6 +31,9 @@ namespace HotFix.Managers.Model
         
         private UICardPackageLogic _uiCardPackageLogic;
         public UICardPackageLogic UICardPackageLogic => _uiCardPackageLogic ??= new UICardPackageLogic(this);
+        
+        private UiSettingLogic _uiSettingLogic;
+        public UiSettingLogic UiSettingLogic => _uiSettingLogic ??= new UiSettingLogic(this);
         #endregion
 
         public void Create()

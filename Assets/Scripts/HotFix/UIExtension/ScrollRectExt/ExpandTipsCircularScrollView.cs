@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HotFix.UIExtension.ScrollRectExt
 {
-    public class ExpandTipsCircularSv : UiCircularSv
+    public class ExpandTipsCircularScrollView : UiCircularScrollView
     {
         public GameObject expandTips;
         public GameObject mArrow;

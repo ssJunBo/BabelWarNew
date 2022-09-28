@@ -1,29 +1,30 @@
-using Main.Game.Base;
+using HotFix.Managers;
 using TMPro;
 using UnityEngine;
 
 namespace HotFix.Functions.Babel
 {
-  public class BabelItem : MonoBehaviour
-  {
-    [SerializeField] private TextMeshProUGUI nameTxt;
-
-    private UiBabelLogic logic;
-
-    public void Init(UiBabelLogic logic)
+    public class BabelItem : MonoBehaviour
     {
-      this.logic = logic;
-    }
+        [SerializeField] private TextMeshProUGUI nameTxt;
 
-    public void SetData(int name)
-    {
-      nameTxt.text = name.ToString();
-    }
+        private UiBabelLogic _uiLogic;
 
-    public void OnClickItem()
-    {
-      // 打开战斗选择界面
-      logic.modelPlay.UiLoadingLogic.Open(ConStr.Fighting, () => { logic.modelPlay.UiFightingLogic.Open(); });
+        public void Init(UiBabelLogic logic)
+        {
+            _uiLogic = logic;
+        }
+
+        public void SetData(int index)
+        {
+            nameTxt.text = index.ToString();
+        }
+
+        public void OnClickItem()
+        {
+            UiManager.Instance.CloseAllUiDialog();
+            // 打开战斗选择界面
+            _uiLogic.modelPlay.UiFightingLogic.Open();
+        }
     }
-  }
 }

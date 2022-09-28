@@ -8,7 +8,7 @@ namespace HotFix.Functions.Babel
     public class UiBabelLogic: UiLogicBase
     {
         protected override string Path => "Prefabs/Functions/UIBabel/UiBabelDialog";
-        public override EUiID UiId  => EUiID.Babel;
+        protected override EUiID UiId  => EUiID.Babel;
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
         public CModelPlay modelPlay;

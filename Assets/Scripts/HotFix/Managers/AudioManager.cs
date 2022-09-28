@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Main.Game.Base;
 using Main.Game.ResourceFrame;
 using UnityEngine;
@@ -9,8 +7,8 @@ namespace HotFix.Managers
 {
     public class AudioManager : MonoSingleton<AudioManager>
     {
-        [SerializeField] private AudioSource bgAudioSource;
-        [SerializeField] private AudioSource uiAudioSource;
+        private AudioSource _bgAudioSource;
+        private AudioSource _uiAudioSource;
 
         private readonly Dictionary<string, AudioClip> _audioClipsDict = new Dictionary<string, AudioClip>();
 
@@ -18,23 +16,23 @@ namespace HotFix.Managers
         private const string UIPath = "Sound/UI/";
         private const string OtherPath = "Sound/Other/";
 
-        private GameObject audioGameObj;
+        private GameObject _audioGameObj;
 
         protected override void Awake()
         {
             base.Awake();
 
-            audioGameObj = new GameObject("AudioSourceObj");
-            DontDestroyOnLoad(audioGameObj);
+            _audioGameObj = new GameObject("AudioSourceObj");
+            // DontDestroyOnLoad(_audioGameObj);
 
-            if (bgAudioSource == null)
+            if (_bgAudioSource == null)
             {
-                bgAudioSource = gameObject.AddComponent<AudioSource>();
+                _bgAudioSource = gameObject.AddComponent<AudioSource>();
             }
 
-            if (uiAudioSource == null)
+            if (_uiAudioSource == null)
             {
-                uiAudioSource = gameObject.AddComponent<AudioSource>();
+                _uiAudioSource = gameObject.AddComponent<AudioSource>();
             }
         }
 
@@ -47,21 +45,31 @@ namespace HotFix.Managers
                 _audioClipsDict.Add(clipName, audioClip);
             }
 
-            bgAudioSource.clip = audioClip;
-            bgAudioSource.Play();
-            bgAudioSource.loop = true;
+            _bgAudioSource.clip = audioClip;
+            _bgAudioSource.Play();
+            _bgAudioSource.loop = true;
         }
 
         public void SetBgMusicState(bool isPlay)
         {
             if (isPlay)
             {
-                bgAudioSource.Play();
+                _bgAudioSource.Play();
             }
             else
             {
-                bgAudioSource.Pause();
+                _bgAudioSource.Pause();
             }
+        }
+
+        public void SetBgSoundSize(float val)
+        {
+            _bgAudioSource.volume = val;
+        }
+
+        public float GetBgSoundSize()
+        {
+            return _bgAudioSource.volume;
         }
 
         public void PlayUI(string clipName)
@@ -73,9 +81,9 @@ namespace HotFix.Managers
                 _audioClipsDict.Add(clipName, audioClip);
             }
 
-            uiAudioSource.clip = audioClip;
-            uiAudioSource.Play();
-            uiAudioSource.loop = false;
+            _uiAudioSource.clip = audioClip;
+            _uiAudioSource.Play();
+            _uiAudioSource.loop = false;
         }
 
         private readonly Queue<AudioSource> _audioSourcePool = new Queue<AudioSource>();
@@ -91,7 +99,7 @@ namespace HotFix.Managers
 
             var audioSource = _audioSourcePool.Count > 0
                 ? _audioSourcePool.Dequeue()
-                : audioGameObj.AddComponent<AudioSource>();
+                : _audioGameObj.AddComponent<AudioSource>();
             audioSource.enabled = true;
             audioSource.volume = soundVolume;
             audioSource.clip = audioClip;

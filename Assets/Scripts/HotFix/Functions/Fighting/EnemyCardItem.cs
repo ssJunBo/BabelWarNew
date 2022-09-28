@@ -89,7 +89,15 @@ namespace HotFix.Functions.Fighting
             Sequence cardSeq = DOTween.Sequence();
             cardSeq.Append(mFront.transform.DORotate(new Vector3(0, -90, 0), mTime));
             cardSeq.AppendInterval(mTime);
-            cardSeq.Append(mBack.transform.DORotate(new Vector3(0, 0, 0), mTime));
+            cardSeq.Append(mBack.transform.DORotate(new Vector3(0, 0, 0), mTime)).AppendCallback(() =>
+            {
+                // 参数：持续时间，力量，震动，随机性，淡出
+                // 力量：实际就是震动的幅度,可以理解成相机施加的力的大小 使用Vector3可以选择每个轴向不同的强度
+                // 震动：震动次数
+                // 随机性：改变震动方向的随机值（大小：0~180）
+                // 淡出：就是运动最后是否缓慢移动回到原本位置
+                mBack.transform.DOShakePosition(0.3f, 1, 15, 20);
+            });
             cardSeq.AppendInterval(1.5f);
             cardSeq.AppendCallback(() =>
             {

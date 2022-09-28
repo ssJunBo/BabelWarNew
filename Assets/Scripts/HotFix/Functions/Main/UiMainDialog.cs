@@ -8,12 +8,12 @@ namespace HotFix.Functions.Main
     public  class UiMainLogic : UiLogicBase
     {
         protected override string Path => "Prefabs/Functions/UiMainDialog";
-        public override EUiID UiId => EUiID.Main;
-        public CModelPlay Model { get; }
+        protected override EUiID UiId => EUiID.Main;
+        public CModelPlay ModelPlay { get; }
 
-        public UiMainLogic(CModelPlay model)
+        public UiMainLogic(CModelPlay modelPlay)
         {
-            Model = model;
+            ModelPlay = modelPlay;
         }
 
         public override void Open()
@@ -32,23 +32,28 @@ namespace HotFix.Functions.Main
     {
         [SerializeField] private UiInfoPanel uiInfoPanel;
 
-        private UiMainLogic logic;
+        private UiMainLogic _uiLogic;
 
         public override void Init()
         {
-            logic = (UiMainLogic)UiLogic;
+            _uiLogic = (UiMainLogic)UiLogic;
         }
 
         public override void ShowFinished()
         {
             // TODO 个人信息
-            uiInfoPanel.SetData(logic.Model);
+            uiInfoPanel.SetData(_uiLogic.ModelPlay);
         }
 
         public override void Release()
         {
             uiInfoPanel.Clear();
             base.Release();
+        }
+
+        public void OpenSettingDialog()
+        {
+            _uiLogic.ModelPlay.UiSettingLogic.Open();
         }
     }
 }

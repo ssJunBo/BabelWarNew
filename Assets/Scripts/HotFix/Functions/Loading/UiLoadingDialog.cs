@@ -12,7 +12,7 @@ namespace HotFix.Functions.Loading
     public class UiLoadingLogic : UiLogicBase
     {
         protected override string Path => "Prefabs/Functions/UiLoadingDialog";
-        public override EUiID UiId => EUiID.Loading;
+        protected override EUiID UiId => EUiID.Loading;
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
         
         #region data

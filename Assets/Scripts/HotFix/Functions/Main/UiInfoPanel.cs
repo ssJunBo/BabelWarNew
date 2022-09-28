@@ -1,10 +1,10 @@
-﻿using HotFix.Managers;
+﻿using HotFix.Helpers;
+using HotFix.Managers;
 using HotFix.Managers.Model;
 using Main.Game.ResourceFrame;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
 namespace HotFix.Functions.Main
@@ -13,27 +13,21 @@ namespace HotFix.Functions.Main
     {
         [SerializeField] private Image personHeadImg;
         [SerializeField] private TextMeshProUGUI personNameTxt;
-        [SerializeField] private Toggle musicTog;
 
-        private CModelPlay modelPlay;
+        private CModelPlay _modelPlay;
 
         public void SetData(CModelPlay modelPlay)
         {
-            this.modelPlay = modelPlay;
+            _modelPlay = modelPlay;
 
-            musicTog.onValueChanged.AddListener((b) =>
-            {
-                AudioManager.Instance.PlayUI("click_common");
-                AudioManager.Instance.SetBgMusicState(b);
-            });
-            
-            // 默认静音
-            AudioManager.Instance.SetBgMusicState(false);
-            
+            int iconExcelId = DataManager.Instance.PersonInfo.iconExcelId;
+            personHeadImg.sprite = Utils.GetSprite(iconExcelId);
+            personNameTxt.text = DataManager.Instance.PersonInfo.name;
+
             GeneratePerson(101);
         }
 
-        private GameObject personObj;
+        private GameObject _personObj;
 
         private void GeneratePerson(int heroId)
         {
@@ -42,30 +36,30 @@ namespace HotFix.Functions.Main
 
             GameObject go = ResManager.Instance.LoadResource(pathStr);
 
-            personObj = Instantiate(go, GameManager.Instance.personTrs);
-            personObj.transform.localPosition = Vector3.zero;
-            personObj.transform.localScale = Vector3.one;
-            personObj.transform.localRotation = Quaternion.identity;
+            _personObj = Instantiate(go, GameManager.Instance.personTrs);
+            _personObj.transform.localPosition = Vector3.zero;
+            _personObj.transform.localScale = Vector3.one;
+            _personObj.transform.localRotation = Quaternion.identity;
         }
 
         public void OnClickHeadIcon()
         {
-            modelPlay.UiPersonDetailInfoLogic.Open();
+            _modelPlay.UiPersonDetailInfoLogic.Open();
         }
 
         public void OnClickStartBattle()
         {
-            modelPlay.UiBabelLogic.Open();
+            _modelPlay.UiBabelLogic.Open();
         }
 
         public void Clear()
         {
-            Destroy(personObj);
+            Destroy(_personObj);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            personObj.transform.localEulerAngles += new Vector3(0, -eventData.delta.x, 0);
+            _personObj.transform.localEulerAngles += new Vector3(0, -eventData.delta.x, 0);
         }
     }
 }

@@ -24,27 +24,34 @@ namespace HotFix.Managers
         public Transform BuildPos => buildPos;
 
         // 所有敌人的obj
-        [NonSerialized] public readonly List<BattleUnitBase> EnemyUnitLis = new List<BattleUnitBase>();
+        [NonSerialized] public readonly List<BattleUnitBase> EnemyUnitLis = new();
 
         // 自身单位
-        [NonSerialized] public readonly List<BattleUnitBase> OwnUnitLis = new List<BattleUnitBase>();
+        [NonSerialized] public readonly List<BattleUnitBase> OwnUnitLis = new();
 
-        private ExcelManager _excelMana;
+        private ExcelManager _excelMana => ExcelManager.Instance;
 
         public bool OpenQuickFight { get; set; }
 
         public ObjectPool<Blood> BloodPool { get; private set; }
 
+        private bool _isInit;
         private void Start()
         {
-            EventManager.Subscribe<int>(EventMessageType.ChangeTimeScale, ChangeTimeScale);
+            if (!_isInit)
+            {
+                EventManager.Subscribe<int>(EventMessageType.ChangeTimeScale, ChangeTimeScale);
 
-            Blood bloodPre = ResManager.Instance.LoadResource<GameObject>("Prefabs/Effect/Blood/WhiteBlood").GetComponent<Blood>();
+                Blood bloodPre = ResManager.Instance.LoadResource<GameObject>("Prefabs/Effect/Blood/WhiteBlood").GetComponent<Blood>();
             
-            BloodPool = new ObjectPool<Blood>(bloodPre,objPoolTrs);
-            
-            _excelMana = ExcelManager.Instance;
+                BloodPool = new ObjectPool<Blood>(bloodPre,objPoolTrs);
 
+                _isInit = true;
+            }
+        }
+
+        public void LoadUnit()
+        {
             LoadEnemyUnit(DataManager.Instance.PersonInfo.LevelId);
 
             LoadOwnUnit();
@@ -52,6 +59,21 @@ namespace HotFix.Managers
             PauseFighting();
             
             DataManager.Instance.SetCurrentLevData(DataManager.Instance.PersonInfo.LevelId);
+        }
+
+        public void ClearUnit()
+        {
+            for (int i = OwnUnitLis.Count - 1; i >= 0; i--)
+            {
+                Destroy(OwnUnitLis[i].gameObject);
+                OwnUnitLis.RemoveAt(i);
+            }
+            
+            for (int i = EnemyUnitLis.Count - 1; i >= 0; i--)
+            {
+                Destroy(EnemyUnitLis[i].gameObject);
+                EnemyUnitLis.RemoveAt(i);
+            }
         }
 
         private void LoadEnemyUnit(int levelId)

@@ -15,17 +15,24 @@ namespace HotFix.Functions.Fighting
     public class UiFightingLogic : UiLogicBase
     {
         protected override string Path => "Prefabs/Functions/UIFight/UiFightingDialog";
-        public override EUiID UiId => EUiID.Fighting;
+        protected override EUiID UiId => EUiID.Fighting;
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
         private readonly List<CardExcelItem> _cardExcelItems = new();
 
-        public readonly CModelPlay modelPlay;
+        private readonly CModelPlay ModelPlay;
 
         public UiFightingLogic(CModelPlay modelPlay)
         {
-            this.modelPlay = modelPlay;
+            ModelPlay = modelPlay;
+        }
+
+        public override void Close()
+        {
+            EventManager.DispatchEvent(EventMessageType.ChangeTimeScale, 1);
+            GameManager.Instance.QuitFight();
+            base.Close();
         }
 
         public List<CardExcelItem> GetCardExcelItems(List<CardInfo> cardInfos)
@@ -92,6 +99,7 @@ namespace HotFix.Functions.Fighting
             EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
             EventManager.Subscribe<List<CardInfo>>(EventMessageType.IssueCard,RefreshCard);
 
+            GameManager.Instance.StartFight();
             #endregion
         }
 
@@ -123,6 +131,9 @@ namespace HotFix.Functions.Fighting
             _enemyAllGenerateCards.Clear();
 
             _timer = 0;
+
+            
+            FightManager.Instance.ClearUnit();
 
             base.Release();
         }
@@ -262,11 +273,12 @@ namespace HotFix.Functions.Fighting
         
         private void RemoveCard(OwnCardItem cardItem)
         {
-            _ownAllGenerateCards.Remove(cardItem);
-
-            _ownCardPool.Cycle(cardItem);
-            
-            RefreshCardPos();
+            cardItem.transform.DOShakePosition(0.3f, 1, 15, 20).OnComplete(() =>
+            {
+                _ownAllGenerateCards.Remove(cardItem);
+                _ownCardPool.Cycle(cardItem);
+                RefreshCardPos();
+            });
         }
 
         private const float TimeLimit = 30;
@@ -403,6 +415,7 @@ namespace HotFix.Functions.Fighting
 
             _enemyCardSeq.AppendCallback(() =>
             {
+                _timer = 0;
                 CardManager.Instance.ChangeRound(Round.Own);
             });
         }
@@ -459,11 +472,8 @@ namespace HotFix.Functions.Fighting
         {
             FightManager.Instance.PauseFighting();
 
-            _uiLogic.modelPlay.UiLoadingLogic.Open(ConStr.Main, () =>
-            {
-                EventManager.DispatchEvent(EventMessageType.ChangeTimeScale, 1);
-                GameManager.Instance.ModelPlay.UiMainLogic.Open();
-            });
+            _uiLogic.Close();
+            GameManager.Instance.ModelPlay.UiMainLogic.Open();
         }
 
         public void OnClickStartFight()

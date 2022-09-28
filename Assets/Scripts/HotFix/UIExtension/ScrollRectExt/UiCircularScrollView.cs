@@ -1,42 +1,37 @@
 ﻿using System.Collections.Generic;
 using HotFix.Pool;
-using HotFix.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace HotFix.UIExtension.ScrollRectExt
 {
-    public class UiCircularSv : ScrollRect
-    { 
+    public class UiCircularScrollView : ScrollRect
+    {
         public LoopItem cellItemPre;
         public MoveType moveType;
         public int rowOrColum;
-      
-        [SerializeField,Header("间距设置")]
-        protected float rowSpacing;
-        [SerializeField]
-        protected float columSpacing;
+
+        [SerializeField, Header("间距设置")] protected float rowSpacing;
+        [SerializeField] protected float columSpacing;
 
         // 偏移信息
-        [SerializeField,Header("偏移设置")]
-        private float leftOffset;
-        [SerializeField]
-        public float topOffset;
-        
+        [SerializeField, Header("偏移设置")] private float leftOffset;
+        [SerializeField] public float topOffset;
+
         private RectTransform _cellItemRect;
 
         // cell 信息
         protected float CellItemWidth;
         protected float CellItemHeight;
-        
+
         // 记录显示范围框信息
         protected float ViewWidth;
         protected float ViewHeight;
-        
+
         // content大小信息
         protected float ContentWidth;
         protected float ContentHeight;
-        
+
         // 所有 cell 信息
         protected List<CellInfo> CellInfos;
 
@@ -59,7 +54,7 @@ namespace HotFix.UIExtension.ScrollRectExt
         {
             vertical = moveType == MoveType.Vertical;
             horizontal = moveType == MoveType.Horizontal;
-            
+
             // 记录cell基本信息
             var cellRectSize = _cellItemRect.rect.size;
             CellItemWidth = cellRectSize.x;
@@ -70,11 +65,11 @@ namespace HotFix.UIExtension.ScrollRectExt
             ViewWidth = rectSize.x;
             ViewHeight = rectSize.y;
 
-            // 初始化conggtent信息
+            // 初始化content信息
             var rect2 = content.rect;
             ContentWidth = rect2.width;
             ContentHeight = rect2.height;
-            
+
             SetAnchor(content);
             content.pivot = new Vector2(0, 1);
 
@@ -85,11 +80,11 @@ namespace HotFix.UIExtension.ScrollRectExt
         public virtual void SetData(List<CellInfo> cellInfos)
         {
             CellInfos = cellInfos;
-            
+
             int count = CellInfos.Count;
-            
+
             // 计算content尺寸
-            if( moveType == MoveType.Vertical)
+            if (moveType == MoveType.Vertical)
             {
                 ContentWidth = content.rect.width;
 
@@ -111,9 +106,9 @@ namespace HotFix.UIExtension.ScrollRectExt
                 content.sizeDelta = new Vector2(ContentWidth, ContentHeight);
                 content.anchoredPosition = new Vector2(0, content.rect.size.y);
             }
-            
+
             // 1 计算每个cell坐标并存储 2 显示范围内 cell 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < CellInfos.Count; i++)
             {
                 CellInfo cellInfo = CellInfos[i];
 
@@ -121,6 +116,7 @@ namespace HotFix.UIExtension.ScrollRectExt
                 float rowPos; // 计算每排里的 cell 坐标
 
                 // * -> 计算每个Cell坐标
+                // ReSharper disable once PossibleLossOfFraction
                 var tmpVal = Mathf.FloorToInt(i / rowOrColum);
                 var tmpVal1 = i % rowOrColum;
 
@@ -156,11 +152,9 @@ namespace HotFix.UIExtension.ScrollRectExt
 
                 //-> 存数据
                 cellInfo.LoopItem = cell;
-                
+
                 cell.SetUi(cellInfo);
             }
-
-            MaxIndex = count;
         }
 
         private void SetAnchor(RectTransform rectTransform)
@@ -204,7 +198,7 @@ namespace HotFix.UIExtension.ScrollRectExt
         //滑动事件
         protected virtual void ScrollRectListener(Vector2 value)
         {
-            UpdateCheck();
+           UpdateCheck();
         }
 
         void UpdateCheck()
@@ -216,31 +210,31 @@ namespace HotFix.UIExtension.ScrollRectExt
             for (int i = 0, length = CellInfos.Count; i < length; i++)
             {
                 CellInfo cellInfo = CellInfos[i];
-                LoopItem obj = cellInfo.LoopItem;
+                LoopItem itemObj = cellInfo.LoopItem;
                 Vector3 pos = cellInfo.Pos;
 
                 float rangePos = moveType == MoveType.Vertical ? pos.y : pos.x;
-               
+
                 //判断是否超出显示范围
                 if (IsOutRange(rangePos))
                 {
                     //把超出范围的cell 扔进 poolsObj里
-                    if (obj != null)
+                    if (itemObj != null)
                     {
-                        ItemPool.Cycle(obj);
+                        ItemPool.Cycle(itemObj);
                         CellInfos[i].LoopItem = null;
                     }
                 }
                 else
                 {
-                    if (obj == null)
+                    if (itemObj == null)
                     {
                         //优先从 poolsObj中 取出 （poolsObj为空则返回 实例化的cell）
                         LoopItem cell = ItemPool.Spawn();
                         cell.transform.localPosition = pos;
                         cell.gameObject.name = i.ToString();
                         CellInfos[i].LoopItem = cell;
-                        
+
                         cell.SetUi(CellInfos[i]);
                     }
                 }
@@ -249,54 +243,19 @@ namespace HotFix.UIExtension.ScrollRectExt
 
         #endregion
 
+        public void CycleAllItem()
+        {
+            for (int i = 0; i < CellInfos.Count; i++)
+            {
+                if (CellInfos[i].LoopItem != null)
+                {
+                    ItemPool.Cycle(CellInfos[i].LoopItem);
+                    CellInfos[i].LoopItem = null;
+                }
+            }
+        }
     }
 
-    // public class ItemPool<T> where T:MonoBehaviour
-    // {
-    //     private readonly T _cellItemPre;
-    //     private Transform _contentTrs;
-    //
-    //     public ItemPool(T obj, Transform contentTrs)
-    //     {
-    //         _cellItemPre = obj;
-    //         _contentTrs = contentTrs;
-    //     }
-    //
-    //     //对象池 机制  (存入， 取出) cell
-    //     private readonly Stack<T> _poolsObj = new Stack<T>();
-    //
-    //     //取出 cell
-    //     public T GetPoolsObj()
-    //     {
-    //         T cell = null;
-    //         if (_poolsObj.Count > 0)
-    //         {
-    //             cell = _poolsObj.Pop();
-    //         }
-    //
-    //         if (cell == null)
-    //         {
-    //             cell = Object.Instantiate(_cellItemPre);
-    //         }
-    //
-    //         Transform transform;
-    //         (transform = cell.transform).SetParent(_contentTrs);
-    //         transform.localScale = Vector3.one;
-    //         UIUtils.SetActive(cell.gameObject, true);
-    //
-    //         return cell;
-    //     }
-    //
-    //     //存入 cell
-    //     public virtual void SetPoolsObj(T cell)
-    //     {
-    //         if (cell != null)
-    //         {
-    //             _poolsObj.Push(cell);
-    //             UIUtils.SetActive(cell.gameObject, false);
-    //         }
-    //     }
-    // }
 
     // 数据基类
     public class CellInfo 

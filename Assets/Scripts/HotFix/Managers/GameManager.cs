@@ -19,11 +19,10 @@ namespace HotFix.Managers
         [Header("ui相机"), Space] public Camera uiCamera;
         [Header("场景相机")] public Camera gameCamera;
         [Header("3d 人物位置")] public Transform personTrs;
-        
+        [Header("战斗Obj")] public GameObject fightObj;
+
         #endregion
 
-        public static bool IsInitGameManager = false;
-        
         #region moudle play
 
         private CModelPlay _modelPlay;
@@ -38,7 +37,7 @@ namespace HotFix.Managers
         {
             AudioManager.Instance.PlayBg("bg01");
             
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
 
             // 从ab包加载就要先加载配置表
             // ResourceManager.Instance.MLoadFromAssetBundle = loadFromAssetBundle;
@@ -58,6 +57,8 @@ namespace HotFix.Managers
             {
                 DataManager.Instance.SaveData(new PersonInfo()
                 {
+                    iconExcelId = 1,
+                    name = "清风自来",
                     LevelId = 1,
                     HeroInfos = new List<int>
                     {
@@ -134,9 +135,17 @@ namespace HotFix.Managers
 #endif
         }
 
-        public void Clear()
+        public void StartFight()
         {
+            fightObj.SetActive(true);
             
+            FightManager.Instance.LoadUnit();
+        }
+        
+        
+        public void QuitFight()
+        {
+            fightObj.SetActive(false);
         }
     }
 }

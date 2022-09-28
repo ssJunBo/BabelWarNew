@@ -1,4 +1,5 @@
 ﻿using HotFix.Common;
+using HotFix.Managers;
 using HotFix.Managers.Model;
 using HotFix.UIBase;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace HotFix.Functions.PersonDetailInfo
     public class UiPersonDetailInfoLogic : UiLogicBase
     {
         protected override string Path => "Prefabs/Functions/UIPerson/UiPersonDetailInfoDialog";
-        public override EUiID UiId => EUiID.PersonDetailInfo;
+        protected override EUiID UiId => EUiID.PersonDetailInfo;
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
@@ -26,11 +27,6 @@ namespace HotFix.Functions.PersonDetailInfo
         
         private UiPersonDetailInfoLogic uiPersonDetailInfoLogic;
 
-        public void OnClickStartBtn()
-        {
-            
-        }
-
         public override void Init()
         {
             uiPersonDetailInfoLogic = (UiPersonDetailInfoLogic) UiLogic;
@@ -39,7 +35,7 @@ namespace HotFix.Functions.PersonDetailInfo
         public override void ShowFinished()
         {
             // 刷新UI
-            personInfoPanel.SetData();
+            personInfoPanel.SetData(DataManager.Instance.PersonInfo);
         }
     }
 }

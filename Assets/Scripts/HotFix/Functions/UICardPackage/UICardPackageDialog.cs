@@ -4,7 +4,6 @@ using HotFix.Managers;
 using HotFix.Managers.Model;
 using HotFix.UIBase;
 using HotFix.UIExtension.ScrollRectExt;
-using TMPro;
 using UnityEngine;
 
 namespace HotFix.Functions.UICardPackage
@@ -12,7 +11,7 @@ namespace HotFix.Functions.UICardPackage
     public class UICardPackageLogic : UiLogicBase
     {
         protected override string Path => "Prefabs/Functions/UICardPackage/UICardPackageDialog";
-        public override EUiID UiId => EUiID.CardPackage;
+        protected override EUiID UiId => EUiID.CardPackage;
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
@@ -48,7 +47,7 @@ namespace HotFix.Functions.UICardPackage
 
     public class UICardPackageDialog : UiDialogBase
     {
-        [SerializeField] private UiCircularSv scrollView;
+        [SerializeField] private UiCircularScrollView scrollView;
 
         private UICardPackageLogic _uiLogic;
 
@@ -63,10 +62,15 @@ namespace HotFix.Functions.UICardPackage
         {
             var data = _uiLogic.GenerateCardCellInfo();
 
-            Debug.LogError("var data = _uiLogic.GenerateCardCellInfo();   " + data.Count);
-            
             scrollView.Init();
             scrollView.SetData(data);
+        }
+
+        public override void Release()
+        {
+            base.Release();
+
+            scrollView.CycleAllItem();
         }
 
         #endregion

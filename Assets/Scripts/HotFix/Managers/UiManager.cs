@@ -39,6 +39,15 @@ namespace HotFix.Managers
             }
         }
 
+        public void CloseAllUiDialog()
+        {
+            while (_uiLogicBaseStack.Count>0)
+            {
+                UiLogicBase closeUiLogicBase = _uiLogicBaseStack.Pop();
+                closeUiLogicBase.Close();
+            }
+        }
+
         public void CloseCurrentUIDialog()
         {
             while (_uiLogicBaseStack.Count > 0)
