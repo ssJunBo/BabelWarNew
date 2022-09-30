@@ -28,6 +28,11 @@ namespace _GameBase.UIBase
 
         public virtual void Close()
         {
+            UiManager.Instance.CloseUi(this);
+        }
+
+        public void Release()
+        {
             if (_mDialog != null)
             {
                 _isShowing = false;

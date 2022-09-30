@@ -1,5 +1,6 @@
 using _GameBase.UIBase;
 using Common;
+using Managers;
 using Managers.Model;
 using UnityEngine;
 
@@ -53,7 +54,12 @@ namespace Functions.Main
 
         public void OpenSettingDialog()
         {
-            _uiLogic.ModelPlay.UiSettingLogic.Open();
+            UiManager.Instance.OpenUi(EUiID.Setting);
+        }
+
+        public void OpenCardPackage()
+        {
+            UiManager.Instance.OpenUi(EUiID.CardPackage);
         }
     }
 }

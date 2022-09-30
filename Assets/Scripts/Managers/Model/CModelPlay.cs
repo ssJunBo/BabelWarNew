@@ -43,6 +43,7 @@ namespace Managers.Model
 
         public void Release()
         {
+            // 释放所有logic TODO
             if (_uiPersonDetailInfoLogic != null)
             {
                 _uiPersonDetailInfoLogic.Close();
@@ -63,21 +64,6 @@ namespace Managers.Model
         public void OnApplicationPause(bool paused)
         {
 
-        }
-
-        public void OpenUiByType(EUiType eUiType)
-        {
-            switch (eUiType)
-            {
-                case EUiType.PersonDetailInfo:
-                    UiPersonDetailInfoLogic.Open();
-                    break;
-                case EUiType.Main:
-                    UiMainLogic.Open();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(eUiType), eUiType, null);
-            }
         }
     }
 }

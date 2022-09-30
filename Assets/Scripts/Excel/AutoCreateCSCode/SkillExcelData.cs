@@ -22,6 +22,10 @@ public class SkillExcelItem : ExcelItemBase
 	/// </summary>>
 	public SkillType SkillType;
 	/// <summary>
+	/// 开启等级
+	/// </summary>>
+	public int OpenLevel;
+	/// <summary>
 	/// 充能次数
 	/// </summary>>
 	public int ChargeCount;
@@ -98,6 +102,14 @@ public class SkillExcelData : ExcelDataBase
 		if(item == null)
 			return default;
 		return item.SkillType;
+	}
+
+	public int GetOpenLevel(int id)
+	{
+		var item = GetExcelItem(id) as SkillExcelItem;
+		if(item == null)
+			return default;
+		return item.OpenLevel;
 	}
 
 	public int GetChargeCount(int id)
@@ -188,6 +200,7 @@ public class SkillAssetAssignment
 			excelDataAsset.items[i].id = StringUtility.StringToInt(itemRowDic["id"]);
 			excelDataAsset.items[i].Name = itemRowDic["Name"];
 			excelDataAsset.items[i].SkillType = StringUtility.StringToEnum<SkillType>(itemRowDic["SkillType"]);
+			excelDataAsset.items[i].OpenLevel = StringUtility.StringToInt(itemRowDic["OpenLevel"]);
 			excelDataAsset.items[i].ChargeCount = StringUtility.StringToInt(itemRowDic["ChargeCount"]);
 			excelDataAsset.items[i].CDTime = StringUtility.StringToFloat(itemRowDic["CDTime"]);
 			excelDataAsset.items[i].BuffType = StringUtility.StringToEnum<BuffType>(itemRowDic["BuffType"]);

@@ -1,3 +1,4 @@
+using Common;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -15,8 +16,10 @@ namespace Functions.Babel
             _uiLogic = logic;
         }
 
+        private int levId;
         public void SetData(int index)
         {
+            levId = index;
             nameTxt.text = index.ToString();
         }
 
@@ -24,7 +27,7 @@ namespace Functions.Babel
         {
             UiManager.Instance.CloseAllUiDialog();
             // 打开战斗选择界面
-            _uiLogic.modelPlay.UiFightingLogic.Open();
+            UiManager.Instance.OpenUi(EUiID.Fighting, levId);
         }
     }
 }

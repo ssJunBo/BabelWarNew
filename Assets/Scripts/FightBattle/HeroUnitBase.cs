@@ -13,22 +13,12 @@ namespace FightBattle
 {
     public class HeroUnitBase : BattleUnitBase
     {
+        [SerializeField] private Transform passiveSkillTrs;
+        
         protected SkillRunner SkillRunner;
 
         // 普攻完成回调
         protected Action NormalAttackComplete;
-
-        public override void SetData(int soliderCombineId)
-        {
-            base.SetData(soliderCombineId);
-          
-            AttributeInfo = AttributeInfo.CreateAttributeInfo(IDParseHelp.GetBattleUnitId(base.SoliderCombineId));
-
-            SetSkillData();
-
-            // 开启辅助线
-            _openGizmos = true;
-        }
 
         protected override void Awake()
         {
@@ -38,6 +28,21 @@ namespace FightBattle
             animationEventHelp.actDict["AttackComplete"] = AttackCompleteCb;
 
             EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
+        }
+
+
+        public override void SetData(int soliderCombineId)
+        {
+            base.SetData(soliderCombineId);
+
+            AttributeInfo = AttributeInfo.CreateAttributeInfo(IDParseHelp.GetBattleUnitId(SoliderCombineId));
+
+            SetSkillData();
+
+            // 开启辅助线
+            _openGizmos = true;
+
+            passiveSkillTrs.gameObject.SetActive(PassiveSkillInfo != null && PassiveSkillInfo.OpenLevel <= HeroLev);
         }
 
         private float _curTime;
@@ -50,7 +55,7 @@ namespace FightBattle
             SkillRunner?.Update();
 
             // 处理被动技能
-            if (PassiveSkillInfo != null)
+            if (PassiveSkillInfo != null && PassiveSkillInfo.OpenLevel <= HeroLev)
             {
                 _curTime += Time.fixedDeltaTime;
 
@@ -63,9 +68,8 @@ namespace FightBattle
                         // 在攻击范围内 全部造成伤害一次
                         if (transform.GetDistanceToOnePoint(enemyBattleUnit.transform) <= PassiveSkillInfo.Radius)
                         {
-                            // DamageHelper.CauseDamage(enemyBattleUnit, 3);
+                            DamageHelper.CauseDamage(enemyBattleUnit, PassiveSkillInfo.Damages);
                         }
-
                     }
 
                     _curTime = 0;
@@ -146,6 +150,8 @@ namespace FightBattle
                 var skillInfo = ExcelManager.Instance.GetExcelItem<SkillExcelData, SkillExcelItem>(skillId);
                 SkillItem.Add(skillInfo);
             }
+            
+            
         }
 
         // 被动技能
@@ -306,6 +312,7 @@ namespace FightBattle
         protected virtual void OnDrawGizmos()
         {
             if (!_openGizmos) return;
+            if (PassiveSkillInfo == null || PassiveSkillInfo.OpenLevel > HeroLev) return;
 
             if (AttributeInfo.AttributeConfig.atkType == NormalAtkType.Sector)
             {

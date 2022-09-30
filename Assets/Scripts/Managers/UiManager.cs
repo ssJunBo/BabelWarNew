@@ -2,6 +2,7 @@
 using _GameBase;
 using _GameBase.UIBase;
 using Common;
+using Managers.Model;
 using UnityEngine;
 
 namespace Managers
@@ -18,24 +19,46 @@ namespace Managers
         /// </summary>
         private readonly Dictionary<EUiID, UiDialogBase> _dialogDict = new();
 
+        private CModelPlay _modelPlay;
+        private CModelPlay ModelPlay => _modelPlay ?? GameManager.Instance.ModelPlay;
         public void PushUi(UiLogicBase ui)
         {
             _uiLogicBaseStack.Push(ui);
         }
 
-        public void Back()
+        public void OpenUi(EUiID uiID, params object[] data)
         {
-            if (_uiLogicBaseStack.Count > 1)
+            switch (uiID)
             {
-                UiLogicBase closeUiLogicBase = _uiLogicBaseStack.Pop();
-                closeUiLogicBase.Close();
-
-                UiLogicBase openUiLogicBase = _uiLogicBaseStack.Peek();
-                openUiLogicBase.Open();
+                case EUiID.Main:
+                    ModelPlay.UiMainLogic.Open();
+                    break;
+                case EUiID.PersonDetailInfo:
+                    ModelPlay.UiPersonDetailInfoLogic.Open();
+                    break;
+                case EUiID.Fighting:
+                    ModelPlay.UiFightingLogic.Open((int)data[0]);
+                    break;
+                case EUiID.Babel:
+                    ModelPlay.UiBabelLogic.Open();
+                    break;
+                case EUiID.CardPackage:
+                    ModelPlay.UICardPackageLogic.Open();
+                    break;
+                case EUiID.Setting:
+                    ModelPlay.UiSettingLogic.Open();
+                    break;
             }
-            else
+        }
+
+        public void CloseUi(UiLogicBase uiLogicBase)
+        {
+            var stackTopUI = _uiLogicBaseStack.Pop();
+            stackTopUI.Release();
+
+            if (stackTopUI != uiLogicBase)
             {
-                Debug.Log("Ui 堆栈里无多余界面...");
+                Debug.LogError("UIManager 逻辑出问题啦！");
             }
         }
 
@@ -44,7 +67,7 @@ namespace Managers
             while (_uiLogicBaseStack.Count>0)
             {
                 UiLogicBase closeUiLogicBase = _uiLogicBaseStack.Pop();
-                closeUiLogicBase.Close();
+                closeUiLogicBase.Release();
             }
         }
 
@@ -53,7 +76,7 @@ namespace Managers
             while (_uiLogicBaseStack.Count > 0)
             {
                 UiLogicBase uiLogicBase = _uiLogicBaseStack.Pop();
-                uiLogicBase.Close();
+                uiLogicBase.Release();
             }
         }
 

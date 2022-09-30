@@ -20,11 +20,18 @@ namespace Functions.Fighting
 
         private readonly List<CardExcelItem> _cardExcelItems = new();
 
-        private readonly CModelPlay ModelPlay;
+        private readonly CModelPlay _modelPlay;
 
+        public int LevId;
         public UiFightingLogic(CModelPlay modelPlay)
         {
-            ModelPlay = modelPlay;
+            _modelPlay = modelPlay;
+        }
+
+        public void Open(int levId)
+        {
+            LevId = levId;
+            Open();
         }
 
         public override void Close()
@@ -98,7 +105,8 @@ namespace Functions.Fighting
             EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
             EventManager.Subscribe<List<CardInfo>>(EventMessageType.IssueCard,RefreshCard);
 
-            GameManager.Instance.StartFight();
+            GameManager.Instance.StartFight(_uiLogic.LevId);
+
             #endregion
         }
 
@@ -130,10 +138,7 @@ namespace Functions.Fighting
             _enemyAllGenerateCards.Clear();
 
             _timer = 0;
-
             
-            FightManager.Instance.ClearUnit();
-
             base.Release();
         }
 
@@ -181,9 +186,10 @@ namespace Functions.Fighting
             {
                 var fightCardExcelItem = cardExcelItems[index];
                 OwnCardItem ownCardItem = _ownCardPool.Spawn();
-                ownCardItem.transform.SetParent(ownCardContentTrs);
-                ownCardItem.transform.localScale = Vector3.one * 0.5f;
-                ownCardItem.transform.position = ownCardBornPos.position;
+                Transform transform1;
+                (transform1 = ownCardItem.transform).SetParent(ownCardContentTrs);
+                transform1.localScale = Vector3.one * 0.5f;
+                transform1.position = ownCardBornPos.position;
                 ownCardItem.transform.SetAsLastSibling();
 
                 ownCardItem.DragEndAct = RefreshCardPos;
@@ -321,9 +327,10 @@ namespace Functions.Fighting
             foreach (var cardInfo in cardInfos)
             {
                 var obj = _enemyCardPool.Spawn();
-                obj.transform.SetParent(enemyCardContentTrs);
-                obj.transform.localScale = Vector3.one;
-                obj.transform.position = enemyCardBornPos.position;
+                Transform transform1;
+                (transform1 = obj.transform).SetParent(enemyCardContentTrs);
+                transform1.localScale = Vector3.one;
+                transform1.position = enemyCardBornPos.position;
 
                 _enemyAllGenerateCards.Add(obj);
             }
@@ -341,10 +348,11 @@ namespace Functions.Fighting
 
             for (int i = 0; i < _enemyAllGenerateCards.Count; i++)
             {
-                float xVal = default;
+                float xVal;
                 if (enemyCardItemRect.rect.width * _enemyAllGenerateCards.Count < rect.width - 10)
                 {
-                    xVal = enemyCardItemRect.rect.width * i + enemyCardItemRect.rect.width / 2 + 5 * (i + 1);
+                    var rect1 = enemyCardItemRect.rect;
+                    xVal = rect1.width * i + rect1.width / 2 + 5 * (i + 1);
                 }
                 else
                 {
@@ -414,7 +422,6 @@ namespace Functions.Fighting
 
             _enemyCardSeq.AppendCallback(() =>
             {
-                _timer = 0;
                 CardManager.Instance.ChangeRound(Round.Own);
             });
         }
@@ -444,6 +451,8 @@ namespace Functions.Fighting
             roundInfoObj.SetActive(curRound == Round.Enemy);
             ownCardParentObj.SetActive(curRound == Round.Own);
             enemyCardParentObj.SetActive(curRound == Round.Enemy);
+
+            _timer = 0;
             
             switch (curRound)
             {
@@ -472,7 +481,7 @@ namespace Functions.Fighting
             FightManager.Instance.PauseFighting();
 
             _uiLogic.Close();
-            GameManager.Instance.ModelPlay.UiMainLogic.Open();
+            UiManager.Instance.OpenUi(EUiID.Main);
         }
 
         public void OnClickStartFight()
@@ -491,7 +500,7 @@ namespace Functions.Fighting
         
         public void OnClickCardPackage()
         {
-            GameManager.Instance.ModelPlay.UICardPackageLogic.Open();
+            UiManager.Instance.OpenUi(EUiID.CardPackage);
         }
         
         #endregion

@@ -48,7 +48,7 @@ namespace Managers
 
             LoadConfig();
 
-            ModelPlay.OpenUiByType(EUiType.Main);
+            UiManager.Instance.OpenUi(EUiID.Main);
         }
 
         private void Update()
@@ -135,17 +135,17 @@ namespace Managers
 #endif
         }
 
-        public void StartFight()
+        public void StartFight(int levId)
         {
             fightObj.SetActive(true);
-            
-            FightManager.Instance.LoadUnit();
+            FightManager.Instance.LoadUnit(levId);
         }
         
         
         public void QuitFight()
         {
             fightObj.SetActive(false);
+            FightManager.Instance.ClearUnit();
         }
     }
 }

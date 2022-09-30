@@ -11,13 +11,6 @@
         Setting,
     }
 
-    public enum EUiType
-    {
-        Main,
-        PersonDetailInfo,
-    }
-
-
     public enum EUiLayer
     {
         Low_2D = 0,

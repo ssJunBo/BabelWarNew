@@ -1,4 +1,5 @@
-﻿using Helpers;
+﻿using Common;
+using Helpers;
 using Managers;
 using Managers.Model;
 using TMPro;
@@ -43,12 +44,12 @@ namespace Functions.Main
 
         public void OnClickHeadIcon()
         {
-            _modelPlay.UiPersonDetailInfoLogic.Open();
+            UiManager.Instance.OpenUi(EUiID.PersonDetailInfo);
         }
 
         public void OnClickStartBattle()
         {
-            _modelPlay.UiBabelLogic.Open();
+            UiManager.Instance.OpenUi(EUiID.Babel);
         }
 
         public void Clear()

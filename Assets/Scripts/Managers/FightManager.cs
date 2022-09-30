@@ -6,21 +6,19 @@ using FightBattle;
 using Helpers;
 using Pool;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Managers
 {
     public class FightManager : MonoSingleton<FightManager>
     {
         // 敌人生成位置
-        [SerializeField] private Transform[] enemyPos;
-        [SerializeField] private Transform[] heroBornPos;
-        [SerializeField] private Transform buildPos;
+        [FormerlySerializedAs("enemyPos")] [SerializeField] private Transform enemyUnitBornPos;
+        [FormerlySerializedAs("heroBornPos")] [SerializeField] private Transform ownUnitBornPos;
         [SerializeField] private Transform allBattleUnitTrs;
         [SerializeField] public Camera fightCamera;
         [SerializeField] public Transform objPoolTrs;
-
-        // 最终击败建筑物
-        public Transform BuildPos => buildPos;
 
         // 所有敌人的obj
         [NonSerialized] public readonly List<BattleUnitBase> EnemyUnitLis = new();
@@ -49,9 +47,9 @@ namespace Managers
             }
         }
 
-        public void LoadUnit()
+        public void LoadUnit(int levId)
         {
-            LoadEnemyUnit(DataManager.Instance.PersonInfo.LevelId);
+            LoadEnemyUnit(levId);
 
             LoadOwnUnit();
             
@@ -75,12 +73,17 @@ namespace Managers
             }
         }
 
+
         private void LoadEnemyUnit(int levelId)
         {
             LevelExcelItem itemInfo = _excelMana.GetExcelItem<LevelExcelData, LevelExcelItem>(levelId);
 
             EnemyUnitLis.Clear();
-
+            
+            if (itemInfo==null)
+            {
+                return;
+            }
             for (var i = 0; i < itemInfo.enemyCombineId.Length; i++)
             {
                 int soliderCombineId = itemInfo.enemyCombineId[i];
@@ -90,7 +93,13 @@ namespace Managers
 
                 var go = Resources.Load<GameObject>(pathStr);
                 var obj = Instantiate(go, allBattleUnitTrs);
-                obj.transform.position = enemyPos[i % heroBornPos.Length].position;
+
+                var localPosition = enemyUnitBornPos.localPosition;
+
+                float x = Random.Range(localPosition.x - 120, localPosition.x + 120);
+                float z = Random.Range(localPosition.z, localPosition.z - 120 / 2);
+
+                obj.transform.localPosition = new Vector3(x, 0, z);
                 obj.transform.localScale = Vector3.one;
                 obj.transform.localRotation = Quaternion.Euler(0, 180, 0);
 
@@ -108,12 +117,18 @@ namespace Managers
         {
             for (int i = 0; i < DataManager.Instance.PersonInfo.HeroInfos.Count; i++)
             {
-                var bornTrs = heroBornPos[i % heroBornPos.Length];
-                LoadSelfUnit(DataManager.Instance.PersonInfo.HeroInfos[i], bornTrs);
+                var centerPos = ownUnitBornPos.localPosition;
+             
+                float x = Random.Range(centerPos.x - 120, centerPos.x + 120);
+                float z = Random.Range(centerPos.z, centerPos.z + 120 / 2);
+
+                var bornPos = new Vector3(x, 0, z);
+                
+                LoadSelfUnit(DataManager.Instance.PersonInfo.HeroInfos[i], bornPos);
             }
         }
         
-        private void LoadSelfUnit(int combineId, Transform bornTrs)
+        private void LoadSelfUnit(int combineId, Vector3 bornPos)
         {
             int unitId= IDParseHelp.GetBattleUnitId(combineId);
             
@@ -122,7 +137,7 @@ namespace Managers
 
             var go = Resources.Load<GameObject>(pathStr);
             var obj = Instantiate(go, allBattleUnitTrs);
-            obj.transform.position = bornTrs.position;
+            obj.transform.localPosition = bornPos;
             obj.transform.localScale = Vector3.one;
             obj.transform.localRotation = Quaternion.identity;
 

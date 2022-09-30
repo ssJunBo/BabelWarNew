@@ -27,7 +27,8 @@ namespace FightBattle
 
         // 当前士兵组合id xxx xx 前三位 battleUnitId 后两位等级
         protected int SoliderCombineId;
-      
+
+        protected int HeroLev;
         // buff列表
         private readonly List<BuffBase> _buffList = new List<BuffBase>();
 
@@ -60,7 +61,9 @@ namespace FightBattle
 
         public virtual void SetData(int soliderCombineId)
         {
-            this.SoliderCombineId = soliderCombineId;
+            SoliderCombineId = soliderCombineId;
+
+            HeroLev = IDParseHelp.GetBattleLev(SoliderCombineId);
         }
 
         private void InitNavInfo()

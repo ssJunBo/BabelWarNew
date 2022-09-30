@@ -1,5 +1,4 @@
-﻿using Managers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _GameBase.UIBase
 {
@@ -23,7 +22,7 @@ namespace _GameBase.UIBase
         // 关闭当前界面 并打开上一个界面
         public void Close()
         {
-            UiManager.Instance.Back();
+            UiLogic.Close();
         }
     }
 }

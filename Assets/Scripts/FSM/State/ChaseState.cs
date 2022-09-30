@@ -54,6 +54,8 @@ namespace FSM.State
         {
             var curTarget= battleUnitBase.GetNearestTarget();
 
+            if (curTarget == null) return;
+            
             if (curTarget!=null)
             {
                 target = curTarget;
