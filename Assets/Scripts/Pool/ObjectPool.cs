@@ -10,8 +10,10 @@ namespace Pool
     {
         public virtual void OnSpawned()
         {
-            if (gameObject!=null) 
+            if (gameObject != null)
+            {
                 gameObject.SetActive(true);
+            }
         }
 
         public virtual void OnCycle()

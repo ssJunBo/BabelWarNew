@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using _GameBase.UIBase;
 using Common;
+using Managers;
 using Managers.Model;
+using UIExtension.ScrollRectExt;
 using UnityEngine;
 
 namespace Functions.Babel
@@ -16,39 +19,50 @@ namespace Functions.Babel
         {
             this.modelPlay = modelPlay;
         }
-        
-        public override void Open()
+
+        public List<CellInfo> GenerateData()
         {
-            base.Open();
+            LevelExcelData allLevelData= ExcelManager.Instance.GetExcelData<LevelExcelData>();
+            
+            List<CellInfo> infoList = new List<CellInfo>();
+
+            foreach (var levelItem in allLevelData.items)
+            {
+                BabelInfo info = new BabelInfo
+                {
+                    LevelExcelItem = levelItem
+                };
+
+                infoList.Add(info);
+            }
+
+            return infoList;
         }
     }
-    
+
+    public class BabelInfo : CellInfo
+    {
+        public LevelExcelItem LevelExcelItem;
+    }
+
     public class UiBabelDialog : UiDialogBase
     {
-        [SerializeField] private Transform contentTrs;
-        [SerializeField] private BabelItem babelItemPrefab;
+        [SerializeField] private UiCircularScrollView uiCircularScrollView;
 
-
-        private UiBabelLogic logic;
+        private UiBabelLogic _uiLogic;
 
         public override void Init()
         {
-            logic = (UiBabelLogic)UiLogic;
+            _uiLogic = (UiBabelLogic)UiLogic;
         }
 
         public override void ShowFinished()
         {
-            SetData();
+            var levelData=_uiLogic.GenerateData();
+            
+            uiCircularScrollView.Init();
+            uiCircularScrollView.SetData(levelData);
         }
-
-        private void SetData()
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                BabelItem go = Instantiate(babelItemPrefab, contentTrs);
-                go.Init(logic);
-                go.SetData(i);
-            }
-        }
+        
     }
 }
