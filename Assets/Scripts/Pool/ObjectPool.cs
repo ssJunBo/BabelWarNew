@@ -13,6 +13,10 @@ namespace Pool
             if (gameObject != null)
             {
                 gameObject.SetActive(true);
+                
+                transform.localScale=Vector3.one;
+                transform.localRotation=Quaternion.identity;
+                transform.localPosition=Vector3.zero;
             }
         }
 

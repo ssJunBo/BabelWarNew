@@ -27,14 +27,5 @@ namespace Functions.Babel
                 nameTxt.text = $"关卡 - {babelInfo.LevelExcelItem.id}";
             }
         }
-
-        public override void OnSpawned()
-        {
-            base.OnSpawned();
-            
-            transform.localScale=Vector3.one;
-            transform.localRotation=Quaternion.identity;
-            transform.localPosition=Vector3.zero;
-        }
     }
 }

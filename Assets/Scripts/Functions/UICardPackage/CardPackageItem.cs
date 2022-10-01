@@ -24,14 +24,5 @@ namespace Functions.UICardPackage
                     AtlasManager.Instance.GetSprite("FightCard", fightCardExcelItem.Icon.ToString());
             }
         }
-
-        public override void OnSpawned()
-        {
-            base.OnSpawned();
-            
-            transform.localScale=Vector3.one;
-            transform.localRotation=Quaternion.identity;
-            transform.localPosition=Vector3.zero;
-        }
     }
 }

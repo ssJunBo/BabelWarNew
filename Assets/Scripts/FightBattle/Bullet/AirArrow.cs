@@ -14,10 +14,6 @@ namespace FightBattle.Bullet
         {
             base.OnSpawned();
             
-            transform.localPosition = Vector3.zero;
-            transform.localScale = Vector3.one;
-            transform.localRotation = Quaternion.identity;
-
             if (airArrowBombPrefab!=null) 
                 airArrowBombPrefab.SetActive(false);
         }
