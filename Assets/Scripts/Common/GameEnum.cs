@@ -8,6 +8,7 @@
         Fighting,
         Babel, //通天塔
         CardPackage,
+        HeroPackage,
         Setting,
         UiShop,
     }

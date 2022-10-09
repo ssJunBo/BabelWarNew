@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Functions.UICardPackage
 {
-    public class CardPackageItem : LoopItem
+    public class SkillCardItem : LoopItem
     {
         [SerializeField] private TextMeshProUGUI nameTxt;
         [SerializeField] private TextMeshProUGUI descTxt;

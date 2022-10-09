@@ -57,9 +57,14 @@ namespace Functions.Main
             UiManager.Instance.OpenUi(EUiID.Setting);
         }
 
-        public void OpenCardPackage()
+        public void OpenCardPackageDialog()
         {
             UiManager.Instance.OpenUi(EUiID.CardPackage);
+        }
+        
+        public void OpenHeroDialog()
+        {
+            UiManager.Instance.OpenUi(EUiID.HeroPackage);
         }
     }
 }

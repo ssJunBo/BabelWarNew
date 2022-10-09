@@ -43,7 +43,10 @@ namespace Managers
                     ModelPlay.UiBabelLogic.Open();
                     break;
                 case EUiID.CardPackage:
-                    ModelPlay.UICardPackageLogic.Open();
+                    ModelPlay.UiCardPackageLogic.Open();
+                    break;
+                case EUiID.HeroPackage:
+                    ModelPlay.UiHeroPackageLogic.Open();
                     break;
                 case EUiID.Setting:
                     ModelPlay.UiSettingLogic.Open();

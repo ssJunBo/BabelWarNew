@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Functions.UICardPackage
 {
-    public class UICardPackageLogic : UiLogicBase
+    public class UiCardPackageLogic : UiLogicBase
     {
         protected override string Path => "Prefabs/Functions/UICardPackage/UICardPackageDialog";
         protected override EUiID UiId => EUiID.CardPackage;
@@ -17,7 +17,7 @@ namespace Functions.UICardPackage
 
         private readonly CModelPlay _model;
 
-        public UICardPackageLogic(CModelPlay model)
+        public UiCardPackageLogic(CModelPlay model)
         {
             _model = model;
         }
@@ -45,17 +45,17 @@ namespace Functions.UICardPackage
         public CardExcelItem FightCardExcelItem;
     }
 
-    public class UICardPackageDialog : UiDialogBase
+    public class UiCardPackageDialog : UiDialogBase
     {
         [SerializeField] private UiCircularScrollView scrollView;
 
-        private UICardPackageLogic _uiLogic;
+        private UiCardPackageLogic _uiLogic;
 
         #region override
 
         public override void Init()
         {
-            _uiLogic = (UICardPackageLogic)UiLogic;
+            _uiLogic = (UiCardPackageLogic)UiLogic;
         }
 
         public override void ShowFinished()
@@ -71,15 +71,6 @@ namespace Functions.UICardPackage
             base.Release();
 
             scrollView.CycleAllItem();
-        }
-
-        #endregion
-
-        #region btn event
-
-        public void OnClickQuitDialog()
-        {
-            _uiLogic.Close();
         }
 
         #endregion
