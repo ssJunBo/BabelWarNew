@@ -95,7 +95,7 @@ namespace _GameBase.DataTool
         public static T XmlDeserializeRun<T>(string path) where T : class
         {
             T t = default(T);
-            TextAsset textAsset = Resources.Load<TextAsset>(path);
+            TextAsset textAsset = UnityEngine.Resources.Load<TextAsset>(path);
             if (textAsset == null)
             {
                 Debug.LogError("cant load TextAsset: " + path);
@@ -152,7 +152,7 @@ namespace _GameBase.DataTool
         public static T BinaryDeserialize<T>(string path) where T : class
         {
             T t = default(T);
-            TextAsset textAsset = Resources.Load<TextAsset>(path);
+            TextAsset textAsset = UnityEngine.Resources.Load<TextAsset>(path);
             if (textAsset == null)
             {
                 Debug.LogError("cant load TextAsset: " + path);

@@ -40,7 +40,7 @@ namespace Managers
             _audioClipsDict.TryGetValue(clipName, out var audioClip);
             if (audioClip == null)
             {
-                audioClip = Resources.Load<AudioClip>(BgPath + clipName);
+                audioClip = UnityEngine.Resources.Load<AudioClip>(BgPath + clipName);
                 _audioClipsDict.Add(clipName, audioClip);
             }
 
@@ -76,7 +76,7 @@ namespace Managers
             _audioClipsDict.TryGetValue(clipName, out var audioClip);
             if (audioClip == null)
             {
-                audioClip = Resources.Load<AudioClip>(UIPath + clipName);
+                audioClip = UnityEngine.Resources.Load<AudioClip>(UIPath + clipName);
                 _audioClipsDict.Add(clipName, audioClip);
             }
 
@@ -92,7 +92,7 @@ namespace Managers
             _audioClipsDict.TryGetValue(clipName, out var audioClip);
             if (audioClip == null)
             {
-                audioClip = Resources.Load<AudioClip>(OtherPath + clipName);
+                audioClip = UnityEngine.Resources.Load<AudioClip>(OtherPath + clipName);
                 _audioClipsDict.Add(clipName, audioClip);
             }
 

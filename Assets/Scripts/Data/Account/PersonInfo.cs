@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Helpers;
 using Managers;
 
 namespace Data.Account
@@ -8,23 +9,23 @@ namespace Data.Account
     /// </summary>
     public class PersonInfo
     {
-        public int iconExcelId;
-        public string name;
-        public int LevelId; // 当前关卡id
-        public List<int> HeroInfos; // 英雄id
-        public List<CardInfo> OwnCardsList; // 当前卡池信息
+        public int IconExcelId;
+        public string Name;
+        public int LevelId; // 当前通过最高关卡 id
+        public List<int> HeroInfos; // 拥有英雄 id
+        public List<CardInfo> OwnCardsList; // 当前拥有卡池信息
     }
 
     public struct CardInfo
     {
-        public int ID;
+        // 前三位卡片id 后两位卡片星级 最高九级卡
+        public int CombineId;
 
-        // 卡片星级 最高九级卡
-        public int StarLev;
+        public int StarLev=>IDParseHelp.GetCardLev(CombineId);
 
         public static int CardDamage(CardInfo info)
         {
-            return ExcelManager.Instance.GetExcelData<CardExcelData>().GetDamage(info.ID, info.StarLev - 1);
+            return ExcelManager.Instance.GetExcelData<CardExcelData>().GetDamage(info.CombineId, info.StarLev - 1);
         }
     }
 }

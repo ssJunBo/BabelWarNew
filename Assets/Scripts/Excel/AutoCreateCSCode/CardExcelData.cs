@@ -22,6 +22,14 @@ public class CardExcelItem : ExcelItemBase
 	/// </summary>>
 	public string Desc;
 	/// <summary>
+	/// 效果参数1
+	/// </summary>>
+	public float[] Param1;
+	/// <summary>
+	/// 效果参数2
+	/// </summary>>
+	public float[] Param2;
+	/// <summary>
 	/// 图片
 	/// </summary>>
 	public int Icon;
@@ -76,6 +84,42 @@ public class CardExcelData : ExcelDataBase
 		return item.Desc;
 	}
 
+	public float[] GetParam1(int id)
+	{
+		var item = GetExcelItem(id) as CardExcelItem;
+		if(item == null)
+			return default;
+		return item.Param1;
+	}
+	public float GetParam1(int id, int index)
+	{
+		var item0 = GetExcelItem(id) as CardExcelItem;
+		if(item0 == null)
+			return default;
+		var item1 = item0.Param1;
+		if(item1 == null || index < 0 || index >= item1.Length)
+			return default;
+		return item1[index];
+	}
+
+	public float[] GetParam2(int id)
+	{
+		var item = GetExcelItem(id) as CardExcelItem;
+		if(item == null)
+			return default;
+		return item.Param2;
+	}
+	public float GetParam2(int id, int index)
+	{
+		var item0 = GetExcelItem(id) as CardExcelItem;
+		if(item0 == null)
+			return default;
+		var item1 = item0.Param2;
+		if(item1 == null || index < 0 || index >= item1.Length)
+			return default;
+		return item1[index];
+	}
+
 	public int GetIcon(int id)
 	{
 		var item = GetExcelItem(id) as CardExcelItem;
@@ -126,6 +170,8 @@ public class CardAssetAssignment
 			excelDataAsset.items[i].id = StringUtility.StringToInt(itemRowDic["id"]);
 			excelDataAsset.items[i].Name = itemRowDic["Name"];
 			excelDataAsset.items[i].Desc = itemRowDic["Desc"];
+			excelDataAsset.items[i].Param1 = StringUtility.StringToFloatArray(itemRowDic["Param1"]);
+			excelDataAsset.items[i].Param2 = StringUtility.StringToFloatArray(itemRowDic["Param2"]);
 			excelDataAsset.items[i].Icon = StringUtility.StringToInt(itemRowDic["Icon"]);
 			excelDataAsset.items[i].damage = StringUtility.StringToIntArray(itemRowDic["damage"]);
 		}

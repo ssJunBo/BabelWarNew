@@ -13,8 +13,8 @@ namespace Functions.PersonDetailInfo
 
         public void SetData(PersonInfo personInfo)
         {
-            headIconImg.sprite = Utils.GetSprite(personInfo.iconExcelId);
-            nameTxt.text = personInfo.name;
+            headIconImg.sprite = Utils.GetSprite(personInfo.IconExcelId);
+            nameTxt.text = personInfo.Name;
         }
     }
 }

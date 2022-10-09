@@ -18,10 +18,10 @@ namespace Managers
         }
 
         // 当前自己拥有的卡片
-        public  List<CardInfo> CurOwnHaveCards = new();
+        public readonly List<CardInfo> CurOwnHaveCards = new();
 
         // 当前敌人手里拥有的卡片
-        public  List<CardInfo> CurEnemyHaveCards = new();
+        public readonly List<CardInfo> CurEnemyHaveCards = new();
         
         /// <summary>
         /// 发牌
@@ -120,7 +120,7 @@ namespace Managers
         
         public CardExcelItem GetCardExcelItem(CardInfo cardInfo)
         {
-            return ExcelManager.Instance.GetExcelItem<CardExcelData, CardExcelItem>(cardInfo.ID);
+            return ExcelManager.Instance.GetExcelItem<CardExcelData, CardExcelItem>(cardInfo.CombineId);
         }
     }
 

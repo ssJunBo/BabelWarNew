@@ -7,10 +7,10 @@ namespace Helpers
     {
         public static Sprite GetSprite(int iconExcelId)
         {
-            int iconId = DataManager.Instance.PersonInfo.iconExcelId;
+            int iconId = DataManager.Instance.PersonInfo.IconExcelId;
             var iconExcelItem = ExcelManager.Instance.GetExcelItem<IconExcelData, IconExcelItem>(iconId);
 
-            return Resources.Load<Sprite>(iconExcelItem.iconPath);
+            return UnityEngine.Resources.Load<Sprite>(iconExcelItem.iconPath);
         }
     }
 }

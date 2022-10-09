@@ -24,7 +24,7 @@ namespace Managers
 
         private PersonInfo LoadData()
         {
-            TextAsset textAsset = Resources.Load<TextAsset>("ArchiveInfo");
+            TextAsset textAsset = UnityEngine.Resources.Load<TextAsset>("ArchiveInfo");
             if (textAsset != null)
             {
                 return JsonConvert.DeserializeObject<PersonInfo>(textAsset.text);
@@ -48,11 +48,7 @@ namespace Managers
 
             foreach (var cardCombineId in levelExcelItem.enemyCardInfo)
             {
-                EnemyCardsList.Add(new CardInfo
-                {
-                    ID = cardCombineId / 100,
-                    StarLev = cardCombineId % 100
-                });
+                EnemyCardsList.Add(new CardInfo { CombineId = cardCombineId });
             }
         }
 

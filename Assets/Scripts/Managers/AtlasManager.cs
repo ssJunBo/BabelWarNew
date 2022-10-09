@@ -13,7 +13,7 @@ namespace Managers
         {
             if (!SpriteAtlasMap.TryGetValue(atlasName, out var spriteAtlas))
             {
-                spriteAtlas = Resources.Load<SpriteAtlas>("Atlas/"+atlasName);
+                spriteAtlas = UnityEngine.Resources.Load<SpriteAtlas>("Atlas/"+atlasName);
                 SpriteAtlasMap.Add(atlasName, spriteAtlas);
             }
 

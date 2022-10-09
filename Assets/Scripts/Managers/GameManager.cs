@@ -57,8 +57,8 @@ namespace Managers
             {
                 DataManager.Instance.SaveData(new PersonInfo()
                 {
-                    iconExcelId = 1,
-                    name = "清风自来",
+                    IconExcelId = 1,
+                    Name = "清风自来",
                     LevelId = 1,
                     HeroInfos = new List<int>
                     {
@@ -69,43 +69,23 @@ namespace Managers
                     {
                         new()
                         {
-                            ID = 101,
-                            StarLev = 1
+                            CombineId = 10101,
                         },
                         new()
                         {
-                            ID = 102,
-                            StarLev = 1
+                            CombineId = 10201,
                         },
                         new()
                         {
-                            ID = 103,
-                            StarLev = 1
+                            CombineId = 10301,
                         },
                         new()
                         {
-                            ID = 104,
-                            StarLev = 1
+                            CombineId = 10401,
                         },
                         new()
                         {
-                            ID = 101,
-                            StarLev = 2
-                        },
-                        new()
-                        {
-                            ID = 102,
-                            StarLev = 2
-                        },
-                        new()
-                        {
-                            ID = 103,
-                            StarLev = 2
-                        },
-                        new()
-                        {
-                            ID = 104,
-                            StarLev = 2
+                            CombineId = 10501,
                         },
                     }
                 });
@@ -130,7 +110,7 @@ namespace Managers
         private void OnApplicationQuit()
         {
 #if UNITY_EDITOR
-            Resources.UnloadUnusedAssets();
+            UnityEngine.Resources.UnloadUnusedAssets();
             Debug.Log("application退出操作，同时清 空编 辑 器 缓 存 ！");
 #endif
         }

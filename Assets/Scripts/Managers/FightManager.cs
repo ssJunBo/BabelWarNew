@@ -39,7 +39,7 @@ namespace Managers
             {
                 EventManager.Subscribe<int>(EventMessageType.ChangeTimeScale, ChangeTimeScale);
 
-                Blood bloodPre = Resources.Load<GameObject>("Prefabs/Effect/Blood/WhiteBlood").GetComponent<Blood>();
+                Blood bloodPre = UnityEngine.Resources.Load<GameObject>("Prefabs/Effect/Blood/WhiteBlood").GetComponent<Blood>();
             
                 BloodPool = new ObjectPool<Blood>(bloodPre,objPoolTrs);
 
@@ -91,7 +91,7 @@ namespace Managers
                 var enemyPathId = _excelMana.GetExcelData<BattleUnitExcelData>().GetPathId(battleUnitId);
                 string pathStr = _excelMana.GetExcelData<PathExcelData>().GetDetailPath(enemyPathId);
 
-                var go = Resources.Load<GameObject>(pathStr);
+                var go = UnityEngine.Resources.Load<GameObject>(pathStr);
                 var obj = Instantiate(go, allBattleUnitTrs);
 
                 var localPosition = enemyUnitBornPos.localPosition;
@@ -135,7 +135,7 @@ namespace Managers
             var pathId = _excelMana.GetExcelItem<BattleUnitExcelData, BattleUnitExcelItem>(unitId).PathId;
             string pathStr = _excelMana.GetExcelData<PathExcelData>().GetDetailPath(pathId);
 
-            var go = Resources.Load<GameObject>(pathStr);
+            var go = UnityEngine.Resources.Load<GameObject>(pathStr);
             var obj = Instantiate(go, allBattleUnitTrs);
             obj.transform.localPosition = bornPos;
             obj.transform.localScale = Vector3.one;

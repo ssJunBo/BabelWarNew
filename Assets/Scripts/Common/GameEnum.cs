@@ -9,6 +9,7 @@
         Babel, //通天塔
         CardPackage,
         Setting,
+        UiShop,
     }
 
     public enum EUiLayer

@@ -24,7 +24,7 @@ namespace Managers
                     var nameArr = file.Name.Split('.');
                     var type = Type.GetType(nameArr[0]);  
                     // 加载配置数据
-                    ExcelDataBase tmpInfo = Resources.Load<ExcelDataBase>(ExcelDataPath + nameArr[0]);
+                    ExcelDataBase tmpInfo = UnityEngine.Resources.Load<ExcelDataBase>(ExcelDataPath + nameArr[0]);
                     tmpInfo.Init();
 
                     if (type != null)

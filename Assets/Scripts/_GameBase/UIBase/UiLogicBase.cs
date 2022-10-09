@@ -52,7 +52,7 @@ namespace _GameBase.UIBase
         {
             _isShowing = true;
 
-            HandleUiResourceOk(Path, Resources.Load(Path));
+            HandleUiResourceOk(Path, UnityEngine.Resources.Load(Path));
         }
 
         private void HandleUiResourceOk(string path, Object obj)

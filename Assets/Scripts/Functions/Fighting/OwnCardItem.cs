@@ -106,7 +106,7 @@ namespace Functions.Fighting
         }
 
         private Tweener _tweener;
-        private bool _isMoving = false;
+        private bool _isMoving;
         public void OnPointerDown(PointerEventData eventData)
         {
             var transform1 = transform;
@@ -115,7 +115,6 @@ namespace Functions.Fighting
 
             RectTransformUtility.ScreenPointToWorldPointInRectangle(_dragParentRectTrs, eventData.position,
                 eventData.enterEventCamera, out var uiPosition);
-
             
             transform1.position = uiPosition; //将当前时间摄像机的拖拽事件的位置赋值给当前UI
             transform1.localRotation = Quaternion.identity;
@@ -140,6 +139,8 @@ namespace Functions.Fighting
             if (_inFightArea)
             {
                 RemoveCardAct?.Invoke(this);
+                // 执行卡牌逻辑
+                
                 return;
             }
 

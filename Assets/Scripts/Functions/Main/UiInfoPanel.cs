@@ -20,9 +20,9 @@ namespace Functions.Main
         {
             _modelPlay = modelPlay;
 
-            int iconExcelId = DataManager.Instance.PersonInfo.iconExcelId;
+            int iconExcelId = DataManager.Instance.PersonInfo.IconExcelId;
             personHeadImg.sprite = Utils.GetSprite(iconExcelId);
-            personNameTxt.text = DataManager.Instance.PersonInfo.name;
+            personNameTxt.text = DataManager.Instance.PersonInfo.Name;
 
             GeneratePerson(101);
         }
@@ -34,7 +34,7 @@ namespace Functions.Main
             var pathId = ExcelManager.Instance.GetExcelItem<BattleUnitExcelData, BattleUnitExcelItem>(heroId).PathId;
             string pathStr = ExcelManager.Instance.GetExcelData<PathExcelData>().GetDetailPath(pathId);
 
-            GameObject go = Resources.Load<GameObject>(pathStr);
+            GameObject go = UnityEngine.Resources.Load<GameObject>(pathStr);
 
             _personObj = Instantiate(go, GameManager.Instance.personTrs);
             _personObj.transform.localPosition = Vector3.zero;

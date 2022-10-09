@@ -43,7 +43,7 @@ namespace Managers
             if (effectPath == default)
                 Debug.LogError("特效类型无对应路径资源，请配置！");
 
-            var obj = Resources.Load<GameObject>(effectPath);
+            var obj = UnityEngine.Resources.Load<GameObject>(effectPath);
             pool = new ObjectPool(obj, FightManager.Instance.objPoolTrs);
 
             _effectPools.Add(effectType, pool);
