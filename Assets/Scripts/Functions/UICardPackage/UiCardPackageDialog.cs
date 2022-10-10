@@ -5,6 +5,7 @@ using Managers;
 using Managers.Model;
 using UIExtension.ScrollRectExt;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Functions.UICardPackage
 {
@@ -48,7 +49,7 @@ namespace Functions.UICardPackage
 
     public class UiCardPackageDialog : UiDialogBase
     {
-        [SerializeField] private UiCircularScrollView scrollView;
+        [SerializeField] private UiCircularScrollView cardSV,heroSV;
 
         private UiCardPackageLogic _uiLogic;
 
@@ -63,15 +64,15 @@ namespace Functions.UICardPackage
         {
             var data = _uiLogic.GenerateCardCellInfo();
 
-            scrollView.Init();
-            scrollView.SetData(data);
+            cardSV.Init();
+            cardSV.SetData(data);
         }
 
         public override void Release()
         {
             base.Release();
 
-            scrollView.CycleAllItem();
+            cardSV.CycleAllItem();
         }
 
         #endregion
