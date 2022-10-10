@@ -42,6 +42,7 @@ namespace Functions.UICardPackage
 
     public class CardItemInfo : CellInfo
     {
+        public int cardLev = 1;
         public CardExcelItem FightCardExcelItem;
     }
 

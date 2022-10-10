@@ -18,45 +18,21 @@ public class BattleUnitExcelItem : ExcelItemBase
 	/// </summary>>
 	public string Name;
 	/// <summary>
+	/// 描述
+	/// </summary>>
+	public string Desc;
+	/// <summary>
 	/// 攻击类型
 	/// </summary>>
 	public NormalAtkType NormalAtkType;
-	/// <summary>
-	/// 角度大小
-	/// </summary>>
-	public int Angle;
-	/// <summary>
-	/// 半径
-	/// </summary>>
-	public int Radius;
-	/// <summary>
-	/// 攻击力
-	/// </summary>>
-	public int Atk;
-	/// <summary>
-	/// 攻击距离
-	/// </summary>>
-	public int AtkDistance;
-	/// <summary>
-	/// 攻击速度
-	/// </summary>>
-	public float AtkSpeed;
 	/// <summary>
 	/// 单位类型
 	/// </summary>>
 	public BattleUnitType UnitType;
 	/// <summary>
-	/// 血量
+	/// 图片Id
 	/// </summary>>
-	public int Hp;
-	/// <summary>
-	/// 防御
-	/// </summary>>
-	public float Def;
-	/// <summary>
-	/// 移动速度
-	/// </summary>>
-	public int MoveSpeed;
+	public int IconId;
 	/// <summary>
 	/// 路径
 	/// </summary>>
@@ -65,10 +41,6 @@ public class BattleUnitExcelItem : ExcelItemBase
 	/// 技能
 	/// </summary>>
 	public int[] SkillIds;
-	/// <summary>
-	/// 额外参数
-	/// </summary>>
-	public string param;
 }
 
 
@@ -108,52 +80,20 @@ public class BattleUnitExcelData : ExcelDataBase
 		return item.Name;
 	}
 
+	public string GetDesc(int id)
+	{
+		var item = GetExcelItem(id) as BattleUnitExcelItem;
+		if(item == null)
+			return default;
+		return item.Desc;
+	}
+
 	public NormalAtkType GetNormalAtkType(int id)
 	{
 		var item = GetExcelItem(id) as BattleUnitExcelItem;
 		if(item == null)
 			return default;
 		return item.NormalAtkType;
-	}
-
-	public int GetAngle(int id)
-	{
-		var item = GetExcelItem(id) as BattleUnitExcelItem;
-		if(item == null)
-			return default;
-		return item.Angle;
-	}
-
-	public int GetRadius(int id)
-	{
-		var item = GetExcelItem(id) as BattleUnitExcelItem;
-		if(item == null)
-			return default;
-		return item.Radius;
-	}
-
-	public int GetAtk(int id)
-	{
-		var item = GetExcelItem(id) as BattleUnitExcelItem;
-		if(item == null)
-			return default;
-		return item.Atk;
-	}
-
-	public int GetAtkDistance(int id)
-	{
-		var item = GetExcelItem(id) as BattleUnitExcelItem;
-		if(item == null)
-			return default;
-		return item.AtkDistance;
-	}
-
-	public float GetAtkSpeed(int id)
-	{
-		var item = GetExcelItem(id) as BattleUnitExcelItem;
-		if(item == null)
-			return default;
-		return item.AtkSpeed;
 	}
 
 	public BattleUnitType GetUnitType(int id)
@@ -164,28 +104,12 @@ public class BattleUnitExcelData : ExcelDataBase
 		return item.UnitType;
 	}
 
-	public int GetHp(int id)
+	public int GetIconId(int id)
 	{
 		var item = GetExcelItem(id) as BattleUnitExcelItem;
 		if(item == null)
 			return default;
-		return item.Hp;
-	}
-
-	public float GetDef(int id)
-	{
-		var item = GetExcelItem(id) as BattleUnitExcelItem;
-		if(item == null)
-			return default;
-		return item.Def;
-	}
-
-	public int GetMoveSpeed(int id)
-	{
-		var item = GetExcelItem(id) as BattleUnitExcelItem;
-		if(item == null)
-			return default;
-		return item.MoveSpeed;
+		return item.IconId;
 	}
 
 	public int GetPathId(int id)
@@ -214,14 +138,6 @@ public class BattleUnitExcelData : ExcelDataBase
 		return item1[index];
 	}
 
-	public string GetParam(int id)
-	{
-		var item = GetExcelItem(id) as BattleUnitExcelItem;
-		if(item == null)
-			return default;
-		return item.param;
-	}
-
 	#endregion
 }
 
@@ -245,19 +161,12 @@ public class BattleUnitAssetAssignment
 			excelDataAsset.items[i] = new BattleUnitExcelItem();
 			excelDataAsset.items[i].id = StringUtility.StringToInt(itemRowDic["id"]);
 			excelDataAsset.items[i].Name = itemRowDic["Name"];
+			excelDataAsset.items[i].Desc = itemRowDic["Desc"];
 			excelDataAsset.items[i].NormalAtkType = StringUtility.StringToEnum<NormalAtkType>(itemRowDic["NormalAtkType"]);
-			excelDataAsset.items[i].Angle = StringUtility.StringToInt(itemRowDic["Angle"]);
-			excelDataAsset.items[i].Radius = StringUtility.StringToInt(itemRowDic["Radius"]);
-			excelDataAsset.items[i].Atk = StringUtility.StringToInt(itemRowDic["Atk"]);
-			excelDataAsset.items[i].AtkDistance = StringUtility.StringToInt(itemRowDic["AtkDistance"]);
-			excelDataAsset.items[i].AtkSpeed = StringUtility.StringToFloat(itemRowDic["AtkSpeed"]);
 			excelDataAsset.items[i].UnitType = StringUtility.StringToEnum<BattleUnitType>(itemRowDic["UnitType"]);
-			excelDataAsset.items[i].Hp = StringUtility.StringToInt(itemRowDic["Hp"]);
-			excelDataAsset.items[i].Def = StringUtility.StringToFloat(itemRowDic["Def"]);
-			excelDataAsset.items[i].MoveSpeed = StringUtility.StringToInt(itemRowDic["MoveSpeed"]);
+			excelDataAsset.items[i].IconId = StringUtility.StringToInt(itemRowDic["IconId"]);
 			excelDataAsset.items[i].PathId = StringUtility.StringToInt(itemRowDic["PathId"]);
 			excelDataAsset.items[i].SkillIds = StringUtility.StringToIntArray(itemRowDic["SkillIds"]);
-			excelDataAsset.items[i].param = itemRowDic["param"];
 		}
 		if(!Directory.Exists(excelAssetPath))
 			Directory.CreateDirectory(excelAssetPath);

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using _GameBase.UIBase;
 using Common;
+using Helpers;
+using Managers;
 using Managers.Model;
 using UIExtension.ScrollRectExt;
 using UnityEngine;
@@ -14,27 +16,37 @@ namespace Functions.UIHeroPackage
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
         private readonly CModelPlay _model;
+
         public UiHeroPackageLogic(CModelPlay model)
         {
             _model = model;
         }
-        
+
         public List<CellInfo> GenerateHeroCellInfo()
         {
             List<CellInfo> infos = new List<CellInfo>();
-            for (int i = 0; i < 5; i++)
+
+            var heroInfo = DataManager.Instance.PersonInfo.HeroInfos;
+
+            foreach (var combineId in heroInfo)
             {
-                CellInfo tmpInfo = new HeroItemInfo();
-                infos.Add(tmpInfo);
+                int unitId = IDParseHelp.GetBattleUnitId(combineId);
+
+                HeroItemInfo heroItemInfo = new HeroItemInfo
+                {
+                    battleUnitExcelItem = ExcelManager.Instance.GetExcelItem<BattleUnitExcelData, BattleUnitExcelItem>(unitId)
+                };
+
+                infos.Add(heroItemInfo);
             }
 
             return infos;
         }
     }
-    
+
     public class HeroItemInfo : CellInfo
     {
-     
+        public BattleUnitExcelItem battleUnitExcelItem;
     }
     
     public class UiHeroPackageDialog : UiDialogBase

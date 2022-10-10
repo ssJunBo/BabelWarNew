@@ -22,6 +22,10 @@ public class CardExcelItem : ExcelItemBase
 	/// </summary>>
 	public string Desc;
 	/// <summary>
+	/// 参数个数
+	/// </summary>>
+	public int paramCount;
+	/// <summary>
 	/// 效果参数1
 	/// </summary>>
 	public float[] Param1;
@@ -82,6 +86,14 @@ public class CardExcelData : ExcelDataBase
 		if(item == null)
 			return default;
 		return item.Desc;
+	}
+
+	public int GetParamCount(int id)
+	{
+		var item = GetExcelItem(id) as CardExcelItem;
+		if(item == null)
+			return default;
+		return item.paramCount;
 	}
 
 	public float[] GetParam1(int id)
@@ -170,6 +182,7 @@ public class CardAssetAssignment
 			excelDataAsset.items[i].id = StringUtility.StringToInt(itemRowDic["id"]);
 			excelDataAsset.items[i].Name = itemRowDic["Name"];
 			excelDataAsset.items[i].Desc = itemRowDic["Desc"];
+			excelDataAsset.items[i].paramCount = StringUtility.StringToInt(itemRowDic["paramCount"]);
 			excelDataAsset.items[i].Param1 = StringUtility.StringToFloatArray(itemRowDic["Param1"]);
 			excelDataAsset.items[i].Param2 = StringUtility.StringToFloatArray(itemRowDic["Param2"]);
 			excelDataAsset.items[i].Icon = StringUtility.StringToInt(itemRowDic["Icon"]);

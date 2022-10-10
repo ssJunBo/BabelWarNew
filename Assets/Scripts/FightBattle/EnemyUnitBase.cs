@@ -93,7 +93,7 @@ namespace FightBattle
         public override void SetData(int soliderCombineId)
         {
             base.SetData(soliderCombineId);
-            AttributeInfo = AttributeInfo.CreateAttributeInfo(IDParseHelp.GetBattleUnitId(base.SoliderCombineId));
+            AttributeInfo = AttributeInfo.CreateAttributeInfo(SoliderCombineId);
         }
 
         public override BattleUnitBase GetNearestTarget()

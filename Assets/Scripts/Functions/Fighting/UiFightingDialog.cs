@@ -92,6 +92,7 @@ namespace Functions.Fighting
 
         private UiFightingLogic _uiLogic;
 
+        private bool _startFight;
         #endregion
 
         #region Override
@@ -148,7 +149,7 @@ namespace Functions.Fighting
 
             if (Input.GetKeyDown(KeyCode.B)) CardManager.Instance.ChangeRound(Round.Enemy);
 
-            if (CardManager.Instance.Round == Round.Own && !_fightOver) CardTimeDown();
+            if (_startFight && CardManager.Instance.Round == Round.Own && !_fightOver) CardTimeDown();
         }
 
         #endregion
@@ -486,6 +487,8 @@ namespace Functions.Fighting
 
         public void OnClickStartFight()
         {
+            _startFight = true;
+            
             FightManager.Instance.StartFighting();
             fightMaskObj.SetActive(false);
             ownCardParentObj.SetActive(true);

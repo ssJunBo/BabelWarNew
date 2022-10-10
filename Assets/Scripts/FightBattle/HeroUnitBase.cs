@@ -35,7 +35,7 @@ namespace FightBattle
         {
             base.SetData(soliderCombineId);
 
-            AttributeInfo = AttributeInfo.CreateAttributeInfo(IDParseHelp.GetBattleUnitId(SoliderCombineId));
+            AttributeInfo = AttributeInfo.CreateAttributeInfo(SoliderCombineId);
 
             SetSkillData();
 

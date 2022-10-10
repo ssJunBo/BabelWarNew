@@ -224,9 +224,9 @@ namespace FightBattle
             Def = AttributeConfig.def;
         }
 
-        public static AttributeInfo CreateAttributeInfo(int id)
+        public static AttributeInfo CreateAttributeInfo(int combineId)
         {
-            var baseAttributeData = AttributeConfig.CreateBaseAttribute(id);
+            var baseAttributeData = AttributeConfig.CreateBaseAttribute(combineId);
             AttributeInfo attributeInfo = new AttributeInfo(baseAttributeData);
 
             return attributeInfo;
@@ -258,25 +258,31 @@ namespace FightBattle
         
         public float def;
         public string extraPara;
-        public static AttributeConfig CreateBaseAttribute(int id)
+        public static AttributeConfig CreateBaseAttribute(int combineId)
         {
-            var data = ExcelManager.Instance.GetExcelItem<BattleUnitExcelData, BattleUnitExcelItem>(id);
+            int unitId = IDParseHelp.GetBattleUnitId(combineId);
+            var data = ExcelManager.Instance.GetExcelItem<BattleUnitExcelData, BattleUnitExcelItem>(unitId);
+
+            var attributeData = ExcelManager.Instance.GetExcelItem<AttributeExcelData, AttributeExcelItem>(combineId);
 
             var baseAttributeData = new AttributeConfig()
             {
-                dataId = id,
+                // 不变的基本数据
+                dataId = unitId,
                 atkType = data.NormalAtkType,
                 battleUnitType = data.UnitType,
-                hp = data.Hp,
-                atk = data.Atk,
-                atkDistance = data.AtkDistance,
-                atkSpeed = data.AtkSpeed,
-                moveSpeed = data.MoveSpeed,
-                atkAngle = data.Angle,
-                atkRadius = data.Radius,
-                def = data.Def,
                 skillIds = data.SkillIds,
-                extraPara = data.param
+
+                // 根据组合id 获取当前等级对应的基本属性信息 随等级而变化
+                hp = attributeData.Hp,
+                atk = attributeData.Atk,
+                atkDistance = attributeData.AtkDistance,
+                atkSpeed = attributeData.AtkSpeed,
+                moveSpeed = attributeData.MoveSpeed,
+                atkAngle = attributeData.Angle,
+                atkRadius = attributeData.Radius,
+                def = attributeData.Def,
+                extraPara = attributeData.param
             };
 
             return baseAttributeData;

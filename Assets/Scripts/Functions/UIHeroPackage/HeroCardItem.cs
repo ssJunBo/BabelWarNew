@@ -1,4 +1,3 @@
-using Functions.UICardPackage;
 using Managers;
 using TMPro;
 using UIExtension.ScrollRectExt;
@@ -15,14 +14,13 @@ namespace Functions.UIHeroPackage
         
         public override void SetUi(CellInfo cellInfo)
         {
-            if (cellInfo is CardItemInfo cardPackageInfo)
+            if (cellInfo is HeroItemInfo cardPackageInfo)
             {
-                var fightCardExcelItem = cardPackageInfo.FightCardExcelItem;
+                var fightCardExcelItem = cardPackageInfo.battleUnitExcelItem;
                 
                 nameTxt.text = fightCardExcelItem.Name;
                 descTxt.text = fightCardExcelItem.Desc;
-                iconImg.sprite =
-                    AtlasManager.Instance.GetSprite("FightCard", fightCardExcelItem.Icon.ToString());
+                iconImg.sprite = AtlasManager.Instance.GetSprite("FightCard", fightCardExcelItem.IconId.ToString());
             }
         }
     }
