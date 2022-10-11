@@ -45,9 +45,6 @@ namespace Managers
                 case EUiID.CardPackage:
                     ModelPlay.UiCardPackageLogic.Open();
                     break;
-                case EUiID.HeroPackage:
-                    ModelPlay.UiHeroPackageLogic.Open();
-                    break;
                 case EUiID.Setting:
                     ModelPlay.UiSettingLogic.Open();
                     break;

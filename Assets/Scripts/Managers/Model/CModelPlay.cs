@@ -7,7 +7,6 @@ using Functions.Main;
 using Functions.PersonDetailInfo;
 using Functions.Setting;
 using Functions.UICardPackage;
-using Functions.UIHeroPackage;
 
 namespace Managers.Model
 {
@@ -32,9 +31,6 @@ namespace Managers.Model
         
         private UiCardPackageLogic _uiCardPackageLogic;
         public UiCardPackageLogic UiCardPackageLogic => _uiCardPackageLogic ??= new UiCardPackageLogic(this);
-        
-        private UiHeroPackageLogic _uiHeroPackageLogic;
-        public UiHeroPackageLogic UiHeroPackageLogic => _uiHeroPackageLogic ??= new UiHeroPackageLogic(this);
         
         private UiSettingLogic _uiSettingLogic;
         public UiSettingLogic UiSettingLogic => _uiSettingLogic ??= new UiSettingLogic(this);

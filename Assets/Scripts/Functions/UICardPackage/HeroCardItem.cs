@@ -4,7 +4,7 @@ using UIExtension.ScrollRectExt;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Functions.UIHeroPackage
+namespace Functions.UICardPackage
 {
     public class HeroCardItem : LoopItem
     {
@@ -16,7 +16,7 @@ namespace Functions.UIHeroPackage
         {
             if (cellInfo is HeroItemInfo cardPackageInfo)
             {
-                var fightCardExcelItem = cardPackageInfo.battleUnitExcelItem;
+                var fightCardExcelItem = cardPackageInfo.BattleUnitExcelItem;
                 
                 nameTxt.text = fightCardExcelItem.Name;
                 descTxt.text = fightCardExcelItem.Desc;

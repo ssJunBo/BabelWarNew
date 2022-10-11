@@ -9,10 +9,10 @@ namespace Functions.Currency
         [SerializeField] private Image iconImg;
         [SerializeField] private TextMeshProUGUI countTxt;
 
-        public void SetData(Sprite iconSpr, int count)
+        public void SetData(CurrencyInfo info)
         {
-            iconImg.sprite = iconSpr;
-            countTxt.text = count.ToString();
+            // iconImg.sprite = null;
+            countTxt.text =info.Num.ToString();
         }
     }
 }
