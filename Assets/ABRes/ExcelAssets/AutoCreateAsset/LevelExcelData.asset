@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d27ddeaaaeecd60419afbb64d99d250b, type: 3}
+  m_Name: LevelExcelData
+  m_EditorClassIdentifier: 
+  items:
+  - id: 1
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 75270000d92700003d280000a128000005290000
+  - id: 2
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 76270000da2700003e280000a228000006290000
+  - id: 3
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 77270000db2700003f280000a328000007290000
+  - id: 4
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 78270000dc27000040280000a428000008290000
+  - id: 5
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 79270000dd27000041280000a528000009290000
+  - id: 6
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 7a270000de27000042280000a62800000a290000
+  - id: 7
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 7b270000df27000043280000a72800000b290000
+  - id: 8
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 7c270000e027000044280000a82800000c290000
+  - id: 9
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 7d270000e127000045280000a92800000d290000
+  - id: 10
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 7d270000e127000045280000a92800000d290000
+  - id: 11
+    enemyCombineId: e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000e94e0000
+    enemyCardInfo: 7d270000e127000045280000a92800000d290000

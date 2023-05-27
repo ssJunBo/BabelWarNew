@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FightCard
+  serializedVersion: 2
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 55377ab6130027c44a46ba04d4491e63, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 865d05a0e2248b847b0a4badd51e3c78, type: 3}
+  - {fileID: 21300000, guid: b151f5a009b2b9c4c90c627c8b74ec19, type: 3}
+  - {fileID: 21300000, guid: 5f0af3612858a474caff636a912451d0, type: 3}
+  - {fileID: 21300000, guid: 052347e160b8bb24ab28b6882fc75a35, type: 3}
+  - {fileID: 21300000, guid: a09d9462f943f5841bebd5df4d012692, type: 3}
+  - {fileID: 21300000, guid: b1e1c4635f9878f49866058fb8f18dbd, type: 3}
+  - {fileID: 21300000, guid: 109dcb634356b42468b2dcd1ffb80789, type: 3}
+  - {fileID: 21300000, guid: ee8ee43482ff2fe439823a1251de8cc9, type: 3}
+  - {fileID: 21300000, guid: 232eb3a69e0d95e4899383add18e8444, type: 3}
+  - {fileID: 21300000, guid: 8137c4c627ae1dd4793df6a2cefb55d0, type: 3}
+  - {fileID: 21300000, guid: cb0cdfc725a760e43bfb04e5c8a31dce, type: 3}
+  - {fileID: 21300000, guid: 85263529f1ac513438d83b258499fbdb, type: 3}
+  - {fileID: 21300000, guid: dfa494bacaff90c47aef029490d4ad3d, type: 3}
+  - {fileID: 21300000, guid: 755ecb8bcb6c9c8419dacf7f6b59ae28, type: 3}
+  - {fileID: 21300000, guid: f6295e4c3cee48e48a32d426a0779491, type: 3}
+  - {fileID: 21300000, guid: 4e7c28fc153e1654abfacc3fb55a8689, type: 3}
+  - {fileID: 21300000, guid: 091e22bf7bc6b6c4c9683bb44b09e6ad, type: 3}
+  - {fileID: 21300000, guid: 10b9bfdfb76c8c0458d909b6204ba215, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 1
+  - 8
+  - 13
+  - 5
+  - 9
+  - 17
+  - 7
+  - 11
+  - 4
+  - 14
+  - 2
+  - 16
+  - 10
+  - 15
+  - 12
+  - 18
+  - 6
+  - 3
+  m_RenderDataMap: {}
+  m_Tag: FightCard
+  m_IsVariant: 0
+  m_IsPlaceholder: 0

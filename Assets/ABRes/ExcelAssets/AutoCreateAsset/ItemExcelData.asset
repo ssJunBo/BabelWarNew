@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7219aed6ecf92345bc58ae3ea8f5354, type: 3}
+  m_Name: ItemExcelData
+  m_EditorClassIdentifier: 
+  items:
+  - id: 101
+    Icon: 1
+    Name: "\u6EC7\u85CF"
+  - id: 102
+    Icon: 2
+    Name: "\u5178\u85CF"
+  - id: 103
+    Icon: 3
+    Name: "\u9752\u7389"
+  - id: 201
+    Icon: 4
+    Name: "\u65E0\u754F"
+  - id: 202
+    Icon: 5
+    Name: "\u4E0D\u80FD"

@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63b76a8714688440a789de6281c3f3e, type: 3}
+  m_Name: CardExcelData
+  m_EditorClassIdentifier: 
+  items:
+  - id: 10101
+    Name: "\u70C8\u7130\u706B\u7403"
+    Desc: "\u968F\u673A\u9009\u4E00\u540D\u654C\u4EBA\u4E3A\u4E2D\u5FC3\uFF0C\u534A\u5F84{0}\u5185\u654C\u4EBA\u9020\u6210\u4F24\u5BB3\uFF01"
+    paramCount: 1
+    Param1:
+    - 100
+    - 110
+    - 120
+    - 130
+    - 140
+    - 150
+    - 160
+    - 170
+    - 180
+    Param2:
+    - 0
+    Icon: 1
+    damage: f401000058020000bc0200002003000084030000e80300004c040000b0040000dc050000
+  - id: 10201
+    Name: "\u5361\u2014\u547D\u8FD0"
+    Desc: "\u4F7F\u7528\u5361\u724C\u540E\uFF0C\u573A\u5185\u654C\u519B\u6216\u53CB\u519B(\u5404\u767E\u5206\u4E4B50\u6982\u7387)\uFF0C\u589E\u52A0\u6216\u51CF\u5C11{0}\u8840\uFF01"
+    paramCount: 1
+    Param1:
+    - 100
+    - 110
+    - 120
+    - 130
+    - 140
+    - 150
+    - 160
+    - 170
+    - 180
+    Param2:
+    - 0
+    Icon: 2
+    damage: f401000058020000bc0200002003000084030000e80300004c040000b0040000dc050000
+  - id: 10301
+    Name: "\u6C38\u971C"
+    Desc: "\u968F\u673A\u9009\u4E00\u540D\u654C\u4EBA\u4E3A\u4E2D\u5FC3\uFF0C\u534A\u5F84{0}\u5185\u654C\u4EBA\u51B0\u51BB{1}s\uFF01"
+    paramCount: 2
+    Param1:
+    - 100
+    - 110
+    - 120
+    - 130
+    - 140
+    - 150
+    - 160
+    - 170
+    - 180
+    Param2:
+    - 1
+    - 1.1
+    - 1.2
+    - 1.3
+    - 1.5
+    - 1.8
+    - 2
+    - 2
+    - 3
+    Icon: 3
+    damage: f401000058020000bc0200002003000084030000e80300004c040000b0040000dc050000
+  - id: 10401
+    Name: "\u5F3A\u5316"
+    Desc: "\u6240\u6709\u53CB\u519B\u653B\u51FB\u529B\u589E\u52A0\u767E\u5206\u4E4B{0}\uFF01"
+    paramCount: 1
+    Param1:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    Param2:
+    - 0
+    Icon: 4
+    damage: f401000058020000bc0200002003000084030000e80300004c040000b0040000dc050000
+  - id: 10501
+    Name: "\u72C2\u70ED"
+    Desc: "\u6240\u6709\u53CB\u519B\u653B\u51FB\u901F\u5EA6\u589E\u52A0\u767E\u5206\u4E4B{0}\uFF01"
+    paramCount: 1
+    Param1:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    Param2:
+    - 0
+    Icon: 5
+    damage: f401000058020000bc0200002003000084030000e80300004c040000b0040000dc050000

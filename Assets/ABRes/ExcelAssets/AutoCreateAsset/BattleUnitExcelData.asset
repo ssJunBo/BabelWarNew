@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d4820ce82f31a469f23c4e58d1e7da, type: 3}
+  m_Name: BattleUnitExcelData
+  m_EditorClassIdentifier: 
+  items:
+  - id: 101
+    Name: "\u5149-\u5251\u5723"
+    Desc: "\u62FF\u7740\u5251\u7684\u9A91\u58EB"
+    NormalAtkType: 2
+    UnitType: 1
+    IconId: 1
+    PathId: 101
+    SkillIds: 7427000075270000
+  - id: 102
+    Name: "\u706B\u9A91\u58EB"
+    Desc: "\u6CA1\u6709\u706B\u7130\u5C31\u6CA1\u6709\u5149\u660E"
+    NormalAtkType: 2
+    UnitType: 2
+    IconId: 2
+    PathId: 102
+    SkillIds: d8270000d9270000
+  - id: 103
+    Name: "\u98CE-\u5251\u58EB"
+    Desc: "\u98CE\u5F15\u9886\u65B9\u5411\uFF0C\u65B9\u5411\u51B3\u5B9A\u547D\u8FD0"
+    NormalAtkType: 2
+    UnitType: 3
+    IconId: 3
+    PathId: 103
+    SkillIds: 3c2800003d280000
+  - id: 201
+    Name: "\u6728-\u5F13\u7BAD"
+    Desc: "\u6728\u751F\u706B\uFF0C\u6728\u5251\u4F1A\u71C3\u70E7\u5417"
+    NormalAtkType: 1
+    UnitType: 100
+    IconId: 4
+    PathId: 201
+    SkillIds: 844e0000854e0000
+  - id: 202
+    Name: "\u51B0-\u5F13\u7BAD"
+    Desc: "ice\uFF0C\u51B0\u51BB"
+    NormalAtkType: 1
+    UnitType: 200
+    IconId: 5
+    PathId: 202
+    SkillIds: e84e0000e94e0000

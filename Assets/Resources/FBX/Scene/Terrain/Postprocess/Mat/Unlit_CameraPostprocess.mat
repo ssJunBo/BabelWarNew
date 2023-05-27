@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit_CameraPostprocess
+  m_Shader: {fileID: 4800000, guid: 2a7c3316d06f7af4790b7b320c8b4ba4, type: 3}
+  m_ShaderKeywords: _ADDITIVE_ON _OVERLAP_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Overlap:
+        m_Texture: {fileID: 2800000, guid: b94c82836972dd345a54bfbfa8a8f4f3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OverlapDark:
+        m_Texture: {fileID: 2800000, guid: cf4c293187a117848b3b9d9bab55ab98, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _ADDITIVE_ON: 1
+    - _Additive: 0
+    - _BRIGHTER_ON: 0
+    - _Brighter: 0
+    - _LINEAR_LIGHT_ON: 0
+    - _OVERLAP_ON: 1
+    - _Param: 0.25
+    - _ParamDark: 2.5
+    m_Colors: []

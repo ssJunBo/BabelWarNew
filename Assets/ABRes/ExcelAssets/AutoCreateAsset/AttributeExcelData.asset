@@ -1,0 +1,465 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c751240cfd7f55d43b9265a3b2bc7b36, type: 3}
+  m_Name: AttributeExcelData
+  m_EditorClassIdentifier: 
+  items:
+  - id: 10101
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10102
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10103
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10104
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10105
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10106
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10107
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10108
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10109
+    Angle: 120
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10201
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10202
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10203
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10204
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10205
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10206
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10207
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10208
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10209
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10301
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10302
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10303
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10304
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10305
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10306
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10307
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10308
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 10309
+    Angle: 90
+    Radius: 60
+    Atk: 20
+    AtkDistance: 40
+    AtkSpeed: 0.8
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 30
+    param: 0
+  - id: 20101
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20102
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20103
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20104
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20105
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20106
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20107
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20108
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20109
+    Angle: 0
+    Radius: 0
+    Atk: 15
+    AtkDistance: 120
+    AtkSpeed: 0.7
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 0
+  - id: 20201
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
+  - id: 20202
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
+  - id: 20203
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
+  - id: 20204
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
+  - id: 20205
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
+  - id: 20206
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
+  - id: 20207
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
+  - id: 20208
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
+  - id: 20209
+    Angle: 0
+    Radius: 0
+    Atk: 20
+    AtkDistance: 120
+    AtkSpeed: 1
+    Hp: 2000
+    Def: 0.2
+    MoveSpeed: 20
+    param: 5
