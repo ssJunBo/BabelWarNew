@@ -13,8 +13,7 @@ namespace Functions.Fighting
 {
     public class UiFightingLogic : UiLogicBase
     {
-        protected override string Path => "Prefabs/Functions/UIFight/UiFightingDialog";
-        protected override EUiID UiId => EUiID.Fighting;
+        public override EUiID UiId => EUiID.UiFighting;
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
@@ -482,7 +481,7 @@ namespace Functions.Fighting
             FightManager.Instance.PauseFighting();
 
             _uiLogic.Close();
-            UiManager.Instance.OpenUi(EUiID.Main);
+            UiManager.Instance.OpenUi(EUiID.UiMain);
         }
 
         public void OnClickStartFight()
@@ -503,7 +502,7 @@ namespace Functions.Fighting
         
         public void OnClickCardPackage()
         {
-            UiManager.Instance.OpenUi(EUiID.CardPackage);
+            UiManager.Instance.OpenUi(EUiID.UICardPackage);
         }
         
         #endregion

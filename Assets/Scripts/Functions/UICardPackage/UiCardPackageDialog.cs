@@ -12,8 +12,7 @@ namespace Functions.UICardPackage
 {
     public class UiCardPackageLogic : UiLogicBase
     {
-        protected override string Path => "Prefabs/Functions/UICardPackage/UICardPackageDialog";
-        protected override EUiID UiId => EUiID.CardPackage;
+        public override EUiID UiId => EUiID.UICardPackage;
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 

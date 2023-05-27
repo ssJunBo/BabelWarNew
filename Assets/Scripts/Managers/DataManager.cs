@@ -44,12 +44,12 @@ namespace Managers
         {
             EnemyCardsList.Clear();
 
-            var levelExcelItem = ExcelManager.Instance.GetExcelItem<LevelExcelData, LevelExcelItem>(levId);
-
-            foreach (var cardCombineId in levelExcelItem.enemyCardInfo)
-            {
-                EnemyCardsList.Add(new CardInfo { CombineId = cardCombineId });
-            }
+            // var levelExcelItem = ExcelManager.Instance.GetExcelItem<LevelExcelData, LevelExcelItem>(levId);
+            //
+            // foreach (var cardCombineId in levelExcelItem.enemyCardInfo)
+            // {
+            //     EnemyCardsList.Add(new CardInfo { CombineId = cardCombineId });
+            // }
         }
 
 

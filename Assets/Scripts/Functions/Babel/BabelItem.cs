@@ -16,7 +16,7 @@ namespace Functions.Babel
         {
             UiManager.Instance.CloseAllUiDialog();
             // 打开战斗选择界面
-            UiManager.Instance.OpenUi(EUiID.Fighting, _levId);
+            UiManager.Instance.OpenUi(EUiID.UiFighting, _levId);
         }
 
         public override void SetUi(CellInfo cellInfo)

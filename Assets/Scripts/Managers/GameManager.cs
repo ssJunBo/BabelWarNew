@@ -2,6 +2,7 @@
 using _GameBase;
 using Common;
 using Data.Account;
+using ET;
 using Managers.Model;
 using UnityEngine;
 
@@ -33,9 +34,18 @@ namespace Managers
         
         #endregion
 
-        private void Start()
+        private async void Start()
         {
             AudioManager.Instance.PlayBg("bg01");
+
+            
+            ETTask.ExceptionHandler += Log.Error;
+            
+            Game.AddSingleton<TimeInfo>();
+            Game.AddSingleton<ObjectPool>();
+            Game.AddSingleton<TimerComponent>();
+            Game.AddSingleton<CoroutineLockComponent>();
+            Game.AddSingleton<CodeLoader>().Start();
             
             // DontDestroyOnLoad(gameObject);
 
@@ -44,15 +54,21 @@ namespace Managers
             // if (ResourceManager.Instance.MLoadFromAssetBundle)
             // AssetBundleManager.Instance.LoadAssetBundleConfig();
 
-            InitManager();
+            Log.Debug("初始化表之前时间 "+ Time.time);
+            
+            await ExcelManager.Instance.InitData();
+
+            Log.Debug("初始化表之后时间 "+ Time.time);
 
             LoadConfig();
 
-            UiManager.Instance.OpenUi(EUiID.Main);
+            UiManager.Instance.OpenUi(EUiID.UiMain);
         }
 
         private void Update()
         {
+            Game.Update();
+            
             if (Input.GetKeyDown(KeyCode.S))
             {
                 DataManager.Instance.SaveData(new PersonInfo()
@@ -92,10 +108,11 @@ namespace Managers
             }
         }
 
-        private void InitManager()
+        private void LateUpdate()
         {
-            ExcelManager.Instance.InitData();
+            Game.LateUpdate();
         }
+        
 
         /// <summary>
         /// 加载配置表 需要什么配置表都在这里加载

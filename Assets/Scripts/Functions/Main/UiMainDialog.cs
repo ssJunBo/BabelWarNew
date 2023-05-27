@@ -8,8 +8,7 @@ namespace Functions.Main
 {
     public  class UiMainLogic : UiLogicBase
     {
-        protected override string Path => "Prefabs/Functions/UiMainDialog";
-        protected override EUiID UiId => EUiID.Main;
+        public override EUiID UiId => EUiID.UiMain;
         public CModelPlay ModelPlay { get; }
 
         public UiMainLogic(CModelPlay modelPlay)
@@ -43,7 +42,7 @@ namespace Functions.Main
         public override void ShowFinished()
         {
             // TODO 个人信息
-            uiInfoPanel.SetData(_uiLogic.ModelPlay);
+            uiInfoPanel.SetData(_uiLogic);
         }
 
         public override void Release()
@@ -54,12 +53,12 @@ namespace Functions.Main
 
         public void OpenSettingDialog()
         {
-            UiManager.Instance.OpenUi(EUiID.Setting);
+            UiManager.Instance.OpenUi(EUiID.UiSetting);
         }
 
         public void OpenCardPackageDialog()
         {
-            UiManager.Instance.OpenUi(EUiID.CardPackage);
+            UiManager.Instance.OpenUi(EUiID.UICardPackage);
         }
         
         public void OpenHeroDialog()

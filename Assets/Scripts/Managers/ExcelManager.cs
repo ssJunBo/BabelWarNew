@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using _GameBase;
 using _GameBase.Excel2Class;
+using ET;
 using UnityEngine;
 using Directory = UnityEngine.Windows.Directory;
 
@@ -12,9 +13,17 @@ namespace Managers
     {
         private const string ExcelDataPath = "ExcelAssets/AutoCreateAsset/";
 
-        public void InitData()
+        private const string ExcelDataABPath = "AutoCreateAsset";
+        
+        public async ETTask InitData()
         {
-            string dataPath=Application.dataPath+"/Resources/ExcelAssets/AutoCreateAsset";
+            if (!Define.IsEditor)
+                await ResourcesLoaderComponent.Instance.LoadAsync(ExcelDataABPath.StringToAB());
+            
+            string dataPath=Application.dataPath+"/ABRes/ExcelAssets/AutoCreateAsset";
+
+            string assetPath = "Assets/ABRes/ExcelAssets/AutoCreateAsset/";
+            
             if (Directory.Exists(dataPath))
             {
                 DirectoryInfo direction = new DirectoryInfo(dataPath);
@@ -24,8 +33,20 @@ namespace Managers
                     var nameArr = file.Name.Split('.');
                     var type = Type.GetType(nameArr[0]);  
                     // 加载配置数据
-                    ExcelDataBase tmpInfo = UnityEngine.Resources.Load<ExcelDataBase>(ExcelDataPath + nameArr[0]);
-                    tmpInfo.Init();
+                    // ExcelDataBase tmpInfo = UnityEngine.Resources.Load<ExcelDataBase>(ExcelDataPath + nameArr[0]);
+
+                    ExcelDataBase tmpInfo;
+                    if (Define.IsEditor)
+                    {
+                        tmpInfo = (ExcelDataBase)Define.LoadAssetAtPath(assetPath + file.Name);
+                    }
+                    else
+                    {
+                         tmpInfo =(ExcelDataBase)ResourcesComponent.Instance.GetAsset(ExcelDataABPath.StringToAB(), nameArr[0]);
+                    }
+                    
+                    tmpInfo?.Init();
+                    
 
                     if (type != null)
                     {

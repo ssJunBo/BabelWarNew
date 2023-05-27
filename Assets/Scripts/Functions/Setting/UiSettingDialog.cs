@@ -9,8 +9,7 @@ namespace Functions.Setting
 {
     public class UiSettingLogic : UiLogicBase
     {
-        protected override string Path => "Prefabs/Functions/Setting/UiSettingDialog";
-        protected override EUiID UiId => EUiID.Setting;
+        public override EUiID UiId => EUiID.UiSetting;
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
         
         private readonly CModelPlay _model;

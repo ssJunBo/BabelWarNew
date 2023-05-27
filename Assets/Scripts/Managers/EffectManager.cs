@@ -2,6 +2,7 @@
 using _GameBase;
 using Pool;
 using UnityEngine;
+using ObjectPool = Pool.ObjectPool;
 
 namespace Managers
 {

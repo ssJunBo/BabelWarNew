@@ -2,14 +2,14 @@
 using Common;
 using Managers;
 using Managers.Model;
+using UIExtension;
 using UnityEngine;
 
 namespace Functions.PersonDetailInfo
 {
     public class UiPersonDetailInfoLogic : UiLogicBase
     {
-        protected override string Path => "Prefabs/Functions/UIPerson/UiPersonDetailInfoDialog";
-        protected override EUiID UiId => EUiID.PersonDetailInfo;
+        public override EUiID UiId => EUiID.UiPersonDetailInfo;
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
@@ -24,12 +24,16 @@ namespace Functions.PersonDetailInfo
     public class UiPersonDetailInfoDialog : UiDialogBase
     {
         [SerializeField] private PersonInfoPanel personInfoPanel;
+        [SerializeField] private ExpandButton closeBtn;
+
         
         private UiPersonDetailInfoLogic uiPersonDetailInfoLogic;
 
         public override void Init()
         {
             uiPersonDetailInfoLogic = (UiPersonDetailInfoLogic) UiLogic;
+            
+            closeBtn.onClick.AddListener(Close);
         }
 
         public override void ShowFinished()

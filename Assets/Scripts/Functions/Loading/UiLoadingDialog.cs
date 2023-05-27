@@ -11,8 +11,7 @@ namespace Functions.Loading
 {
     public class UiLoadingLogic : UiLogicBase
     {
-        protected override string Path => "Prefabs/Functions/UiLoadingDialog";
-        protected override EUiID UiId => EUiID.Loading;
+        public override EUiID UiId => EUiID.UiLoading;
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
         
         #region data

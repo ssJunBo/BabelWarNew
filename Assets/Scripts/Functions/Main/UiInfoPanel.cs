@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using _GameBase;
+using Common;
 using Helpers;
 using Managers;
 using Managers.Model;
@@ -14,11 +15,11 @@ namespace Functions.Main
         [SerializeField] private Image personHeadImg;
         [SerializeField] private TextMeshProUGUI personNameTxt;
 
-        private CModelPlay _modelPlay;
+        private UiMainLogic uiMainLogic;
 
-        public void SetData(CModelPlay modelPlay)
+        public void SetData(UiMainLogic uiMainLogic)
         {
-            _modelPlay = modelPlay;
+            this.uiMainLogic = uiMainLogic;
 
             int iconExcelId = DataManager.Instance.PersonInfo.IconExcelId;
             personHeadImg.sprite = Utils.GetSprite(iconExcelId);
@@ -34,22 +35,26 @@ namespace Functions.Main
             var pathId = ExcelManager.Instance.GetExcelItem<BattleUnitExcelData, BattleUnitExcelItem>(heroId).PathId;
             string pathStr = ExcelManager.Instance.GetExcelData<PathExcelData>().GetDetailPath(pathId);
 
-            GameObject go = UnityEngine.Resources.Load<GameObject>(pathStr);
 
-            _personObj = Instantiate(go, GameManager.Instance.personTrs);
-            _personObj.transform.localPosition = Vector3.zero;
-            _personObj.transform.localScale = Vector3.one;
-            _personObj.transform.localRotation = Quaternion.identity;
+            return;
+            
+            // GameObject go = (GameObject)ResourcesComponent.Instance.GetAssetWithPath(uiMainLogic.UiId.ToString().ToLower() + "dialog.unity3d", UiId + "Dialog");
+            // GameObject go = resourloa<GameObject>(pathStr);
+
+            // _personObj = Instantiate(go, GameManager.Instance.personTrs);
+            // _personObj.transform.localPosition = Vector3.zero;
+            // _personObj.transform.localScale = Vector3.one;
+            // _personObj.transform.localRotation = Quaternion.identity;
         }
 
         public void OnClickHeadIcon()
         {
-            UiManager.Instance.OpenUi(EUiID.PersonDetailInfo);
+            UiManager.Instance.OpenUi(EUiID.UiPersonDetailInfo);
         }
 
         public void OnClickStartBattle()
         {
-            UiManager.Instance.OpenUi(EUiID.Babel);
+            UiManager.Instance.OpenUi(EUiID.UiBabel);
         }
 
         public void Clear()

@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Threading.Tasks;
+using Common;
 using Managers;
 using Tools;
 using UnityEngine;
@@ -8,9 +9,8 @@ namespace _GameBase.UIBase
 {
     public abstract class UiLogicBase
     {
-        protected abstract string Path { get; }
         // 具体ui
-        protected abstract EUiID UiId { get; }
+        public abstract EUiID UiId { get; }
         protected virtual EUiLayer UiLayer => EUiLayer.Low_2D;
 
         private bool _isShowing;
@@ -48,14 +48,22 @@ namespace _GameBase.UIBase
         }
 
         //实际打开
-        private void DoOpen()
+        private async void DoOpen()
         {
             _isShowing = true;
 
-            HandleUiResourceOk(Path, UnityEngine.Resources.Load(Path));
+            Log.Debug("生成预支体前时间 "+Time.time);
+
+            await ResourcesLoaderComponent.Instance.LoadAsync(UiId.ToString().ToLower() + "dialog.unity3d");
+
+            Log.Debug("生成预支体后时间 "+Time.time);
+
+            Object obj =  ResourcesComponent.Instance.GetAsset(UiId.ToString().ToLower() + "dialog.unity3d", UiId + "Dialog");
+            
+            HandleUiResourceOk(obj);
         }
 
-        private void HandleUiResourceOk(string path, Object obj)
+        private void HandleUiResourceOk(Object obj)
         {
             if (!_isShowing) return;
 
@@ -78,7 +86,7 @@ namespace _GameBase.UIBase
                     if (_mObj == null)
                     {
                         //加载窗口失败，返回初始化失败
-                        Debug.LogError("加载窗口失败！path = " + path);
+                        Debug.LogError("加载窗口失败！");
                         return;
                     }
 

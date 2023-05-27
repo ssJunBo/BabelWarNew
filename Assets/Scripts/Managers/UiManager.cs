@@ -30,22 +30,22 @@ namespace Managers
         {
             switch (uiID)
             {
-                case EUiID.Main:
+                case EUiID.UiMain:
                     ModelPlay.UiMainLogic.Open();
                     break;
-                case EUiID.PersonDetailInfo:
+                case EUiID.UiPersonDetailInfo:
                     ModelPlay.UiPersonDetailInfoLogic.Open();
                     break;
-                case EUiID.Fighting:
+                case EUiID.UiFighting:
                     ModelPlay.UiFightingLogic.Open((int)data[0]);
                     break;
-                case EUiID.Babel:
+                case EUiID.UiBabel:
                     ModelPlay.UiBabelLogic.Open();
                     break;
-                case EUiID.CardPackage:
+                case EUiID.UICardPackage:
                     ModelPlay.UiCardPackageLogic.Open();
                     break;
-                case EUiID.Setting:
+                case EUiID.UiSetting:
                     ModelPlay.UiSettingLogic.Open();
                     break;
             }

@@ -20,7 +20,7 @@ namespace _GameBase.Excel2Class
         public static string AddColor(this string str,Color color)
         {
             //把颜色转换为16进制字符串，添加到富文本
-            return string.Format("<color=#{0}>{1}</color>",ColorUtility.ToHtmlStringRGBA(color),str);
+            return $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{str}</color>";
         }
         public static string AddColor(string str1,string str2,Color color)
         {

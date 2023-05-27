@@ -35,7 +35,7 @@ namespace _GameBase.Editor.Excel
             _excelReadAbsolutePath = Application.dataPath.Replace("Assets","Excel");
             _scriptSaveAbsolutePath = Application.dataPath + CheckEditorPath("/Scripts/Excel/AutoCreateCSCode");
             _scriptSaveRelativePath = CheckEditorPath("Assets/Scripts/Excel/AutoCreateCSCode");
-            _assetSaveRelativePath = CheckEditorPath("Assets/Resources/ExcelAssets/AutoCreateAsset");
+            _assetSaveRelativePath = CheckEditorPath("Assets/ABRes/ExcelAssets/AutoCreateAsset");
         }
  
         private void OnEnable()
@@ -101,7 +101,7 @@ namespace _GameBase.Editor.Excel
                 //生成Asset文件
                 if(GUILayout.Button("Create Asset",GUILayout.Width(100),GUILayout.Height(30)))
                 {
-                    _assetSaveRelativePath = CheckEditorPath("Assets/Resources/ExcelAssets/AutoCreateAsset");
+                    _assetSaveRelativePath = CheckEditorPath("Assets/ABRes/ExcelAssets/AutoCreateAsset");
                     ExcelDataReader.CreateOneExcelAsset(filePathList[i],_assetSaveRelativePath);
                 }
  
@@ -129,7 +129,7 @@ namespace _GameBase.Editor.Excel
             if(GUILayout.Button("Create Asset",GUILayout.Width(100),GUILayout.Height(30)))
             {
                 _excelReadAbsolutePath = Application.dataPath.Replace("Assets","Excel");
-                _assetSaveRelativePath = CheckEditorPath("Assets/Resources/ExcelAssets/AutoCreateAsset");
+                _assetSaveRelativePath = CheckEditorPath("Assets/ABRes/ExcelAssets/AutoCreateAsset");
 
                 ExcelDataReader.CreateAllExcelAsset(_excelReadAbsolutePath,_assetSaveRelativePath);
             }
@@ -185,9 +185,9 @@ namespace _GameBase.Editor.Excel
                 Directory.Delete(Application.dataPath + "/Scripts/Excel", true);
             }
 
-            if (Directory.Exists(Application.dataPath+"/Resources/ExcelAssets"))
+            if (Directory.Exists(Application.dataPath+"/ABRes/ExcelAssets"))
             {
-                Directory.Delete(Application.dataPath+"/Resources/ExcelAssets",true);
+                Directory.Delete(Application.dataPath+"/ABRes/ExcelAssets",true);
             }
         
             AssetDatabase.Refresh();

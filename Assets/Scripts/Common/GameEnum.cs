@@ -2,17 +2,19 @@
 {
     public enum EUiID
     {
-        Main = 0,
-        PersonDetailInfo,
-        Loading,
-        Fighting,
-        Babel, //通天塔
-        CardPackage,
-        HeroPackage,
-        Setting,
+        UiMain = 0,
+        UiPersonDetailInfo,
+        UiLoading,
+        UiFighting,
+        UiBabel, //通天塔
+        UICardPackage,
+        UiSetting,
         UiShop,
+        HeroPackage,
     }
 
+    
+    
     public enum EUiLayer
     {
         Low_2D = 0,
