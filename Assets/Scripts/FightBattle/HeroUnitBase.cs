@@ -27,7 +27,7 @@ namespace FightBattle
             animationEventHelp.actDict["Attack"] = AttackCb;
             animationEventHelp.actDict["AttackComplete"] = AttackCompleteCb;
 
-            EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
+            EventManager.Subscribe(EventMessageType.FightResult, FightResultRefresh);
         }
 
 
@@ -124,7 +124,7 @@ namespace FightBattle
 
         protected virtual void OnDestroy()
         {
-            EventManager.UnSubscribe<int>(EventMessageType.FightResult, FightResultRefresh);
+            EventManager.UnSubscribe(EventMessageType.FightResult, FightResultRefresh);
             if (Fsm != null)
             {
                 Fsm.SetNullState();
@@ -164,8 +164,10 @@ namespace FightBattle
 
         // ------------技能相关
 
-        private void FightResultRefresh(int result)
+        private void FightResultRefresh(object arg)
         {
+            int result = (int)arg;
+            
             if(result==1) 
                 Fsm.PerformTransition(Transition.AllTargetDie);
         }

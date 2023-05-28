@@ -21,7 +21,7 @@ namespace FightBattle
             animationEventHelp.actDict["Attack"] = AttackCb;
             animationEventHelp.actDict["AttackComplete"] = AttackCompleteCb;
 
-            EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
+            EventManager.Subscribe(EventMessageType.FightResult, FightResultRefresh);
         }
 
         protected override void Update()
@@ -139,9 +139,10 @@ namespace FightBattle
             }
         }
 
-        private void FightResultRefresh(int result)
+        private void FightResultRefresh(object arg)
         {
-            if (result==0)
+            int result = (int)arg;
+            if (result == 0)
             {
                 Fsm.PerformTransition(Transition.AllTargetDie);
             }
@@ -150,7 +151,7 @@ namespace FightBattle
 
         protected virtual void OnDestroy()
         {
-            EventManager.UnSubscribe<int>(EventMessageType.FightResult, FightResultRefresh);
+            EventManager.UnSubscribe(EventMessageType.FightResult, FightResultRefresh);
             Fsm?.SetNullState();
         }
     }

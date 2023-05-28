@@ -37,7 +37,7 @@ namespace Managers
         {
             if (!_isInit)
             {
-                EventManager.Subscribe<int>(EventMessageType.ChangeTimeScale, ChangeTimeScale);
+                EventManager.Subscribe(EventMessageType.ChangeTimeScale, ChangeTimeScale);
 
                 Blood bloodPre = UnityEngine.Resources.Load<GameObject>("Prefabs/Effect/Blood/WhiteBlood").GetComponent<Blood>();
             
@@ -46,7 +46,7 @@ namespace Managers
                 _isInit = true;
             }
         }
-
+        
         public void LoadUnit(int levId)
         {
             LoadEnemyUnit(levId);
@@ -212,8 +212,10 @@ namespace Managers
             }
         }
         
-        private void ChangeTimeScale(int multiple)
+        private void ChangeTimeScale(object arg)
         {
+            int multiple = (int)arg;
+       
             Time.timeScale = multiple;
 
             if (multiple > 1)
@@ -223,7 +225,7 @@ namespace Managers
         public void OnDestroy()
         {
             BloodPool.DestroyAllItem();
-            EventManager.UnSubscribe<int>(EventMessageType.ChangeTimeScale, ChangeTimeScale);
+            EventManager.UnSubscribe(EventMessageType.ChangeTimeScale, ChangeTimeScale);
         }
     }
 }

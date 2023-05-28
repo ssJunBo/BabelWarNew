@@ -96,12 +96,18 @@ namespace UIFunctions.Fighting
 
             #region 订阅事件
 
-            EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
-            EventManager.Subscribe<List<CardInfo>>(EventMessageType.IssueCard,RefreshCard);
+            EventManager.Subscribe(EventMessageType.FightResult, FightResultRefresh);
+            EventManager.Subscribe(EventMessageType.IssueCard,RefreshCard);
 
             GameManager.Instance.StartFight((int)_uiLogic.data[0]);
 
             #endregion
+        }
+
+
+        private void FightResultRefresh(object sender, int e)
+        {
+            throw new System.NotImplementedException();
         }
 
         public override void ShowFinished()
@@ -114,8 +120,8 @@ namespace UIFunctions.Fighting
 
         public override void Release()
         {
-            EventManager.UnSubscribe<int>(EventMessageType.FightResult, FightResultRefresh);
-            EventManager.UnSubscribe<List<CardInfo>>(EventMessageType.IssueCard,RefreshCard);
+            EventManager.UnSubscribe(EventMessageType.FightResult, FightResultRefresh);
+            EventManager.UnSubscribe(EventMessageType.IssueCard,RefreshCard);
 
             foreach (var item in _ownAllGenerateCards)
             {
@@ -425,8 +431,10 @@ namespace UIFunctions.Fighting
         #region ---------------------------- message ----------------------------
 
         private bool _fightOver;
-        private void FightResultRefresh(int result)
+        private void FightResultRefresh(object arg)
         {
+            int result = (int)arg;
+            
             _fightOver = true;
             TimerEventManager.Instance.DelaySeconds(1f, () =>
             {
@@ -438,8 +446,10 @@ namespace UIFunctions.Fighting
         }
 
         // 新增卡
-        private void RefreshCard(List<CardInfo> cardInfos)
+        private void RefreshCard(object e)
         {
+            List<CardInfo> cardInfos = (List<CardInfo>)e;
+            
             var curRound = CardManager.Instance.Round;
 
             roundInfoObj.SetActive(curRound == Round.Enemy);
