@@ -9,16 +9,17 @@ using Directory = UnityEngine.Windows.Directory;
 
 namespace Managers
 {
-    public class ExcelManager : Singleton<ExcelManager>
+    public class ExcelManager : Singleton<ExcelManager>,ISingletonDestroy
     {
         private const string ExcelDataPath = "ExcelAssets/AutoCreateAsset/";
 
         private const string ExcelDataABPath = "AutoCreateAsset";
-        
+
+        private readonly ResourcesLoaderComponent _resourcesLoaderComponent = new();
         public async ETTask InitData()
         {
-            if (!Define.IsEditor)
-                await ResourcesLoaderComponent.Instance.LoadAsync(ExcelDataABPath.StringToAB());
+            if (!Define.IsEditor) 
+                await _resourcesLoaderComponent.LoadAsync(ExcelDataABPath.StringToAB());
             
             string dataPath=Application.dataPath+"/ABRes/ExcelAssets/AutoCreateAsset";
 
@@ -32,13 +33,12 @@ namespace Managers
                 {
                     var nameArr = file.Name.Split('.');
                     var type = Type.GetType(nameArr[0]);  
+                   
                     // 加载配置数据
-                    // ExcelDataBase tmpInfo = UnityEngine.Resources.Load<ExcelDataBase>(ExcelDataPath + nameArr[0]);
-
                     ExcelDataBase tmpInfo;
                     if (Define.IsEditor)
                     {
-                        tmpInfo = (ExcelDataBase)Define.LoadAssetAtPath(assetPath + file.Name);
+                        tmpInfo = (ExcelDataBase)UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath + file.Name);
                     }
                     else
                     {
@@ -58,6 +58,11 @@ namespace Managers
                     }
                 }
             }
+        }
+        
+        public void Destroy()
+        {
+            _resourcesLoaderComponent.Destroy();
         }
 
         private readonly Dictionary<Type, object> _excelDataDic = new();
@@ -82,5 +87,6 @@ namespace Managers
 
             return null;
         }
+        
     }
 }

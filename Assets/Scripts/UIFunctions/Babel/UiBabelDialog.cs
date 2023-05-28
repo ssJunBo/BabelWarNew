@@ -6,7 +6,7 @@ using Managers.Model;
 using UIExtension.ScrollRectExt;
 using UnityEngine;
 
-namespace Functions.Babel
+namespace UIFunctions.Babel
 {
     public class UiBabelLogic: UiLogicBase
     {

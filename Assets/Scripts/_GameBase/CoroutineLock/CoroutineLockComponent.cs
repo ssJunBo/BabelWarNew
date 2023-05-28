@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using ET;
 using UnityEngine;
@@ -7,31 +6,31 @@ namespace _GameBase
 {
     public class CoroutineLockComponent: Singleton<CoroutineLockComponent>, ISingletonUpdate
     {
-        private readonly List<CoroutineLockQueueType> list = new List<CoroutineLockQueueType>(CoroutineLockType.Max);
-        private readonly Queue<(int, long, int)> nextFrameRun = new Queue<(int, long, int)>();
+        private readonly List<CoroutineLockQueueType> _list = new(CoroutineLockType.Max);
+        private readonly Queue<(int, long, int)> _nextFrameRun = new();
 
         public CoroutineLockComponent()
         {
             for (int i = 0; i < CoroutineLockType.Max; ++i)
             {
                 CoroutineLockQueueType coroutineLockQueueType = new CoroutineLockQueueType(i);
-                this.list.Add(coroutineLockQueueType);
+                _list.Add(coroutineLockQueueType);
             }
         }
 
         public override void Dispose()
         {
-            this.list.Clear();
-            this.nextFrameRun.Clear();
+            _list.Clear();
+            _nextFrameRun.Clear();
         }
 
         public void Update()
         {
             // 循环过程中会有对象继续加入队列
-            while (this.nextFrameRun.Count > 0)
+            while (_nextFrameRun.Count > 0)
             {
-                (int coroutineLockType, long key, int count) = this.nextFrameRun.Dequeue();
-                this.Notify(coroutineLockType, key, count);
+                (int coroutineLockType, long key, int count) = _nextFrameRun.Dequeue();
+                Notify(coroutineLockType, key, count);
             }
         }
 
@@ -43,18 +42,18 @@ namespace _GameBase
                 Debug.LogWarning($"too much coroutine level: {coroutineLockType} {key}");
             }
 
-            this.nextFrameRun.Enqueue((coroutineLockType, key, level));
+            _nextFrameRun.Enqueue((coroutineLockType, key, level));
         }
 
         public async ETTask<CoroutineLock> Wait(int coroutineLockType, long key, int time = 60000)
         {
-            CoroutineLockQueueType coroutineLockQueueType = this.list[coroutineLockType];
+            CoroutineLockQueueType coroutineLockQueueType = _list[coroutineLockType];
             return await coroutineLockQueueType.Wait(key, time);
         }
 
         private void Notify(int coroutineLockType, long key, int level)
         {
-            CoroutineLockQueueType coroutineLockQueueType = this.list[coroutineLockType];
+            CoroutineLockQueueType coroutineLockQueueType = _list[coroutineLockType];
             coroutineLockQueueType.Notify(key, level);
         }
     }

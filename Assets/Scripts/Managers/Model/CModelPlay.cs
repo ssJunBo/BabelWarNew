@@ -1,12 +1,11 @@
-﻿using System;
-using Common;
-using Functions.Babel;
+﻿using Functions.Babel;
 using Functions.Fighting;
-using Functions.Loading;
 using Functions.Main;
 using Functions.PersonDetailInfo;
-using Functions.Setting;
 using Functions.UICardPackage;
+using UIFunctions.Babel;
+using UIFunctions.Fighting;
+using UIFunctions.Setting;
 
 namespace Managers.Model
 {
@@ -19,9 +18,6 @@ namespace Managers.Model
 
         private UiMainLogic _uiMainLogic;
         public UiMainLogic UiMainLogic => _uiMainLogic ??= new UiMainLogic(this);
-
-        private UiLoadingLogic _uiLoadingLogic;
-        public UiLoadingLogic UiLoadingLogic => _uiLoadingLogic ??= new UiLoadingLogic(this);
 
         private UiBabelLogic _babelLogic;
         public UiBabelLogic UiBabelLogic => _babelLogic ??= new UiBabelLogic(this);

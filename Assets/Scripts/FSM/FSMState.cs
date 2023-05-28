@@ -36,7 +36,7 @@ namespace FSM
     {
         protected StateID stateId;
         public StateID StateID => stateId;
-        protected readonly Dictionary<Transition, StateID> _transitionStateDic = new Dictionary<Transition, StateID>();
+        protected readonly Dictionary<Transition, StateID> _transitionStateDic = new();
         protected readonly FsmSystem fsmSystem;
 
         protected readonly BattleUnitBase battleUnitBase;

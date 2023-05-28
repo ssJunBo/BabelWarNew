@@ -5,7 +5,7 @@ using Managers.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Functions.Setting
+namespace UIFunctions.Setting
 {
     public class UiSettingLogic : UiLogicBase
     {

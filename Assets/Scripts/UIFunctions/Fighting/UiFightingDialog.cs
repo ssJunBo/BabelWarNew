@@ -3,13 +3,14 @@ using _GameBase.UIBase;
 using Common;
 using Data.Account;
 using DG.Tweening;
+using Functions.Fighting;
 using Managers;
 using Managers.Model;
 using Pool;
 using TMPro;
 using UnityEngine;
 
-namespace Functions.Fighting
+namespace UIFunctions.Fighting
 {
     public class UiFightingLogic : UiLogicBase
     {
@@ -21,16 +22,9 @@ namespace Functions.Fighting
 
         private readonly CModelPlay _modelPlay;
 
-        public int LevId;
         public UiFightingLogic(CModelPlay modelPlay)
         {
             _modelPlay = modelPlay;
-        }
-
-        public void Open(int levId)
-        {
-            LevId = levId;
-            Open();
         }
 
         public override void Close()
@@ -105,7 +99,7 @@ namespace Functions.Fighting
             EventManager.Subscribe<int>(EventMessageType.FightResult, FightResultRefresh);
             EventManager.Subscribe<List<CardInfo>>(EventMessageType.IssueCard,RefreshCard);
 
-            GameManager.Instance.StartFight(_uiLogic.LevId);
+            GameManager.Instance.StartFight((int)_uiLogic.data[0]);
 
             #endregion
         }
@@ -481,7 +475,7 @@ namespace Functions.Fighting
             FightManager.Instance.PauseFighting();
 
             _uiLogic.Close();
-            UiManager.Instance.OpenUi(EUiID.UiMain);
+            UIManager.Instance.OpenUi(EUiID.UiMain);
         }
 
         public void OnClickStartFight()
@@ -502,7 +496,7 @@ namespace Functions.Fighting
         
         public void OnClickCardPackage()
         {
-            UiManager.Instance.OpenUi(EUiID.UICardPackage);
+            UIManager.Instance.OpenUi(EUiID.UICardPackage);
         }
         
         #endregion

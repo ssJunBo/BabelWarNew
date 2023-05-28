@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Common;
+﻿using Common;
 using Managers;
 using Tools;
 using UnityEngine;
@@ -17,22 +16,22 @@ namespace _GameBase.UIBase
         private GameObject _mObj;
         private UiDialogBase _mDialog;
 
-        private GameManager _gameManager;        
-        public virtual void Open()
+        // 打开界面传入参数
+        public object[] data;
+        
+        public virtual void Open(params object[] data)
         {
-            if (_isShowing) return;
-            _gameManager = GameManager.Instance;
+            this.data = data;
             
+            if (_isShowing) return;
+
             DoOpen();
         }
 
         public virtual void Close()
         {
-            UiManager.Instance.CloseUi(this);
-        }
-
-        public void Release()
-        {
+            _resourcesLoaderComponent?.Destroy();
+            
             if (_mDialog != null)
             {
                 _isShowing = false;
@@ -41,12 +40,13 @@ namespace _GameBase.UIBase
 
             if (_mObj != null)
             {
-                UIUtils.SetActive(_mObj, false);
-                _mObj.transform.SetParent(_gameManager.recyclePoolTrs);
-                _mObj.transform.localPosition=Vector3.zero;
+                Object.Destroy(_mObj);
             }
+            
+            UIManager.Instance.RemoveUi(this);
         }
 
+        private ResourcesLoaderComponent _resourcesLoaderComponent;
         //实际打开
         private async void DoOpen()
         {
@@ -54,7 +54,9 @@ namespace _GameBase.UIBase
 
             Log.Debug("生成预支体前时间 "+Time.time);
 
-            await ResourcesLoaderComponent.Instance.LoadAsync(UiId.ToString().ToLower() + "dialog.unity3d");
+            _resourcesLoaderComponent ??= new ResourcesLoaderComponent();
+            
+            await _resourcesLoaderComponent.LoadAsync(UiId.ToString().ToLower() + "dialog.unity3d");
 
             Log.Debug("生成预支体后时间 "+Time.time);
 
@@ -70,7 +72,7 @@ namespace _GameBase.UIBase
             if (obj != null)
             {
                 var parentTrs = GetParentTrs();
-                _mDialog = UiManager.Instance.GetUiDialog(UiId);
+                _mDialog = UIManager.Instance.GetUiDialog(UiId);
 
                 if (_mDialog != null)
                 {
@@ -98,7 +100,7 @@ namespace _GameBase.UIBase
                         return;
                     }
 
-                    UiManager.Instance.AddUiDialog(UiId, _mDialog);
+                    UIManager.Instance.AddUiDialog(UiId, _mDialog);
                 }
 
                 InitLogic();
@@ -111,7 +113,7 @@ namespace _GameBase.UIBase
                 //UI的显示操作都应该放在ShowFinished中去做，而不应该在Init中去做 
                 TimerEventManager.Instance.DelayFrames(1, () => { _mDialog.ShowFinished(); });
 
-                UiManager.Instance.PushUi(this);
+                UIManager.Instance.AddUi(this);
             }
         }
 
@@ -121,10 +123,10 @@ namespace _GameBase.UIBase
             switch (UiLayer)
             {
                 case EUiLayer.Low_2D:
-                    parentTrs = _gameManager.ui2DTrsLow;
+                    parentTrs = GameManager.Instance.ui2DTrsLow;
                     break;
                 case EUiLayer.High_2D:
-                    parentTrs = _gameManager.ui2DTrsHigh;
+                    parentTrs = GameManager.Instance.ui2DTrsHigh;
                     break;
             }
             

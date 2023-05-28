@@ -20,13 +20,7 @@ namespace _GameBase
         
         private readonly Queue<WaitCoroutineLock> queue = new();
 
-        public int Count
-        {
-            get
-            {
-                return this.queue.Count;
-            }
-        }
+        public int Count => queue.Count;
 
         public async ETTask<CoroutineLock> Wait(int time)
         {

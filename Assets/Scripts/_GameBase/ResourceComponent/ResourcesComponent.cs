@@ -21,7 +21,7 @@ namespace _GameBase
         }
     }
 
-    public static class ABInfoHelp
+    public static class AbInfoHelp
     {
         public static void Release(this ABInfo self, bool unload = true)
         {
@@ -56,13 +56,13 @@ namespace _GameBase
         public static string StringToAB(this string value)
         {
             string result;
-            if (ResourcesComponent.Instance.StringToABDict.TryGetValue(value, out result))
+            if (ResourcesComponent.Instance.stringToAbDict.TryGetValue(value, out result))
             {
                 return result;
             }
 
             result = value + ".unity3d";
-            ResourcesComponent.Instance.StringToABDict[value] = result;
+            ResourcesComponent.Instance.stringToAbDict[value] = result;
             return result;
         }
 
@@ -89,12 +89,11 @@ namespace _GameBase
     {
         public AssetBundleManifest AssetBundleManifestObject { get; set; }
 
-        public Dictionary<int, string> IntToStringDict = new();
+        public readonly Dictionary<int, string> IntToStringDict = new();
 
-        public Dictionary<string, string> StringToABDict = new();
+        public readonly Dictionary<string, string> stringToAbDict = new();
 
-        public Dictionary<string, string> BundleNameToLowerDict = new()
-            { { "StreamingAssets", "StreamingAssets" } };
+        public readonly Dictionary<string, string> BundleNameToLowerDict = new() { { "StreamingAssets", "StreamingAssets" } };
 
         public readonly Dictionary<string, Dictionary<string, Object>> resourceCache = new();
 
@@ -108,8 +107,7 @@ namespace _GameBase
             if (Define.IsAsync)
             {
                 this.LoadOneBundle("StreamingAssets");
-                AssetBundleManifestObject =
-                    (AssetBundleManifest)this.GetAsset("StreamingAssets", "AssetBundleManifest");
+                AssetBundleManifestObject = (AssetBundleManifest)this.GetAsset("StreamingAssets", "AssetBundleManifest");
                 this.UnloadBundle("StreamingAssets", false);
             }
         }
@@ -124,7 +122,7 @@ namespace _GameBase
             bundles.Clear();
             resourceCache.Clear();
             IntToStringDict.Clear();
-            StringToABDict.Clear();
+            stringToAbDict.Clear();
             BundleNameToLowerDict.Clear();
             if (AssetBundleManifestObject != null)
             {

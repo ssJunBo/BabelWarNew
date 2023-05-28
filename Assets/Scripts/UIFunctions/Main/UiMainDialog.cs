@@ -16,15 +16,9 @@ namespace Functions.Main
             ModelPlay = modelPlay;
         }
 
-        public override void Open()
+        public override void Open(params object[] data)
         {
-            base.Open();
-            GeneratePersonDetailData();
-        }
-
-        private void GeneratePersonDetailData()
-        {
-            
+            base.Open(data);
         }
     }
     
@@ -53,17 +47,17 @@ namespace Functions.Main
 
         public void OpenSettingDialog()
         {
-            UiManager.Instance.OpenUi(EUiID.UiSetting);
+            UIManager.Instance.OpenUi(EUiID.UiSetting);
         }
 
         public void OpenCardPackageDialog()
         {
-            UiManager.Instance.OpenUi(EUiID.UICardPackage);
+            UIManager.Instance.OpenUi(EUiID.UICardPackage);
         }
         
         public void OpenHeroDialog()
         {
-            UiManager.Instance.OpenUi(EUiID.HeroPackage);
+            UIManager.Instance.OpenUi(EUiID.HeroPackage);
         }
     }
 }

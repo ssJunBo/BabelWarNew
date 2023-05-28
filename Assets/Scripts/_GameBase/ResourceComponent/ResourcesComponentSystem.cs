@@ -72,8 +72,12 @@ namespace _GameBase
             parents.RemoveAt(parents.Count - 1);
         }
 
-
-
+        /// <summary>
+        /// 判断是否已加载 bundleName ab包
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="bundleName"></param>
+        /// <returns></returns>
         public static bool Contains(this ResourcesComponent self, string bundleName)
         {
             return self.bundles.ContainsKey(bundleName);
@@ -94,14 +98,6 @@ namespace _GameBase
             }
 
             return resource;
-        }
-
-        // 通过 asset 路径 加载prefab
-        public static UnityEngine.Object GetAssetWithPath(this ResourcesComponent self, string bundleName, string prefabPath)
-        {
-            
-            
-            return null;
         }
 
         // 一帧卸载一个包，避免卡死
@@ -167,7 +163,7 @@ namespace _GameBase
         }
 
         /// <summary>
-        /// 同步加载assetbundle
+        /// 同步加载 asset bundle
         /// </summary>
         /// <param name="assetBundleName"></param>
         /// <returns></returns>
@@ -206,8 +202,8 @@ namespace _GameBase
         public static void LoadOneBundle(this ResourcesComponent self, string assetBundleName)
         {
             assetBundleName = assetBundleName.BundleNameToLower();
-            ABInfo abInfo;
-            if (self.bundles.TryGetValue(assetBundleName, out abInfo))
+            
+            if (self.bundles.TryGetValue(assetBundleName, out var abInfo))
             {
                 ++abInfo.RefCount;
                 //Log.Debug($"---------------load one bundle {assetBundleName} refcount: {abInfo.RefCount}");
@@ -218,12 +214,12 @@ namespace _GameBase
             {
                 if (Define.IsEditor)
                 {
-                    string[] realPath = null;
-                    realPath = Define.GetAssetPathsFromAssetBundle(assetBundleName);
+                    string[] realPath = Define.GetAssetPathsFromAssetBundle(assetBundleName);
+                    
                     foreach (string s in realPath)
                     {
                         string assetName = Path.GetFileNameWithoutExtension(s);
-                        UnityEngine.Object resource = Define.LoadAssetAtPath(s);
+                        UnityEngine.Object resource = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(s);
                         self.AddResource(assetBundleName, assetName, resource);
                     }
 
@@ -231,7 +227,7 @@ namespace _GameBase
                     {
                         // abInfo = self.AddChild<ABInfo, string, AssetBundle>(assetBundleName, null);
                         self.bundles[assetBundleName] = abInfo;
-                        //Log.Debug($"---------------load one bundle {assetBundleName} refcount: {abInfo.RefCount}");
+                        // Log.Debug($"---------------load one bundle {assetBundleName} ref count: {abInfo.RefCount}");
                     }
                     else
                     {
@@ -243,7 +239,8 @@ namespace _GameBase
             }
 
             string p = Path.Combine(PathHelper.AppHotfixResPath, assetBundleName);
-            AssetBundle assetBundle = null;
+            
+            AssetBundle assetBundle;
             if (File.Exists(p))
             {
                 assetBundle = AssetBundle.LoadFromFile(p);
@@ -347,7 +344,7 @@ namespace _GameBase
                     foreach (string s in realPath)
                     {
                         string assetName = Path.GetFileNameWithoutExtension(s);
-                        UnityEngine.Object resource = Define.LoadAssetAtPath(s);
+                        UnityEngine.Object resource = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(s);
                         self.AddResource(assetBundleName, assetName, resource);
                     }
 

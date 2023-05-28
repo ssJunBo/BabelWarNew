@@ -49,12 +49,12 @@ namespace Functions.Main
 
         public void OnClickHeadIcon()
         {
-            UiManager.Instance.OpenUi(EUiID.UiPersonDetailInfo);
+            UIManager.Instance.OpenUi(EUiID.UiPersonDetailInfo);
         }
 
         public void OnClickStartBattle()
         {
-            UiManager.Instance.OpenUi(EUiID.UiBabel);
+            UIManager.Instance.OpenUi(EUiID.UiBabel);
         }
 
         public void Clear()

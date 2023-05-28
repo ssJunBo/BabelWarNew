@@ -62,7 +62,7 @@ namespace Managers
 
             LoadConfig();
 
-            UiManager.Instance.OpenUi(EUiID.UiMain);
+            UIManager.Instance.OpenUi(EUiID.UiMain);
         }
 
         private void Update()

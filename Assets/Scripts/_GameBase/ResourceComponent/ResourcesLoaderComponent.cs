@@ -3,14 +3,13 @@ using ET;
 
 namespace _GameBase
 {
-    public class ResourcesLoaderComponent : Singleton<ResourcesLoaderComponent>, ISingletonDestroy
+    public class ResourcesLoaderComponent
     {
         public HashSet<string> LoadedResource = new HashSet<string>();
 
         public async ETTask LoadAsync(string ab)
         {
-            using CoroutineLock coroutineLock =
-                await CoroutineLockComponent.Instance.Wait(CoroutineLockType.ResourcesLoader, ab.GetHashCode(), 0);
+            using CoroutineLock coroutineLock = await CoroutineLockComponent.Instance.Wait(CoroutineLockType.ResourcesLoader, ab.GetHashCode(), 0);
 
             if (LoadedResource.Contains(ab))
             {
