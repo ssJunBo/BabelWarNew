@@ -2,15 +2,13 @@
 {
     public enum EUiID
     {
-        UiMain = 0,
-        UiPersonDetailInfo,
-        UiLoading,
-        UiFighting,
-        UiBabel, //通天塔
+        UIMain = 0,
+        UIPersonDetailInfo,
+        UIFighting,
+        UIBabel, //通天塔
         UICardPackage,
-        UiSetting,
-        UiShop,
-        HeroPackage,
+        UISetting,
+        UIHeroPackage,
     }
 
     

@@ -62,9 +62,9 @@ namespace FightBattle
                 if (_curTime >= 1f)
                 {
                     // 触发掉血逻辑
-                    for (var i = FightManager.Instance.EnemyUnitLis.Count - 1; i >= 0; i--)
+                    for (var i = FightManager.Instance.BattleWorld.EnemyUnitLis.Count - 1; i >= 0; i--)
                     {
-                        var enemyBattleUnit = FightManager.Instance.EnemyUnitLis[i];
+                        var enemyBattleUnit = FightManager.Instance.BattleWorld.EnemyUnitLis[i];
                         // 在攻击范围内 全部造成伤害一次
                         if (transform.GetDistanceToOnePoint(enemyBattleUnit.transform) <= PassiveSkillInfo.Radius)
                         {
@@ -119,7 +119,7 @@ namespace FightBattle
 
         public override BattleUnitBase GetNearestTarget()
         {
-            return BattleUnitHelper.GetMinDistanceUnit(this, FightManager.Instance.EnemyUnitLis);
+            return BattleUnitHelper.GetMinDistanceUnit(this, FightManager.Instance.BattleWorld.EnemyUnitLis);
         }
 
         protected virtual void OnDestroy()
@@ -190,7 +190,7 @@ namespace FightBattle
 
             if (AttributeInfo.Hp <= 0)
             {
-                FightManager.Instance.RemoveDieHero(this);
+                FightManager.Instance.BattleWorld.RemoveDieHero(this);
                 // 死亡
                 Destroy(gameObject);
             }

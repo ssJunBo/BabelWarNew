@@ -9,22 +9,21 @@ using Directory = UnityEngine.Windows.Directory;
 
 namespace Managers
 {
-    public class ExcelManager : Singleton<ExcelManager>,ISingletonDestroy
+    public class ExcelManager : Singleton<ExcelManager>, ISingletonDestroy
     {
         private const string ExcelDataPath = "ExcelAssets/AutoCreateAsset/";
 
         private const string ExcelDataABPath = "AutoCreateAsset";
 
-        private readonly ResourcesLoaderComponent _resourcesLoaderComponent = new();
         public async ETTask InitData()
         {
-            if (!Define.IsEditor) 
-                await _resourcesLoaderComponent.LoadAsync(ExcelDataABPath.StringToAB());
-            
-            string dataPath=Application.dataPath+"/ABRes/ExcelAssets/AutoCreateAsset";
+            if (!Define.IsEditor)
+                await ResourcesComponent.Instance.LoadBundleAsync(ExcelDataABPath.StringToAB());
+
+            string dataPath = Application.dataPath + "/ABRes/ExcelAssets/AutoCreateAsset";
 
             string assetPath = "Assets/ABRes/ExcelAssets/AutoCreateAsset/";
-            
+
             if (Directory.Exists(dataPath))
             {
                 DirectoryInfo direction = new DirectoryInfo(dataPath);
@@ -32,21 +31,24 @@ namespace Managers
                 foreach (var file in files)
                 {
                     var nameArr = file.Name.Split('.');
-                    var type = Type.GetType(nameArr[0]);  
-                   
+                    var type = Type.GetType(nameArr[0]);
+
                     // 加载配置数据
                     ExcelDataBase tmpInfo;
                     if (Define.IsEditor)
                     {
-                        tmpInfo = (ExcelDataBase)UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath + file.Name);
+                        tmpInfo =
+                            (ExcelDataBase)UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath +
+                                file.Name);
                     }
                     else
                     {
-                         tmpInfo =(ExcelDataBase)ResourcesComponent.Instance.GetAsset(ExcelDataABPath.StringToAB(), nameArr[0]);
+                        tmpInfo = (ExcelDataBase)ResourcesComponent.Instance.GetAsset(ExcelDataABPath.StringToAB(),
+                            nameArr[0]);
                     }
-                    
+
                     tmpInfo?.Init();
-                    
+
 
                     if (type != null)
                     {
@@ -58,11 +60,6 @@ namespace Managers
                     }
                 }
             }
-        }
-        
-        public void Destroy()
-        {
-            _resourcesLoaderComponent.Destroy();
         }
 
         private readonly Dictionary<Type, object> _excelDataDic = new();
@@ -87,6 +84,10 @@ namespace Managers
 
             return null;
         }
-        
+
+        public void Destroy()
+        {
+            ResourcesComponent.Instance.UnloadBundleAsync(ExcelDataABPath.StringToAB());
+        }
     }
 }

@@ -9,37 +9,40 @@ namespace Managers
         /// <summary>
         /// 带返回参数的回调列表,参数类型为T，支持一对多
         /// </summary>
-        private static readonly Dictionary<EventMessageType, List<Delegate>> Events = new();
+        private static readonly Dictionary<EventMessageType, List<Delegate>> AllEventInfoDict = new();
  
-        public delegate void Handler<in T>(T e);
+        public delegate void Handler<in T>(T arg);
         
         /// <summary>
         /// 注册事件，1个返回参数
         /// </summary>
-        public static void Subscribe (EventMessageType eventMessageType, Handler<object> callback)
+        public static void Subscribe (EventMessageType eventMessageType, Handler<object> handle)
         {
             //eventName已存在
-            if (Events.TryGetValue(eventMessageType, out var actions))
+            if (AllEventInfoDict.TryGetValue(eventMessageType, out var actions))
             {
-                actions.Add(callback);
+                if (!actions.Contains(handle))
+                {
+                    actions.Add(handle);
+                }
             }
             //eventName不存在
             else
             {
-                actions = new List<Delegate> { callback };
-                Events.Add(eventMessageType ,actions);
+                actions = new List<Delegate> { handle };
+                AllEventInfoDict.Add(eventMessageType ,actions);
             }
         }
 
-        public static void UnSubscribe(EventMessageType eventName, Handler<object> callback)
+        public static void UnSubscribe(EventMessageType eventName, Handler<object> handle)
         {
-            if (Events.TryGetValue(eventName, out var actions))
+            if (AllEventInfoDict.TryGetValue(eventName, out var actions))
             {
-                actions.Remove(callback);
+                if (actions.Contains(handle))
+                    actions.Remove(handle);
+         
                 if (actions.Count == 0)
-                {
-                    Events.Remove(eventName);
-                }
+                    AllEventInfoDict.Remove(eventName);
             }
         }
 
@@ -48,9 +51,9 @@ namespace Managers
         /// </summary>
         public static void DispatchEvent(EventMessageType eventName, object baseEvent)
         {
-            if (Events.ContainsKey(eventName))
+            if (AllEventInfoDict.ContainsKey(eventName))
             {
-                Events.TryGetValue(eventName, out var actions);
+                AllEventInfoDict.TryGetValue(eventName, out var actions);
 
                 if (actions != null)
                 {
@@ -67,7 +70,7 @@ namespace Managers
         /// </summary>
         public static void RemoveAllEvents ()
         {
-            Events.Clear();
+            AllEventInfoDict.Clear();
         }
     }
 }

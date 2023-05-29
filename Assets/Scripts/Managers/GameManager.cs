@@ -3,7 +3,6 @@ using _GameBase;
 using Common;
 using Data.Account;
 using ET;
-using Managers.Model;
 using UnityEngine;
 
 namespace Managers
@@ -13,9 +12,8 @@ namespace Managers
     public class GameManager : MonoSingleton<GameManager>
     {
         #region UI
-        // [SerializeField, Space] private bool loadFromAssetBundle;
-        [Header("最底层 Dialog 放在此节点下"), Space] public Transform ui2DTrsLow;
-        [Header("普通层 Dialog 放在此节点下")] public Transform ui2DTrsHigh;
+        [Header("最底层 Dialog 放在此节点下"), Space] public RectTransform ui2DTrsLow;
+        [Header("普通层 Dialog 放在此节点下")] public RectTransform ui2DTrsHigh;
         [Header("对象池回收节点")] public Transform recyclePoolTrs;
         [Header("ui相机"), Space] public Camera uiCamera;
         [Header("场景相机")] public Camera gameCamera;
@@ -24,15 +22,15 @@ namespace Managers
 
         #endregion
 
-        #region moudle play
-
-        private CModelPlay _modelPlay;
-        public CModelPlay ModelPlay => _modelPlay ??= new CModelPlay();
-
-        private SceneManager _sceneManager;
-        public SceneManager SceneManager => _sceneManager ??= new SceneManager(this);
-        
-        #endregion
+        protected override void Awake()
+        {
+            base.Awake();
+            ABUpdateManager.Instance.CheckUpdate(isOver => { Log.Info(isOver ? "检测更新结束" : "提示网络出错 重启"); }, str =>
+            {
+                // 以后可以在这里处理更新 加载界面上的显示信息的相关逻辑
+                Log.Info(str);
+            });
+        }
 
         private async void Start()
         {
@@ -54,15 +52,15 @@ namespace Managers
             // if (ResourceManager.Instance.MLoadFromAssetBundle)
             // AssetBundleManager.Instance.LoadAssetBundleConfig();
 
-            Log.Debug("初始化表之前时间 "+ Time.time);
+            Log.Info("初始化表之前时间 "+ Time.realtimeSinceStartup);
             
             await ExcelManager.Instance.InitData();
 
-            Log.Debug("初始化表之后时间 "+ Time.time);
+            Log.Info("初始化表之后时间 "+ Time.realtimeSinceStartup);
 
             LoadConfig();
 
-            UIManager.Instance.OpenUi(EUiID.UiMain);
+            UIManager.Instance.OpenUi(EUiID.UIMain);
         }
 
         private void Update()
@@ -135,14 +133,14 @@ namespace Managers
         public void StartFight(int levId)
         {
             fightObj.SetActive(true);
-            FightManager.Instance.LoadUnit(levId);
+            FightManager.Instance.CreateBattleWorld(levId);
         }
         
         
         public void QuitFight()
         {
             fightObj.SetActive(false);
-            FightManager.Instance.ClearUnit();
+            FightManager.Instance.ReleaseBattleWorld();
         }
     }
 }

@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 8363401722249943439}
   - component: {fileID: 6197249263678463536}
   m_Layer: 5
-  m_Name: UiSettingDialog
+  m_Name: UISettingDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -696,7 +696,7 @@ RectTransform:
   m_GameObject: {fileID: 7331387449737808890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5437482206721813356}

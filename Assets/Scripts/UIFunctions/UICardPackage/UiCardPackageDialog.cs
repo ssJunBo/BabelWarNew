@@ -1,14 +1,13 @@
 using System.Collections.Generic;
-using _GameBase.UIBase;
+using _GameBase;
 using Common;
 using Helpers;
 using Managers;
-using Managers.Model;
 using UIExtension.ScrollRectExt;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Functions.UICardPackage
+namespace UIFunctions
 {
     public class UiCardPackageLogic : UiLogicBase
     {
@@ -16,12 +15,6 @@ namespace Functions.UICardPackage
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
-        private readonly CModelPlay _model;
-
-        public UiCardPackageLogic(CModelPlay model)
-        {
-            _model = model;
-        }
 
         public List<CellInfo> GenerateCardCellInfo()
         {

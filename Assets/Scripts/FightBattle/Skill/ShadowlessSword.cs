@@ -52,7 +52,7 @@ namespace FightBattle.Skill
 
         private void SkillEnd()
         {
-            var unitList = isOwnSide ? FightManager.Instance.EnemyUnitLis : FightManager.Instance.OwnUnitLis;
+            var unitList = isOwnSide ? FightManager.Instance.BattleWorld.EnemyUnitLis : FightManager.Instance.BattleWorld.OwnUnitLis;
 
             var damageRadius = ExcelManager.Instance.GetExcelData<SkillExcelData>().GetRadius(skillId);
 

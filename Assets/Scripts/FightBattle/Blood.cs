@@ -19,7 +19,7 @@ namespace FightBattle
             TimerEventManager.Instance.DelaySeconds(1.5f, () =>
             {
                 if (FightManager.Instance != null) // 防止退出战场 报null
-                    FightManager.Instance.BloodPool.Cycle(this);
+                    FightManager.Instance.BattleWorld.BloodPool.Cycle(this);
             });
         }
     }

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using _GameBase;
-using _GameBase.UIBase;
 using Common;
-using Managers.Model;
+using UIFunctions;
 
 namespace Managers
 {
@@ -19,9 +18,6 @@ namespace Managers
         /// </summary>
         private readonly Dictionary<EUiID, UiDialogBase> _dialogDict = new();
 
-        private CModelPlay _modelPlay;
-        private CModelPlay ModelPlay => _modelPlay ?? GameManager.Instance.ModelPlay;
-        
         public void AddUi(UiLogicBase ui)
         {
             _uiLogicBaseLis.Add(ui);
@@ -31,40 +27,40 @@ namespace Managers
         {
             switch (uiID)
             {
-                case EUiID.UiMain:
-                    ModelPlay.UiMainLogic.Open(data);
+                case EUiID.UIMain:
+                    new UiMainLogic().Open();
                     break;
-                case EUiID.UiPersonDetailInfo:
-                    ModelPlay.UiPersonDetailInfoLogic.Open(data);
+                case EUiID.UIPersonDetailInfo:
+                    new UiPersonDetailInfoLogic().Open(data);
                     break;
-                case EUiID.UiFighting:
-                    ModelPlay.UiFightingLogic.Open(data);
+                case EUiID.UIFighting:
+                    new UiFightingLogic().Open(data);
                     break;
-                case EUiID.UiBabel:
-                    ModelPlay.UiBabelLogic.Open(data);
+                case EUiID.UIBabel:
+                    new UiBabelLogic().Open(data);
                     break;
                 case EUiID.UICardPackage:
-                    ModelPlay.UiCardPackageLogic.Open(data);
+                    new UiCardPackageLogic().Open(data);
                     break;
-                case EUiID.UiSetting:
-                    ModelPlay.UiSettingLogic.Open(data);
+                case EUiID.UISetting:
+                    new UiSettingLogic().Open(data);
                     break;
             }
         }
 
         public void RemoveUi(UiLogicBase uiLogicBase)
         {
-            _uiLogicBaseLis.Remove(uiLogicBase);
+            if(_uiLogicBaseLis.Contains(uiLogicBase)) 
+                _uiLogicBaseLis.Remove(uiLogicBase);
+            
             if (_dialogDict.ContainsKey(uiLogicBase.UiId))
-            {
                 _dialogDict.Remove(uiLogicBase.UiId);
-            }
         }
 
         // 关闭所有界面 保留主界面
         public void CloseAllUiDialog()
         {
-            while (_uiLogicBaseLis.Count>1)
+            while (_uiLogicBaseLis.Count > 1)
             {
                 UiLogicBase closeUiLogicBase = _uiLogicBaseLis.Last();
                 closeUiLogicBase.Close();
@@ -74,6 +70,11 @@ namespace Managers
         public UiDialogBase GetUiDialog(EUiID uiID)
         {
             return _dialogDict.ContainsKey(uiID) ? _dialogDict[uiID] : null;
+        }
+
+        public UiLogicBase GetTopUiLogicBase()
+        {
+            return _uiLogicBaseLis.Count > 1 ? _uiLogicBaseLis.Last() : null;
         }
 
         /// <summary>

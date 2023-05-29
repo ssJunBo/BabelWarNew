@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Functions.Fighting
+namespace UIFunctions
 {
     public class OwnCardItem : PoolItemBase, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {

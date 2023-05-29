@@ -1,31 +1,22 @@
 ﻿using System.Collections.Generic;
-using _GameBase.UIBase;
+using _GameBase;
 using Common;
 using Data.Account;
 using DG.Tweening;
-using Functions.Fighting;
 using Managers;
-using Managers.Model;
 using Pool;
 using TMPro;
 using UnityEngine;
 
-namespace UIFunctions.Fighting
+namespace UIFunctions
 {
     public class UiFightingLogic : UiLogicBase
     {
-        public override EUiID UiId => EUiID.UiFighting;
+        public override EUiID UiId => EUiID.UIFighting;
 
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
 
         private readonly List<CardExcelItem> _cardExcelItems = new();
-
-        private readonly CModelPlay _modelPlay;
-
-        public UiFightingLogic(CModelPlay modelPlay)
-        {
-            _modelPlay = modelPlay;
-        }
 
         public override void Close()
         {
@@ -474,25 +465,25 @@ namespace UIFunctions.Fighting
         #region ---------------------------- BtnEvent ----------------------------
         public void OnClickQuickFight()
         {
-            FightManager.Instance.OpenQuickFight = !FightManager.Instance.OpenQuickFight;
+            FightManager.Instance.BattleWorld.OpenQuickFight = !FightManager.Instance.BattleWorld.OpenQuickFight;
 
-            EventManager.DispatchEvent(EventMessageType.ChangeTimeScale, FightManager.Instance.OpenQuickFight ? 2 : 1);
-            quickFightTxt.text = FightManager.Instance.OpenQuickFight ? "x2" : "x1";
+            EventManager.DispatchEvent(EventMessageType.ChangeTimeScale, FightManager.Instance.BattleWorld.OpenQuickFight ? 2 : 1);
+            quickFightTxt.text = FightManager.Instance.BattleWorld.OpenQuickFight ? "x2" : "x1";
         }
 
         public void OnClickQuitFightScene()
         {
-            FightManager.Instance.PauseFighting();
+            FightManager.Instance.BattleWorld.PauseFighting();
 
             _uiLogic.Close();
-            UIManager.Instance.OpenUi(EUiID.UiMain);
+            UIManager.Instance.OpenUi(EUiID.UIMain);
         }
 
         public void OnClickStartFight()
         {
             _startFight = true;
             
-            FightManager.Instance.StartFighting();
+            FightManager.Instance.BattleWorld.StartFighting();
             fightMaskObj.SetActive(false);
             ownCardParentObj.SetActive(true);
             // 开始抽卡

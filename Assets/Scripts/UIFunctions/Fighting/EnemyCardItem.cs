@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Functions.Fighting
+namespace UIFunctions
 {
     public class EnemyCardItem : PoolItemBase
     {

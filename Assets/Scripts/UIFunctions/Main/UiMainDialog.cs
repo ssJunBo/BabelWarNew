@@ -1,25 +1,13 @@
-using _GameBase.UIBase;
+using _GameBase;
 using Common;
 using Managers;
-using Managers.Model;
 using UnityEngine;
 
-namespace Functions.Main
+namespace UIFunctions
 {
     public  class UiMainLogic : UiLogicBase
     {
-        public override EUiID UiId => EUiID.UiMain;
-        public CModelPlay ModelPlay { get; }
-
-        public UiMainLogic(CModelPlay modelPlay)
-        {
-            ModelPlay = modelPlay;
-        }
-
-        public override void Open(params object[] data)
-        {
-            base.Open(data);
-        }
+        public override EUiID UiId => EUiID.UIMain;
     }
     
     public class UiMainDialog : UiDialogBase
@@ -47,7 +35,7 @@ namespace Functions.Main
 
         public void OpenSettingDialog()
         {
-            UIManager.Instance.OpenUi(EUiID.UiSetting);
+            UIManager.Instance.OpenUi(EUiID.UISetting);
         }
 
         public void OpenCardPackageDialog()
@@ -57,7 +45,7 @@ namespace Functions.Main
         
         public void OpenHeroDialog()
         {
-            UIManager.Instance.OpenUi(EUiID.HeroPackage);
+            UIManager.Instance.OpenUi(EUiID.UIHeroPackage);
         }
     }
 }

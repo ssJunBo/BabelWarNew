@@ -2,10 +2,9 @@ using Common;
 using Managers;
 using TMPro;
 using UIExtension.ScrollRectExt;
-using UIFunctions.Babel;
 using UnityEngine;
 
-namespace Functions.Babel
+namespace UIFunctions.Babel
 {
     public class BabelItem : LoopItem
     {
@@ -17,7 +16,7 @@ namespace Functions.Babel
         {
             UIManager.Instance.CloseAllUiDialog();
             // 打开战斗选择界面
-            UIManager.Instance.OpenUi(EUiID.UiFighting, _levId);
+            UIManager.Instance.OpenUi(EUiID.UIFighting, _levId);
         }
 
         public override void SetUi(CellInfo cellInfo)

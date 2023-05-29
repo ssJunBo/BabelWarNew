@@ -1,23 +1,16 @@
 using System.Collections.Generic;
-using _GameBase.UIBase;
+using _GameBase;
 using Common;
 using Managers;
-using Managers.Model;
 using UIExtension.ScrollRectExt;
 using UnityEngine;
 
-namespace UIFunctions.Babel
+namespace UIFunctions
 {
     public class UiBabelLogic: UiLogicBase
     {
-        public override EUiID UiId  => EUiID.UiBabel;
+        public override EUiID UiId  => EUiID.UIBabel;
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
-
-        public CModelPlay modelPlay;
-        public UiBabelLogic(CModelPlay modelPlay)
-        {
-            this.modelPlay = modelPlay;
-        }
 
         public List<CellInfo> GenerateData()
         {

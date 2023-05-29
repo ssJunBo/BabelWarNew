@@ -4,7 +4,7 @@ namespace _GameBase
 {
     public static class Log
     {
-        public static void Debug(string msg)
+        public static void Info(string msg)
         {
             Logger.Instance.Debug(msg);
         }

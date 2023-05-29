@@ -134,7 +134,7 @@ namespace FightBattle
 
         public virtual void HpChange(float damageVal)
         {
-            FightManager.Instance.BloodPool.Spawn().Init(hitPoint.position, (int)damageVal);
+            FightManager.Instance.BattleWorld.BloodPool.Spawn().Init(hitPoint.position, (int)damageVal);
         }
 
         // 停止所有行为

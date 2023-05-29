@@ -1,23 +1,16 @@
-﻿using _GameBase.UIBase;
+﻿using _GameBase;
 using Common;
 using Managers;
 using Managers.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UIFunctions.Setting
+namespace UIFunctions
 {
     public class UiSettingLogic : UiLogicBase
     {
-        public override EUiID UiId => EUiID.UiSetting;
+        public override EUiID UiId => EUiID.UISetting;
         protected override EUiLayer UiLayer => EUiLayer.High_2D;
-        
-        private readonly CModelPlay _model;
-
-        public UiSettingLogic(CModelPlay model)
-        {
-            _model = model;
-        }
     }
 
     public class UiSettingDialog : UiDialogBase

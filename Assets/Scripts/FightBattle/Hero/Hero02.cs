@@ -9,9 +9,9 @@ namespace FightBattle.Hero
         protected override void DamageEnemy(BattleUnitBase targetUnit)
         {
             // 剑圣普通攻击扇形范围伤害
-            for (var i = FightManager.Instance.EnemyUnitLis.Count - 1; i >= 0; i--)
+            for (var i = FightManager.Instance.BattleWorld.EnemyUnitLis.Count - 1; i >= 0; i--)
             {
-                var battleUnit = FightManager.Instance.EnemyUnitLis[i];
+                var battleUnit = FightManager.Instance.BattleWorld.EnemyUnitLis[i];
                 // 在攻击范围内 全部造成伤害一次
                 if (this.IsInSectorArea(AttributeInfo.AttributeConfig.atkAngle,
                         AttributeInfo.AttributeConfig.atkRadius, battleUnit.transform))

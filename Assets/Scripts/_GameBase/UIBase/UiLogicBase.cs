@@ -1,10 +1,12 @@
-﻿using Common;
+﻿using System.Collections.Generic;
+using Common;
+using ET;
 using Managers;
 using Tools;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace _GameBase.UIBase
+namespace _GameBase
 {
     public abstract class UiLogicBase
     {
@@ -16,9 +18,17 @@ namespace _GameBase.UIBase
         private GameObject _mObj;
         private UiDialogBase _mDialog;
 
+        public int layerDepth;
+        
         // 打开界面传入参数
         public object[] data;
-        
+
+        //注册游戏逻辑的委托事件
+        protected virtual void InitLogic()
+        {
+
+        }
+
         public virtual void Open(params object[] data)
         {
             this.data = data;
@@ -30,8 +40,6 @@ namespace _GameBase.UIBase
 
         public virtual void Close()
         {
-            _resourcesLoaderComponent?.Destroy();
-            
             if (_mDialog != null)
             {
                 _isShowing = false;
@@ -42,26 +50,66 @@ namespace _GameBase.UIBase
             {
                 Object.Destroy(_mObj);
             }
-            
+
+            data = null;
+
             UIManager.Instance.RemoveUi(this);
+
+            UnLoadAsync().Coroutine();
         }
 
-        private ResourcesLoaderComponent _resourcesLoaderComponent;
+        // 已加载的ab资源
+        private List<string> LoadedResource = new();
+        
+        private async ETTask UnLoadAsync()
+        {
+            using (ListComponent<string> list = ListComponent<string>.Create())
+            {
+                list.AddRange(LoadedResource);
+                LoadedResource = null;
+
+                if (TimerComponent.Instance == null)
+                {
+                    return;
+                }
+
+                Log.Info("关闭界面延时5秒卸载ab资源");
+
+                // 延迟5秒卸载包，因为包卸载是引用计数，5秒之内假如重新有逻辑加载了这个包，那么可以避免一次卸载跟加载
+                await TimerComponent.Instance.WaitAsync(5000);
+
+                Log.Info("关闭界面开始卸载ab资源");
+
+                foreach (string abName in list)
+                {
+                    using CoroutineLock coroutineLock = 
+                        await CoroutineLockComponent.Instance.Wait(CoroutineLockType.ResourcesLoader, abName.GetHashCode(), 0);
+                    {
+                        if (ResourcesComponent.Instance == null)
+                        {
+                            return;
+                        }
+
+                        await ResourcesComponent.Instance.UnloadBundleAsync(abName);
+                    }
+                }
+            }
+        }
+        
         //实际打开
         private async void DoOpen()
         {
             _isShowing = true;
 
-            Log.Debug("生成预支体前时间 "+Time.time);
+            Log.Info("生成预支体前时间 " + Time.realtimeSinceStartup);
 
-            _resourcesLoaderComponent ??= new ResourcesLoaderComponent();
-            
-            await _resourcesLoaderComponent.LoadAsync(UiId.ToString().ToLower() + "dialog.unity3d");
+            await ResourcesComponent.Instance.LoadBundleAsync(UiId.ToString().ToLower());
 
-            Log.Debug("生成预支体后时间 "+Time.time);
+            Log.Info("生成预支体后时间 " + Time.realtimeSinceStartup);
 
-            Object obj =  ResourcesComponent.Instance.GetAsset(UiId.ToString().ToLower() + "dialog.unity3d", UiId + "Dialog");
-            
+            Object obj =
+                ResourcesComponent.Instance.GetAsset(UiId.ToString().ToLower(), UiId + "Dialog");
+
             HandleUiResourceOk(obj);
         }
 
@@ -114,6 +162,18 @@ namespace _GameBase.UIBase
                 TimerEventManager.Instance.DelayFrames(1, () => { _mDialog.ShowFinished(); });
 
                 UIManager.Instance.AddUi(this);
+                
+                var canvas =  _mDialog.GetComponent<Canvas>();
+
+                int layerDepth = 0;
+                var uiLogicBase = UIManager.Instance.GetTopUiLogicBase();
+                if (uiLogicBase != null)
+                {
+                    layerDepth = uiLogicBase.layerDepth;
+                }
+                
+                canvas.overrideSorting = true;
+                canvas.sortingOrder = ++layerDepth;
             }
         }
 
@@ -133,10 +193,5 @@ namespace _GameBase.UIBase
             return parentTrs;
         }
         
-        //注册游戏逻辑的委托事件
-        protected virtual void InitLogic()
-        {
-
-        }
     }
 }

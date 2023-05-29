@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ET;
-using Managers;
 using UnityEngine;
 
 namespace _GameBase
@@ -101,8 +100,7 @@ namespace _GameBase
         }
 
         // 一帧卸载一个包，避免卡死
-        public static async ETTask UnloadBundleAsync(this ResourcesComponent self, string assetBundleName,
-            bool unload = true)
+        public static async ETTask UnloadBundleAsync(this ResourcesComponent self, string assetBundleName, bool unload = true)
         {
             assetBundleName = assetBundleName.BundleNameToLower();
 

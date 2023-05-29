@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Functions.PersonDetailInfo
+namespace UIFunctions
 {
     public class PersonInfoPanel : MonoBehaviour
     {

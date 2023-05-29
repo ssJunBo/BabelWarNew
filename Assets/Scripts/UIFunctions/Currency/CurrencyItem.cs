@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Functions.Currency
+namespace UIFunctions
 {
     public class CurrencyItem : MonoBehaviour
     {

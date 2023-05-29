@@ -1,14 +1,12 @@
-﻿using _GameBase;
-using Common;
+﻿using Common;
 using Helpers;
 using Managers;
-using Managers.Model;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Image = UnityEngine.UI.Image;
 
-namespace Functions.Main
+namespace UIFunctions
 {
     public class UiInfoPanel : MonoBehaviour,IDragHandler
     {
@@ -49,12 +47,12 @@ namespace Functions.Main
 
         public void OnClickHeadIcon()
         {
-            UIManager.Instance.OpenUi(EUiID.UiPersonDetailInfo);
+            UIManager.Instance.OpenUi(EUiID.UIPersonDetailInfo);
         }
 
         public void OnClickStartBattle()
         {
-            UIManager.Instance.OpenUi(EUiID.UiBabel);
+            UIManager.Instance.OpenUi(EUiID.UIBabel);
         }
 
         public void Clear()

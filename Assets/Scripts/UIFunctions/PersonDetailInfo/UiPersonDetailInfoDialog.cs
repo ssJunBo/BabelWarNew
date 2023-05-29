@@ -1,24 +1,14 @@
-﻿using _GameBase.UIBase;
+﻿using _GameBase;
 using Common;
 using Managers;
-using Managers.Model;
 using UIExtension;
 using UnityEngine;
 
-namespace Functions.PersonDetailInfo
+namespace UIFunctions
 {
     public class UiPersonDetailInfoLogic : UiLogicBase
     {
-        public override EUiID UiId => EUiID.UiPersonDetailInfo;
-
-        protected override EUiLayer UiLayer => EUiLayer.High_2D;
-
-        private readonly CModelPlay _model;
-
-        public UiPersonDetailInfoLogic(CModelPlay model)
-        {
-            _model = model;
-        }
+        public override EUiID UiId => EUiID.UIPersonDetailInfo;
     }
     
     public class UiPersonDetailInfoDialog : UiDialogBase

@@ -80,7 +80,7 @@ namespace FightBattle
             AttributeInfo.Hp += damageVal;
             if (AttributeInfo.Hp <= 0)
             {
-                FightManager.Instance.RemoveDieEnemy(this);
+                FightManager.Instance.BattleWorld.RemoveDieEnemy(this);
                 // 死亡
                 Destroy(gameObject);
             }
@@ -98,7 +98,7 @@ namespace FightBattle
 
         public override BattleUnitBase GetNearestTarget()
         {
-            return BattleUnitHelper.GetMinDistanceUnit(this, FightManager.Instance.OwnUnitLis);
+            return BattleUnitHelper.GetMinDistanceUnit(this, FightManager.Instance.BattleWorld.OwnUnitLis);
         }
 
         protected virtual void AttackCb()

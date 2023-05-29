@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _GameBase.UIBase
+namespace _GameBase
 {
     public abstract class UiDialogBase : MonoBehaviour
     {

@@ -4,7 +4,7 @@ using UIExtension.ScrollRectExt;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Functions.UICardPackage
+namespace UIFunctions
 {
     public class SkillCardItem : LoopItem
     {
